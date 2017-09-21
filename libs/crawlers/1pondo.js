@@ -58,9 +58,9 @@ function crawlInternal (movid, url) {
                 }
             });
         })
-    ).then(results => {
-        let d_details = JSON.parse(results[0]('body').text());
-        let d_reviews = JSON.parse(results[1]('body').text());
+    ).then($ => {
+        let d_details = JSON.parse($[0]('body').text());
+        let d_reviews = JSON.parse($[1]('body').text());
         
         let info = new MovieInfo({ url: url, country: 'Japan', origlang: 'Japanese' });
 
