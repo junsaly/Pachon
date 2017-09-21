@@ -150,19 +150,23 @@
                         </div>
                         <% }; %>
 
+                        <% if (birthday) { %>
                         <div class="row my-value">
                             <span>Birthday:</span>
                             <p>
                                 <%= birthday %>
                             </p>
                         </div>
+                        <% } %>
 
+                        <% if (birthplace) { %>
                         <div class="row my-value">
                             <span>Birthplace:</span>
                             <p>
                                 <%= birthplace %>
                             </p>
                         </div>
+                        <% } %>
 
                         <div class="row my-value">
                             <table class="highlight centered">
@@ -206,12 +210,14 @@
                         </div>
                         <% } %>
 
+                        <% if (bio.blood) { %>
                         <div class="row my-value">
                             <span>Blood Type:</span>
                             <p>
                                 <%= bio.blood %>
                             </p>
                         </div>
+                        <% } %>
 
                         <div class="row my-value">
                             <span>URL:</span>
@@ -222,6 +228,7 @@
                             </p>
                         </div>
 
+                        <% if (tags.length > 0) { %>
                         <div class="row my-value">
                             <span>Tags:</span>
                             <div>
@@ -234,6 +241,7 @@
                                 <% }); %>
                             </div>
                         </div>
+                        <% } %>
 
                     </div>
 
