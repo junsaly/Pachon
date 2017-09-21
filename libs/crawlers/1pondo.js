@@ -10,7 +10,7 @@ module.exports.name = function () {
 
 const TEMPLATE = {
     "search": "",
-    "id": "http://www.1pondo.tv/dyn/ren/movie_details/movie_id/{qtext}.json",
+    "id": "https://www.1pondo.tv/movies/{qtext}/",
 }
 
 const DOMAIN = 'www.1pondo.tv';
@@ -31,6 +31,84 @@ function formatDuration (sec_num) {
     if (seconds < 10) { seconds = "0" + seconds; }
     
     return hours + ':' + minutes + ':' + seconds;
+}
+
+function tryGetMovId (val) {
+    let url = val;
+    if (url.indexOf('www.1pondo.tv/movies/') > 0) {
+        let p = url.split('/');
+        return p[p.length - 2];
+    }
+    return null;
+}
+
+function crawlInternal (movid, url) {
+    let templateURLs = [
+        'https://www.1pondo.tv/dyn/phpauto/movie_details/movie_id/{movid}.json',
+        'https://www.1pondo.tv/dyn/phpauto/movie_reviews/movie_id/{movid}.json',
+    ]
+
+    return Promise.all(
+        templateURLs.map(t => {
+            let u = t.replace('{movid}', movid);
+            return leech.get({
+                url: u,
+                headers: {
+                    'Referer': url
+                }
+            });
+        })
+    ).then(results => {
+        let d_details = JSON.parse(results[0]('body').text());
+        let d_reviews = JSON.parse(results[1]('body').text());
+        
+        let info = new MovieInfo({ url: url, country: 'Japan', origlang: 'Japanese' });
+
+        info.title = '1Pondo ' + d_details["MovieID"];
+        info.origtitle = d_details["Title"];
+
+        info.releasedate = d_details["Release"];
+        info.year = d_details["Year"];
+
+        info.posters.push({
+            url: d_details["ThumbHigh"]
+        });
+
+        info.duration = formatDuration(d_details["Duration"]);
+
+        info.description = d_details["Desc"];
+
+        d_details["Actor"].split(',').forEach((text, i) => {
+            let actor = {
+                url: 'https://www.1pondo.tv/search/?a=' + d_details["ActorID"][i],
+                text: text
+            };
+
+            info.actors.push(actor);
+        });
+
+        d_details["UCNAMEEn"].forEach((text, i) => {
+            let genre = {
+                url: 'https://www.1pondo.tv/search/?c=' + d_details["UC"][i],
+                text: text
+            };
+
+            info.genres.push(genre);
+        });
+
+        info.maker = '一本道';
+
+        if (d_details['Series']) {
+            info.series = {
+                url: 'https://www.1pondo.tv/search/?sr=' + d_details['SeriesID'],
+                text: d_details['Series']
+            }
+        }
+
+        info.rating = parseFloat(d_reviews["AvgRating"]) * 2;
+
+        return info;
+    });
 }
 
 function crawl (opt) {
@@ -56,46 +134,10 @@ function crawl (opt) {
             if ($('h1:contains("404 Not Found")').length > 0) {
                 resolve(null);
             } else {
-                let info = new MovieInfo({ url: url, country: 'Japan', origlang: 'Japanese' });
-                let data = JSON.parse($('body').text());
-
-                info.title = '1Pondo ' + data["MovieID"];
-                info.origtitle = data["Title"];
-
-                info.url = 'https://www.1pondo.tv/movies/' + data["MovieID"] + '/';
-
-                info.releasedate = data["Release"];
-                info.year = data["Year"];
-
-                info.posters.push({
-                    url: data["ThumbHigh"]
-                });
-
-                info.duration = formatDuration(data["Duration"]);
-
-                info.description = data["Desc"];
-
-                data["Actor"].split(',').forEach((text, i) => {
-                    let actor = {
-                        url: 'https://www.1pondo.tv/search/?a=' + data["ActorID"][i],
-                        text: text
-                    };
-
-                    info.actors.push(actor);
-                });
-
-                data["UCNAME"].forEach((text, i) => {
-                    let genre = {
-                        url: 'https://www.1pondo.tv/search/?c=' + data["UC"][i],
-                        text: text
-                    };
-
-                    info.genres.push(genre);
-                });
-
-                info.maker = '一本道';
-
-                resolve(info);
+                let movid = tryGetMovId(url);
+                crawlInternal(movid, url)
+                    .then(info => resolve(info))
+                    .catch(err => reject(err));
             }
         })
         .catch(err => {
