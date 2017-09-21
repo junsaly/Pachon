@@ -97,6 +97,11 @@ begin
     Result := 0;
 end;
 
+function GetPrefixMode: Byte;
+begin
+  Result := 0;
+end;
+
 function FormatURL(URL: String): String;
 begin
   if URL <> '' then
@@ -211,7 +216,7 @@ begin
         StartPos := PosFrom('<div class="chip">', HTML, StartPos);
         while (StartPos < EndPos) and (StartPos > 0) do
         begin
-            Value := HTMLValue(HTML, StartPos, EndPos, ')">', '</a>');
+            Value := HTMLValue(HTML, StartPos, EndPos, '>', '</a>');
             AddMoviePerson(Value, '', '', '', 0);
             LogMessage('actor: ' + Value);
             StartPos := PosFrom('<div class="chip">', HTML, StartPos + 1);
@@ -223,13 +228,13 @@ begin
     if StartPos > 0 then
     begin
         EndPos := PosFrom('</dd>', HTML, StartPos);
-        AddFieldValue(11, 'Label: ' + HTMLValue(HTML, StartPos, EndPos, ')">', '</a>'));
+        AddFieldValue(11, 'Label: ' + HTMLValue(HTML, StartPos, EndPos, '>', '</a>'));
         sLabel := 'Label: <link url="' + 
-            HTMLValue(HTML, StartPos, EndPos, 'openLink(''', ''')">') + 
-            '">' + HTMLValue(HTML, StartPos, EndPos, ')">', '</a>') + '</link>';
+            HTMLValue(HTML, StartPos, EndPos, 'openLink("', '")') + 
+            '">' + HTMLValue(HTML, StartPos, EndPos, '>', '</a>') + '</link>';
         
-        AddFieldValue(6, HTMLValue(HTML, StartPos, EndPos, ')">', '</a>'));
-        LogMessage('label: ' + HTMLValue(HTML, StartPos, EndPos, ')">', '</a>'));
+        AddFieldValue(6, HTMLValue(HTML, StartPos, EndPos, '>', '</a>'));
+        LogMessage('label: ' + HTMLValue(HTML, StartPos, EndPos, '>', '</a>'));
     end;
     
     // Series
@@ -237,13 +242,13 @@ begin
     if StartPos > 0 then
     begin
         EndPos := PosFrom('</dd>', HTML, StartPos);
-        AddFieldValue(11, 'Series: ' + HTMLValue(HTML, StartPos, EndPos, ')">', '</a>'));
+        AddFieldValue(11, 'Series: ' + HTMLValue(HTML, StartPos, EndPos, '>', '</a>'));
         sSeries := 'Series: <link url="' + 
-            HTMLValue(HTML, StartPos, EndPos, 'openLink(''', ''')">') + 
-            '">' + HTMLValue(HTML, StartPos, EndPos, ')">', '</a>') + '</link>';
+            HTMLValue(HTML, StartPos, EndPos, 'openLink("', '")') + 
+            '">' + HTMLValue(HTML, StartPos, EndPos, '>', '</a>') + '</link>';
         
-        AddFieldValue(6, HTMLValue(HTML, StartPos, EndPos, ')">', '</a>'));
-        LogMessage('series: ' + HTMLValue(HTML, StartPos, EndPos, ')">', '</a>'));
+        AddFieldValue(6, HTMLValue(HTML, StartPos, EndPos, '>', '</a>'));
+        LogMessage('series: ' + HTMLValue(HTML, StartPos, EndPos, '>', '</a>'));
     end;
     
     // Maker
@@ -255,12 +260,12 @@ begin
     if StartPos > 0 then
     begin
         EndPos := PosFrom('</dd>', HTML, StartPos);
-        AddFieldValue(11, 'Provider: ' + HTMLValue(HTML, StartPos, EndPos, ')">', '</a>'));
+        AddFieldValue(11, 'Provider: ' + HTMLValue(HTML, StartPos, EndPos, '>', '</a>'));
         sProvider := 'Provider: <link url="' + 
-            HTMLValue(HTML, StartPos, EndPos, 'openLink(''', ''')">') + 
-            '">' + HTMLValue(HTML, StartPos, EndPos, ')">', '</a>') + '</link>';
+            HTMLValue(HTML, StartPos, EndPos, 'openLink("', '")') + 
+            '">' + HTMLValue(HTML, StartPos, EndPos, '>', '</a>') + '</link>';
         
-        AddFieldValue(6, HTMLValue(HTML, StartPos, EndPos, ')">', '</a>'));
+        AddFieldValue(6, HTMLValue(HTML, StartPos, EndPos, '>', '</a>'));
         LogMessage('provider: ' + HTMLValue(HTML, StartPos, EndPos, ')">', '</a>'));
     end;
     
@@ -272,7 +277,7 @@ begin
         StartPos := PosFrom('<div class="chip">', HTML, StartPos);
         while (StartPos < EndPos) and (StartPos > 0) do
         begin
-            Value := HTMLValue(HTML, StartPos, EndPos, ')">', '</a>');
+            Value := HTMLValue(HTML, StartPos, EndPos, '>', '</a>');
             AddFieldValue(5, Value);
             LogMessage('genre: ' + Value);
             StartPos := PosFrom('<div class="chip">', HTML, StartPos + 1);
@@ -363,12 +368,12 @@ begin
     ItemEnd := PosFrom('</tr>', HTML, ItemStart);
     
     Preview := FormatURL(
-        BASE_URL + HTMLValue(HTML, ItemStart, ItemEnd, '<img class="materialboxed z-depth-5" src="', '"')
+        BASE_URL + HTMLValue(HTML, ItemStart, ItemEnd, 'src="', '"')
     );
     URL := FormatURL(
-        BASE_URL + '/movie/' + HTMLValue(HTML, ItemStart, ItemEnd, 'onclick="openLink(''', ''')"')
+        BASE_URL + '/movie/' + HTMLValue(HTML, ItemStart, ItemEnd, 'openLink("', '")')
     );
-    Name := HTMLValue(HTML, ItemStart, ItemEnd, ')">', '</a>') + '  |  ' + HTMLValue(HTML, ItemStart, ItemEnd, '<p class="origtitle">', '</p>');
+    Name := HTMLValue(HTML, ItemStart, ItemEnd, '>', '</a>') + '  |  ' + HTMLValue(HTML, ItemStart, ItemEnd, '<p class="origtitle">', '</p>');
     
     AddSearchResult(Name, '', '', URL, Preview);
     ItemStart := PosFrom('<tr>', HTML, ItemEnd);;

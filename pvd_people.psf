@@ -128,7 +128,7 @@ end;
 procedure ParseHTML(URL, HTML: string);
 var
   StartPos, EndPos: Integer;
-  Nickname, Alias, Rating, Bio, Cup, Blood, MinnaURL, Tags: String;
+  Rating, Bio, Cup, Blood, MinnaURL, Tags: String;
   Val: String;
 begin
   StartPos := Pos('<div class="row my-name">', HTML);
@@ -143,7 +143,7 @@ begin
   
   // Photo
   Val := FormatURL(
-    BASE_URL + HTMLValue(HTML, StartPos, EndPos, '<img class="materialboxed z-depth-5" src="', '" />')
+    BASE_URL + HTMLValue(HTML, StartPos, EndPos, 'src="', '"')
   );
   LogMessage('photo: ' + Val);
   PhotoURL := Val;
@@ -189,14 +189,12 @@ begin
     StartPos := PosFrom('<li>', HTML, StartPos);
     while (StartPos < EndPos) and (StartPos > 0) do
     begin
-      Val := Val + HTMLValue(HTML, StartPos, EndPos, '<li>', '</li>');
+      Val := HTMLValue(HTML, StartPos, EndPos, '<li>', '</li>');
+      AddFieldValue(3, Val);
+      LogMessage('nicknames: ' + Val);
+      
       StartPos := PosFrom('<li>', HTML, StartPos + 1);
-      if (StartPos < EndPos) and (StartPos > 0) then
-        Val := Val + '<br>';
     end;
-    Nickname := Val;
-    
-    LogMessage('nicknames: ' + Nickname);
   end;
   
   StartPos := PosFrom('Alias:', HTML, EndPos);
@@ -209,26 +207,14 @@ begin
     StartPos := PosFrom('<li>', HTML, StartPos);
     while (StartPos < EndPos) and (StartPos > 0) do
     begin
-      Val := Val + HTMLValue(HTML, StartPos, EndPos, '<li>', '</li>');
+      Val := HTMLValue(HTML, StartPos, EndPos, '<li>', '</li>');
+      AddFieldValue(3, Val);
+      LogMessage('alias: ' + Val);
+      
       StartPos := PosFrom('<li>', HTML, StartPos + 1);
-      if (StartPos < EndPos) and (StartPos > 0) then
-        Val := Val + '<br>';
     end;
-    Alias := Val;
-    
-    LogMessage('alias: ' + Alias);
   end;
-  
-  // Altnames
-  if (Nickname = '') and (Alias = '') then
-    AddHTMLValue('altnames', '')
-  else if (Nickname <> '') and (Alias = '') then
-    AddHTMLValue('altnames', Nickname)
-  else if (Nickname = '') and (Alias <> '') then
-    AddHTMLValue('altnames', Alias)
-  else
-    AddHTMLValue('altnames', Nickname + '<br>' + Alias);
-    
+   
   StartPos := PosFrom('Birthday:', HTML, EndPos);
   EndPos := PosFrom('</div>', HTML, StartPos);
   
@@ -282,7 +268,7 @@ begin
   EndPos := PosFrom('</div>', HTML, StartPos);
   
   // MinnaURL
-  Val := HTMLValue(HTML, StartPos, EndPos, 'openLink(''', ''')">');
+  Val := HTMLValue(HTML, StartPos, EndPos, 'openLink("', '")');
   MinnaURL := Val;
   
   
@@ -292,7 +278,7 @@ begin
   StartPos := PosFrom('<div class="chip">', HTML, StartPos);
   while (StartPos < EndPos) and (StartPos > 0) do
   begin
-    Val := HTMLValue(HTML, StartPos, EndPos, ')">', '</a>');
+    Val := HTMLValue(HTML, StartPos, EndPos, '>', '</a>');
     AddFieldValue(6, Val);
     LogMessage('genre: ' + Val);
     StartPos := PosFrom('<div class="chip">', HTML, StartPos + 1);
@@ -340,12 +326,12 @@ begin
     ItemEnd := PosFrom('</tr>', HTML, ItemStart);
     
     Preview := FormatURL(
-        BASE_URL + HTMLValue(HTML, ItemStart, ItemEnd, '<img class="materialboxed z-depth-5" src="', '"')
+        BASE_URL + HTMLValue(HTML, ItemStart, ItemEnd, 'src="', '"')
     );
     URL := FormatURL(
-        BASE_URL + '/human/' + HTMLValue(HTML, ItemStart, ItemEnd, 'onclick="openLink(''', ''')"')
+        BASE_URL + '/human/' + HTMLValue(HTML, ItemStart, ItemEnd, 'openLink("', '")')
     );
-    Name := HTMLValue(HTML, ItemStart, ItemEnd, ')">', '</a>') + '  |  ' + HTMLValue(HTML, ItemStart, ItemEnd, '<p class="transname">', '</p>');
+    Name := HTMLValue(HTML, ItemStart, ItemEnd, '>', '</a>') + '  |  ' + HTMLValue(HTML, ItemStart, ItemEnd, '<p class="transname">', '</p>');
     
     AddSearchResult(Name, '', '', URL, Preview);
     ItemStart := PosFrom('<tr>', HTML, ItemEnd);;
