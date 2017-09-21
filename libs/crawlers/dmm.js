@@ -132,7 +132,7 @@ function crawl (opt) {
                 });
                 
                 info.title = movid;
-                info.origtitle = $('meta[property="og:title"]').attr('content');
+                info.origtitle = $('h1#title').text();
 
                 info.description = $('div.mg-b20.lh4').text().trim().split('\n')[0];
 

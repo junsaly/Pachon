@@ -268,7 +268,7 @@ begin
   EndPos := PosFrom('</div>', HTML, StartPos);
   
   // MinnaURL
-  Val := HTMLValue(HTML, StartPos, EndPos, 'openLink("', '")');
+  Val := HTMLValue(HTML, StartPos, EndPos, 'openLink(''', ''')');
   MinnaURL := Val;
   
   
@@ -329,7 +329,7 @@ begin
         BASE_URL + HTMLValue(HTML, ItemStart, ItemEnd, 'src="', '"')
     );
     URL := FormatURL(
-        BASE_URL + '/human/' + HTMLValue(HTML, ItemStart, ItemEnd, 'openLink("', '")')
+        BASE_URL + '/human/' + HTMLValue(HTML, ItemStart, ItemEnd, 'openLink(''', ''')')
     );
     Name := HTMLValue(HTML, ItemStart, ItemEnd, '>', '</a>') + '  |  ' + HTMLValue(HTML, ItemStart, ItemEnd, '<p class="transname">', '</p>');
     

@@ -23,6 +23,30 @@ function mixMovieInfo (des, src) {
     return des;
 }
 
+function tryGetMovId (val) {
+    let len = val.length;
+    let startpos = 0;
+    let endpos = 0;
+
+    for (var i=0; i<len; i++) {
+        let nan = isNaN(val.charAt(i));
+        if (nan) {
+            startpos = i;
+            break;
+        }
+    }
+
+    for (var i=len-1; i>-1; i--) {
+        let nan = isNaN(val.charAt(i));
+        if (!nan) {
+            endpos = i;
+            break;
+        }
+    }
+
+    return val.substring(startpos, endpos+1);
+}
+
 function thenIfSearch (d1, opt) {
     let movid = util.replaceAll(opt.qtext, '-', '').toLowerCase();
     let df = d1.results.filter(
@@ -86,9 +110,10 @@ function thenIfSearch (d1, opt) {
 }
 
 function thenIfId (d1, opt) {
+    let movid = tryGetMovId(d1.title);
     let javlib = crawlers['javlibrary'];
     return javlib.crawl({
-        qtext: opt.qtext,
+        qtext: movid,
         type: 'search',
         lang: 'en',
     })

@@ -80,9 +80,11 @@ function crawl (opt) {
 
                 let ele = $('div#movie span.label').next().find('a');
 
-                info.series = {
-                    url: BASE_URL + ele.attr('href'),
-                    text: ele.text(),
+                if (ele.length > 0) {
+                    info.series = {
+                        url: BASE_URL + ele.attr('href'),
+                        text: ele.text(),
+                    }
                 }
 
                 info.rating = parseFloat(

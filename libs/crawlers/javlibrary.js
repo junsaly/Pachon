@@ -61,8 +61,10 @@ function crawl (opt) {
     if (url == "") {
         throw new Error("Invalid Arguments");
     }
-
-    let urlpath = BASE_URL + parseURL(url).pathname;
+    
+    let url_parsed = parseURL(url);
+    let urlpath = BASE_URL + 
+        url_parsed.pathname.substring(0, url_parsed.pathname.lastIndexOf('/'));
 
     return new Promise((resolve, reject) => {
         leech.get(url)
@@ -87,7 +89,7 @@ function crawl (opt) {
                         let info = new MovieInfo();
 
                         let ele = $(el);
-                        info.url = urlpath + ele.find('a').attr('href').substring(2);
+                        info.url = urlpath + ele.find('a').attr('href').substring(1);
                         info.title = ele.find('a div.id').text().toUpperCase();
 
                         let val = ele.find('a img').attr('src');
