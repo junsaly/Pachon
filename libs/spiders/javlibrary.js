@@ -28,15 +28,7 @@ function mixMovieInfo(d_jav, d_r18, lang) {
         if (!d.duration) d.duration = d_r18.duration;
         if (!d.year) d.year = d_r18.year;
         if (lang == 'en') {
-            if (d_r18.genres.length > 0) {
-                for (var genre of d_r18.genres) {
-                    if (d.genres.some(v => v.text == genre.text)) {
-                        continue;
-                    }
-
-                    d.genres.push(genre);
-                }
-            }
+            if (d_r18.genres.length > 0) d.genres = d_r18.genres;
         }
         return d;
     }
