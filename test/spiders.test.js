@@ -48,4 +48,5 @@ describe('spiders/... test suite', function() {
     test(spiders['heyzo'], {qtext: '0585', type: 'search'});
     test(spiders['dmm'], {qtext: 'AVOP-210', type: 'search'});
     test(spiders['dmm'], {qtext: 'AVOP 2', type: 'search'});
+    test.only(spiders['r18'], {qtext: '1sw00261', type: 'id'});
 });

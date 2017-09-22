@@ -58,4 +58,6 @@ describe('crawlers/... test suite', function() {
     test(crawlers['javlibrary'], 'http://www.javlibrary.com/en/vl_searchbyid.php?keyword=mad-08');
     test(crawlers['dmm'], 'http://unblockdmm.com/browse.php?u=http://www.dmm.co.jp/mono/dvd/-/detail/=/cid=143avop021');
     test(crawlers['dmm'], 'http://unblockdmm.com/browse.php?u=http://www.dmm.co.jp/search/=/searchstr=abp%202/analyze=V1EBDlYPUwI_/limit=30/sort=date');
+    test(crawlers['r18'], 'http://www.r18.com/common/search/searchword=Sw-261/');
+    test(crawlers['r18'], 'http://www.r18.com/common/search/searchword=DKSW-261/');
 });
