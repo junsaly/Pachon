@@ -74,13 +74,13 @@ function thenIfSearch ($, url, urlpath, lang) {
 
     result.more = $('div.page_selector').length > 0;
 
-    let mov = result.results[0];
-    if (result.queryString == mov.title) {
-        return leech.get(mov.url)
-        .then($$ => {
-            return thenIfId($$, mov.url, urlpath);
-        })
-    }
+    // let mov = result.results[0];
+    // if (result.queryString == mov.title) {
+    //     return leech.get(mov.url)
+    //     .then($$ => {
+    //         return thenIfId($$, mov.url, urlpath);
+    //     })
+    // }
 
     return result;
 }
