@@ -5,7 +5,7 @@ const util = require('../util.js');
 const crawlers = require('../crawlers');
 const { MovieInfo, SearchResult } = require('../../models/types.js');
 
-const NAME = 'r18';
+const NAME = 'javlibrary';
 module.exports.name = function () {
     return NAME;
 }
@@ -65,65 +65,79 @@ function tryGetMovId (val) {
     return val;
 }
 
-function mixMovieInfo(d_r18, d_jav) {
-    if (d_jav instanceof MovieInfo) {
-        let d = clone(d_r18);
-        if (d.actors.length == 0) d.actors = d_jav.actors;
-        if (d.genres.length == 0) d.genres = d_jav.genres;
-        if (d.posters.length == 0) d.posters = d_jav.posters;
-        if (!d.director) d.director = d_jav.director;
-        if (!d.label) d.label = d_jav.label;
-        if (!d.maker) d.maker = d_jav.maker;
+function mixMovieInfo(d_jav, d_r18, lang) {
+    if (d_r18 instanceof MovieInfo) {
+        let d = clone(d_jav);
+        d.transtitle = d_r18.transtitle;
+        d.screenshots = d_r18.screenshots;
+        if (d.actors.length == 0) d.actors = d_r18.actors;
+        if (d.posters.length == 0) d.posters = d_r18.posters;
+        if (!d.director) d.director = d_r18.director;
+        if (!d.label) d.label = d_r18.label;
+        if (!d.maker) d.maker = d_r18.maker;
+        if (!d.duration) d.duration = d_r18.duration;
+        if (!d.year) d.year = d_r18.year;
+        if (lang == 'en') {
+            if (d_r18.genres.length > 0) d.genres = d_r18.genres;
+        }
         return d;
     }
 
-    if (d_jav instanceof SearchResult) {
-        let mov = d_jav.results[0];
-        if (d_r18.title == mov.title) {
-            let javlib = crawlers["javlibrary"];
-            return javlib.crawl(mov.url)
+    if (d_r18 instanceof SearchResult) {
+        let jav_id = tryGetMovId(d_jav.title);
+        let movs = d_r18.results.filter(mov => {
+            let r18_id = tryGetMovId(mov.title);
+            return jav_id == r18_id;
+        });
+
+        if (movs.length > 0) {
+            let mov = movs[0];
+            let r18 = crawlers["r18"];
+            return r18.crawl(mov.url)
             .then(d2 => {
                 if (d2) {
-                    return mixMovieInfo(d_r18, d2);
+                    return mixMovieInfo(d_jav, d2);
                 }
-                
-                return d_r18;
-            });
+
+                return d_jav;
+            })
         }
     }
 
-    return d_r18;
+    return d_jav;
 }
 
 function crawl (options) {
-    let r18 = crawlers["r18"];
+    let javlib = crawlers["javlibrary"];
 
     if (typeof options == 'string') {
-        return r18.crawl(options);
+        return javlib.crawl(options);
     }
 
     let qtext = (options.qtext || '').toLowerCase();
     let type = (options.type || '');
+    let lang = (options.lang || '');
 
     if (!qtext || !type) {
         throw new Error('Invalid Argument');
     }
     
-    let javlib = crawlers["javlibrary"];
+    let r18 = crawlers["r18"];
 
     return Promise.all([
-        r18.crawl({qtext: qtext, type: type}),
-        javlib.crawl({qtext: tryGetMovId(qtext), type: 'search', lang: 'en'}),
+        javlib.crawl({qtext: qtext, type: type, lang: lang}),
+        r18.crawl({qtext: qtext, type: 'search'}),
     ])
     .then(data => {
-        let d_r18 = data[0];
-        let d_jav = data[1];
-        if (d_r18 instanceof SearchResult) {
-            return d_r18;
+        let d_jav = data[0];
+        let d_r18 = data[1];
+        
+        if (d_jav instanceof SearchResult) {
+            return d_jav;
         }
 
-        if (d_r18 instanceof MovieInfo) {
-            return mixMovieInfo(d_r18, d_jav);
+        if (d_jav instanceof MovieInfo) {
+            return mixMovieInfo(d_jav, d_r18, lang);
         }
 
         return null;
