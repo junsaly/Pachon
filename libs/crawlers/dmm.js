@@ -3,7 +3,6 @@
 const { MovieInfo, SearchResult } = require('../../models/types.js');
 const leech = require('../leech-promise.js');
 const util = require('../util.js');
-const parseURL = require('url').parse;
 
 const NAME = 'dmm';
 module.exports.name = function () {
