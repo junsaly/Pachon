@@ -210,3 +210,42 @@ function tryGetMovId (val) {
 }
 
 module.exports.tryGetMovId = tryGetMovId;
+
+
+function syncObjects (des, src) {
+    if (!des) {
+        throw new Error('Invalid Arguments');
+    }
+
+    if (!src) {
+        return des;
+    }
+
+    if (typeof des !== typeof src || 
+        typeof des !== 'object' || 
+        Array.isArray(des)) {
+        throw new Error('Invalid Arguements Type');
+    }
+
+    for (var key in des) {
+        var p_des = des[key];
+        var p_src = src[key];
+
+        if (!p_des) {
+            if (p_src) des[key] = p_src;
+        } else if (Array.isArray(p_des)) {
+            if (p_des.length == 0) des[key] = p_src;
+        } else if (typeof p_des === 'object') {
+            try {
+                des[key] = syncObjects(p_des, p_src);
+            }
+            catch (ex) {
+                console.error(ex);
+            }
+        }
+    }
+
+    return des;
+}
+
+module.exports.syncObjects = syncObjects;

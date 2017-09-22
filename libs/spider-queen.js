@@ -2,6 +2,7 @@
 
 const crawlers = require('./crawlers');
 const spiders = require('./spiders');
+const util = require('./util.js');
 
 function findCrawlers (selector) {
     let result = [];
@@ -71,10 +72,14 @@ function summon (options) {
     }
 
     if (target == "movie") {
+        let crawler = null;
+        let movid = '';
+
         if (qtext.indexOf(' ') > 0) {
             let pos = qtext.indexOf(' ');
             let name = qtext.substring(0, pos).trim();
-            let id = qtext.substring(pos).trim();
+            
+            movid = qtext.substring(pos).trim();
             
             let spider = firstSpider(
                 v => 
@@ -82,19 +87,18 @@ function summon (options) {
                     v.target() == target);
 
             if (spider) {
-                return [ spider, id ];
+                crawler = spider;
+
             } else {
-                return [ 
-                    firstCrawler(v => v.name() == name), 
-                    id 
-                ];
+                crawler = firstCrawler(v => v.name() == name);
             }
+
         } else {
-            return [ 
-                firstSpider(v => v.name() == "dmm"), 
-                null 
-            ];
+            crawler = firstSpider(v => v.name() == "dmm");
+            movid = qtext;
         }
+
+        return [ crawler, movid ];
     }
 }
 
@@ -125,7 +129,7 @@ function crawl (queryText, options) {
 
     return spider.crawl({
         "type": type,
-        "qtext": id || qtext,
+        "qtext": id,
     });
 }
 
