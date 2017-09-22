@@ -32,6 +32,13 @@ function formatDuration (val) {
     return hours + ':' + minutes + ':' + '00';
 }
 
+function formatJapaneseName (val) {
+    if (val.indexOf('（') > 0) {
+        return val.split('（')[0].trim();
+    }
+    return val;
+}
+
 function getFootprint (data) {
     return {
         "crawler": NAME,
@@ -187,7 +194,7 @@ function crawl (opt) {
                         let ele2 = $(el);
                         info.actors.push({
                             url: BASE_URL + decodeURIComponent(ele2.attr('href')),
-                            text: ele2.text(),
+                            text: formatJapaneseName(ele2.text()),
                         });
                     })
                 }

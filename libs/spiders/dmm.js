@@ -21,11 +21,13 @@ function mixMovieInfo (des, src) {
     if (src.transtitle) des.transtitle = src.transtitle;
     if (src.genres.length > 0) des.genres = src.genres;
     if (src.actors.length > 0 && des.actors.length == 0) des.actors = src.actors;
+    if (src.screenshots.length > 0 && des.screenshots.length == 0) des.screenshots = src.screenshots;
     return des;
 }
 
 function tryGetMovId (val) {
     val = val.toLowerCase();
+
     if (val.indexOf('h_') == 0) {
         val = val.substring(2);
     }
@@ -50,7 +52,27 @@ function tryGetMovId (val) {
         }
     }
 
-    return val.substring(startpos, endpos+1);
+    val = val.substring(startpos, endpos+1);
+    len = val.length;
+    startpos = -1;
+
+    for (var i=0; i<len; i++) {
+        let nan = isNaN(val.charAt(i));
+        if (!nan) {
+            startpos = i;
+            break;
+        }
+    }
+
+    if (startpos > -1) {
+        while (val.charAt(startpos) == '0') {
+            val = val.replace('0', '')
+        }
+    }
+
+    val = util.replaceAll(val, '-', '');
+
+    return val;
 }
 
 function thenIfSearch (d1, opt) {
