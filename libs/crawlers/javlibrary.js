@@ -40,6 +40,142 @@ function getFootprint (data) {
     }
 }
 
+function thenIfSearch ($, url, urlpath, lang) {
+    let result = new SearchResult({ 
+        url: url,
+        queryString: 
+            util.replaceAll(url.split('keyword=')[1], '+', ' '),
+        footprint: getFootprint
+    });
+
+    $('div.videos > div').each((i, el) => {
+        let info = new MovieInfo();
+
+        let ele = $(el);
+        info.url = urlpath + ele.find('a').attr('href').substring(1);
+        info.title = ele.find('a div.id').text().toUpperCase();
+
+        let val = ele.find('a img').attr('src');
+        if (val != '//') {
+            info.posters.push({
+                url: 'http:' + val
+            });
+        }
+        
+        if (lang == 'en') {
+            info.transtitle = ele.find('a div.title').text();
+        }
+        if (lang == 'ja') {
+            info.title = ele.find('a div.title').text();
+        }
+
+        result.results.push(info);
+    });
+
+    result.more = $('div.page_selector').length > 0;
+
+    let mov = result.results[0];
+    if (result.queryString == mov.title) {
+        return leech.get(mov.url)
+        .then($$ => {
+            return thenIfId($$, mov.url, urlpath);
+        })
+    }
+
+    return result;
+}
+
+function thenIfId ($, url, urlpath, lang) {
+    let info = new MovieInfo({ 
+        url: url, 
+        country: 'Japan', 
+        origlang: 'Japanese' 
+    });
+
+    let movid = $('div#video_id td.text').text();
+
+    let val = $('div#video_jacket img').attr('src');
+    if (val.indexOf('img/noimagepl.gif') == - 1) {
+        info.posters.push({
+            url: 'http:' + val
+        });
+    }
+    
+    info.title = movid.toUpperCase();
+
+    if (lang == 'en') {
+        info.transtitle = $('h3.post-title.text').text()
+            .replace(movid, '')
+            .trim();
+    }
+    
+    if (lang == 'ja') {
+        info.origtitle = $('h3.post-title.text').text()
+            .replace(movid, '')
+            .trim();
+    }
+
+    info.releasedate = $('div#video_date td.text').text();
+    info.year = info.releasedate.substring(0, 4);
+
+    info.duration = formatDuration(
+        $('div#video_length span.text').text()
+    );
+
+    let ele = $('div#video_director a');
+    if (ele.length > 0) {
+        info.director = {
+            url: urlpath + ele.attr('href'),
+            text: ele.text(),
+        };
+    }
+
+    ele = $('div#video_maker a');
+    if (ele.length > 0) {
+        info.maker = ele.text();
+    }
+
+    ele = $('div#video_label a');
+    if (ele.length > 0) {
+        info.label = {
+            url: urlpath + ele.attr('href'),
+            text: ele.text(),
+        };
+    }
+
+    $('div#video_genres a').each((i, el) => {
+        let ele = $(el);
+        let genre = {
+            url: urlpath + ele.attr('href'),
+            text: ele.text(),
+        }
+
+        info.genres.push(genre);
+    });
+
+    $('div#video_cast a').each((i, el) => {
+        let ele = $(el);
+        let actor = {
+            url: urlpath + ele.attr('href'),
+            text: ele.text(),
+        }
+
+        info.actors.push(actor);
+    });
+
+    return info;
+}
+
+function catchError (err, resolve, reject) {
+    var mss = err.message;
+    if (mss.indexOf('HTTP Code') >= 0) {
+        console.log('<' + mss + '> at ' + url)
+        resolve(null);
+    } else {
+        reject(err);
+    }
+}
+
 function crawl (opt) {
     let url = "";
     let lang = "en";
@@ -50,7 +186,7 @@ function crawl (opt) {
     if (typeof opt == 'object') {
         let type = opt.type || '';
         let qtext = opt.qtext || '';
-        let lang = opt.lang || 'en';
+        lang = opt.lang || 'en';
         if (type && qtext) {
             url = TEMPLATE[type]
                 .replace('{lang}', lang)
@@ -78,134 +214,23 @@ function crawl (opt) {
                 if ($('div:contains("ID Search Result")').length > 0 ||
                     $('div:contains("品番検索結果")').length > 0) {
                     // Search result
-                    let result = new SearchResult({ 
-                        url: url,
-                        queryString: 
-                            util.replaceAll(url.split('keyword=')[1], '+', ' '),
-                        footprint: getFootprint
-                    });
-
-                    $('div.videos > div').each((i, el) => {
-                        let info = new MovieInfo();
-
-                        let ele = $(el);
-                        info.url = urlpath + ele.find('a').attr('href').substring(1);
-                        info.title = ele.find('a div.id').text().toUpperCase();
-
-                        let val = ele.find('a img').attr('src');
-                        if (val != '//') {
-                            info.posters.push({
-                                url: 'http:' + val
-                            });
-                        }
-                        
-                        if (lang == 'en') {
-                            info.transtitle = ele.find('a div.title').text();
-                        }
-                        if (lang == 'ja') {
-                            info.title = ele.find('a div.title').text();
-                        }
-
-                        result.results.push(info);
-                    });
-
-                    result.more = $('div.page_selector').length > 0;
-
-                    resolve(result);
+                    Promise.resolve(thenIfSearch($, url, urlpath, lang))
+                        .then(data => resolve(data))
+                        .catch(err => catchError(err, resolve, reject));
                 }
 
                 else {
                     // Movie content
-                    let info = new MovieInfo({ 
-                        url: url, 
-                        country: 'Japan', 
-                        origlang: 'Japanese' 
-                    });
-
-                    let movid = $('div#video_id td.text').text();
-
-                    let val = $('div#video_jacket img').attr('src');
-                    if (val.indexOf('img/noimagepl.gif') == - 1) {
-                        info.posters.push({
-                            url: 'http:' + val
-                        });
+                    try {
+                        let info = thenIfId($, url, urlpath, lang);
+                        resolve(info);
+                    } catch (ex) {
+                        reject(ex);
                     }
-                    
-                    info.title = movid.toUpperCase();
-
-                    if (lang == 'en') {
-                        info.transtitle = $('h3.post-title.text').text()
-                            .replace(movid, '')
-                            .trim();
-                    }
-                    
-                    if (lang == 'ja') {
-                        info.origtitle = $('h3.post-title.text').text()
-                            .replace(movid, '')
-                            .trim();
-                    }
-
-                    info.releasedate = $('div#video_date td.text').text();
-                    info.year = info.releasedate.substring(0, 4);
-
-                    info.duration = formatDuration(
-                        $('div#video_length span.text').text()
-                    );
-
-                    let ele = $('div#video_director a');
-                    if (ele.length > 0) {
-                        info.director = {
-                            url: urlpath + ele.attr('href'),
-                            text: ele.text(),
-                        };
-                    }
-
-                    ele = $('div#video_maker a');
-                    if (ele.length > 0) {
-                        info.maker = ele.text();
-                    }
-
-                    ele = $('div#video_label a');
-                    if (ele.length > 0) {
-                        info.label = {
-                            url: urlpath + ele.attr('href'),
-                            text: ele.text(),
-                        };
-                    }
-
-                    $('div#video_genres a').each((i, el) => {
-                        let ele = $(el);
-                        let genre = {
-                            url: urlpath + ele.attr('href'),
-                            text: ele.text(),
-                        }
-
-                        info.genres.push(genre);
-                    });
-
-                    $('div#video_cast a').each((i, el) => {
-                        let ele = $(el);
-                        let actor = {
-                            url: urlpath + ele.attr('href'),
-                            text: ele.text(),
-                        }
-
-                        info.actors.push(actor);
-                    });
-
-                    resolve(info);
                 }
             }
         })
-        .catch(err => {
-            var mss = err.message;
-            if (mss.indexOf('HTTP Code') >= 0) {
-                console.log('<' + mss + '> at ' + url)
-                resolve(null);
-            } else {
-                reject(err);
-            }
-        });
+        .catch(err => catchError(err, resolve, reject));
     });
 }
 

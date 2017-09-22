@@ -3,7 +3,6 @@
 const clone = require('clone');
 const util = require('../util.js');
 const crawlers = require('../crawlers');
-
 const { MovieInfo, SearchResult } = require('../../models/types.js');
 
 const NAME = 'dmm';
@@ -23,56 +22,6 @@ function mixMovieInfo (des, src) {
     if (src.actors.length > 0 && des.actors.length == 0) des.actors = src.actors;
     if (src.screenshots.length > 0 && des.screenshots.length == 0) des.screenshots = src.screenshots;
     return des;
-}
-
-function tryGetMovId (val) {
-    val = val.toLowerCase();
-
-    if (val.indexOf('h_') == 0) {
-        val = val.substring(2);
-    }
-
-    let len = val.length;
-    let startpos = 0;
-    let endpos = 0;
-
-    for (var i=0; i<len; i++) {
-        let nan = isNaN(val.charAt(i));
-        if (nan) {
-            startpos = i;
-            break;
-        }
-    }
-
-    for (var i=len-1; i>-1; i--) {
-        let nan = isNaN(val.charAt(i));
-        if (!nan) {
-            endpos = i;
-            break;
-        }
-    }
-
-    val = val.substring(startpos, endpos+1);
-    len = val.length;
-    startpos = -1;
-
-    for (var i=0; i<len; i++) {
-        let nan = isNaN(val.charAt(i));
-        if (!nan) {
-            startpos = i;
-            break;
-        }
-    }
-
-    if (startpos > -1) {
-        while (val.charAt(startpos) == '0') {
-            val = val.replace('0', '')
-        }
-    }
-
-    val = util.replaceAll(val, '-', '');
-
-    return val;
 }
 
 function thenIfSearch (d1, opt) {
@@ -95,7 +44,7 @@ function thenIfSearch (d1, opt) {
     } else { // df.length == 1
         let u = df[0];
         let dmm = crawlers['dmm'];
-        let javlib = crawlers['javlibrary'];
+        let javlib = require('./javlibrary.js');
         return Promise.all([
 
             dmm.crawl(u.url),
@@ -116,30 +65,14 @@ function thenIfSearch (d1, opt) {
                 return d;
             }
 
-            if (d22 instanceof SearchResult) {
-                let d22_title = d22.results[0].title.toLowerCase().trim();
-                let qtext_title = opt.qtext.toLowerCase().trim();
-
-                if (d22_title == qtext_title) {
-                    let d22_url = d22.results[0].url;
-                    return javlib.crawl(d22_url)
-                    .then(d3 => {
-                        let d = clone(d21);
-                        mixMovieInfo(d, d3);
-                        return d;
-                    })
-
-                }
-            }
-
             return d21;
         })
     }
 }
 
 function thenIfId (d1, opt) {
-    let movid = tryGetMovId(d1.title);
-    let javlib = crawlers['javlibrary'];
+    let movid = util.tryGetMovId(d1.title);
+    let javlib = require('./javlibrary.js');
     return javlib.crawl({
         qtext: movid,
         type: 'search',
@@ -150,24 +83,6 @@ function thenIfId (d1, opt) {
             let d = clone(d1);
             mixMovieInfo(d, d2);
             return d;
-        }
-
-        if (d2 instanceof SearchResult) {
-            let d2_title = util.replaceAll(d2.results[0].title, '-', '')
-                .toLowerCase()
-                .trim();
-
-            let qtext_title = opt.qtext.toLowerCase().trim();
-            
-            if (d2_title == qtext_title) {
-                let d2_url = d2.results[0].url;
-                return javlib.crawl(d2_url)
-                .then(d3 => {
-                    let d = clone(d1);
-                    mixMovieInfo(d, d3);
-                    return d;
-                })
-            }
         }
 
         return d1;

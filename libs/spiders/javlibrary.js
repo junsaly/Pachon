@@ -15,56 +15,6 @@ module.exports.target = function () {
     return TARGET;
 }
 
-function tryGetMovId (val) {
-    val = val.toLowerCase();
-
-    if (val.indexOf('h_') == 0) {
-        val = val.substring(2);
-    }
-
-    let len = val.length;
-    let startpos = 0;
-    let endpos = 0;
-
-    for (var i=0; i<len; i++) {
-        let nan = isNaN(val.charAt(i));
-        if (nan) {
-            startpos = i;
-            break;
-        }
-    }
-
-    for (var i=len-1; i>-1; i--) {
-        let nan = isNaN(val.charAt(i));
-        if (!nan) {
-            endpos = i;
-            break;
-        }
-    }
-
-    val = val.substring(startpos, endpos+1);
-    len = val.length;
-    startpos = -1;
-
-    for (var i=0; i<len; i++) {
-        let nan = isNaN(val.charAt(i));
-        if (!nan) {
-            startpos = i;
-            break;
-        }
-    }
-
-    if (startpos > -1) {
-        while (val.charAt(startpos) == '0') {
-            val = val.replace('0', '')
-        }
-    }
-
-    val = util.replaceAll(val, '-', '');
-
-    return val;
-}
-
 function mixMovieInfo(d_jav, d_r18, lang) {
     if (d_r18 instanceof MovieInfo) {
         let d = clone(d_jav);
@@ -84,9 +34,9 @@ function mixMovieInfo(d_jav, d_r18, lang) {
     }
 
     if (d_r18 instanceof SearchResult) {
-        let jav_id = tryGetMovId(d_jav.title);
+        let jav_id = util.tryGetMovId(d_jav.title);
         let movs = d_r18.results.filter(mov => {
-            let r18_id = tryGetMovId(mov.title);
+            let r18_id = util.tryGetMovId(mov.title);
             return jav_id == r18_id;
         });
 
@@ -133,6 +83,17 @@ function crawl (options) {
         let d_r18 = data[1];
         
         if (d_jav instanceof SearchResult) {
+            let id = util.tryGetMovId(qtext);
+            let mov_id = util.tryGetMovId(d_jav.results[0].title);
+            if (id == mov_id) {
+                return javlib.crawl(d_jav.results[0].url)
+                .then(d => {
+                    if (d) {
+                        return mixMovieInfo(d, d_r18, lang);
+                    }
+                    return d_jav;
+                })
+            }
             return d_jav;
         }
 

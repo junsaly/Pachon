@@ -86,8 +86,8 @@ function thenIfSearch ($, url) {
     if (result.results.length == 1) {
         let mov = result.results[0];
         return leech.get(mov.url)
-        .then($ => {
-            return thenIfId($, mov.url);
+        .then($$ => {
+            return thenIfId($$, mov.url);
         })
     }
 

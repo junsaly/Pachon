@@ -157,3 +157,56 @@ function render (res, view, locals) {
 }
 
 module.exports.render = render;
+
+
+function tryGetMovId (val) {
+    val = val.toLowerCase();
+
+    if (val.indexOf('h_') == 0) {
+        val = val.substring(2);
+    }
+
+    let len = val.length;
+    let startpos = 0;
+    let endpos = 0;
+
+    for (var i=0; i<len; i++) {
+        let nan = isNaN(val.charAt(i));
+        if (nan) {
+            startpos = i;
+            break;
+        }
+    }
+
+    for (var i=len-1; i>-1; i--) {
+        let nan = isNaN(val.charAt(i));
+        if (!nan) {
+            endpos = i;
+            break;
+        }
+    }
+
+    val = val.substring(startpos, endpos+1);
+    len = val.length;
+    startpos = -1;
+
+    for (var i=0; i<len; i++) {
+        let nan = isNaN(val.charAt(i));
+        if (!nan) {
+            startpos = i;
+            break;
+        }
+    }
+
+    if (startpos > -1) {
+        while (val.charAt(startpos) == '0') {
+            val = val.replace('0', '')
+        }
+    }
+
+    val = util.replaceAll(val, '-', '');
+
+    return val;
+}
+
+module.exports.tryGetMovId = tryGetMovId;
