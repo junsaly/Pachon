@@ -59,12 +59,12 @@ function crawl (opt) {
     return new Promise((resolve, reject) => {
         return leech.get(url)
         .then($ => {
-            if ($('title').text() == 'Caribbeancom.com') {
+            if ($('.sample-mv').length == 0) {
                 resolve(null);
             } else {
                 let info = new MovieInfo({ url: url, country: 'Japan', origlang: 'Japanese' });
 
-                let rawtitle = $('div.h2_long_wrapper_dokusen > h2').text().split('::');
+                let rawtitle = $('h2').first().text().split('::');
                 
                 info.title = 'Caribbeancom ' + formatTitle(url);
                 info.transtitle = rawtitle[0].trim();
