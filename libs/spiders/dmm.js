@@ -15,6 +15,9 @@ module.exports.target = function () {
     return TARGET;
 }
 
+const dmm = crawlers['dmm'];
+const javlib = require('./javlibrary.js');
+
 function mixMovieInfo (des, src) {
     if (src.title) des.title = src.title;
     if (src.transtitle) des.transtitle = src.transtitle;
@@ -24,18 +27,55 @@ function mixMovieInfo (des, src) {
     return des;
 }
 
+function crawlByUrl (url, movid) {
+    return Promise.all([
+        dmm.crawl(url),
+        javlib.crawl({
+            qtext: movid,
+            type: 'search',
+            lang: 'en',
+        }),
+    ])
+    .then(d2 => {
+        let d21 = d2[0];
+        let d22 = d2[1];
+
+        if (d22 instanceof MovieInfo) {
+            let d = clone(d21);
+            mixMovieInfo(d, d22);
+            return d;
+        }
+
+        return d21;
+    });
+}
+
 function thenIfSearch (d1, opt) {
-    let movid = util.replaceAll(opt.qtext, '-', '').toLowerCase();
+    let movid = util.tryGetMovId(opt.qtext);
     let df = d1.results.filter(
-        v => v.title.indexOf(movid) > -1 &&
+        v => util.tryGetMovId(v.title) == movid &&
              v.url.indexOf('www.dmm.co.jp/mono/dvd/') > -1);
 
     if (df.length == 0) {
         let d = clone(d1);
+        df = d1.results.filter(
+            v => v.url.indexOf('www.dmm.co.jp/mono/dvd/') > -1
+        );
+        d.results = df;
         d.results.reverse();
         return d;
 
     } else if (df.length > 1) {
+        let movids = {};
+        df.forEach(v => {
+            movids[util.tryGetMovId(v.title)] = 1;
+        });
+
+        if (Object.keys(movids).length == 1) {
+            let u = df[df.length-1];
+            return crawlByUrl(u.url, movid);
+        }
+
         let d = clone(d1);
         d.results = df;
         d.results.reverse();
@@ -43,36 +83,12 @@ function thenIfSearch (d1, opt) {
 
     } else { // df.length == 1
         let u = df[0];
-        let dmm = crawlers['dmm'];
-        let javlib = require('./javlibrary.js');
-        return Promise.all([
-
-            dmm.crawl(u.url),
-
-            javlib.crawl({
-                qtext: opt.qtext,
-                type: 'search',
-                lang: 'en',
-            }),
-        ])
-        .then(d2 => {
-            let d21 = d2[0];
-            let d22 = d2[1];
-
-            if (d22 instanceof MovieInfo) {
-                let d = clone(d21);
-                mixMovieInfo(d, d22);
-                return d;
-            }
-
-            return d21;
-        })
+        return crawlByUrl(u.url, opt.qtext);
     }
 }
 
 function thenIfId (d1, opt) {
     let movid = util.tryGetMovId(d1.title);
-    let javlib = require('./javlibrary.js');
     return javlib.crawl({
         qtext: movid,
         type: 'search',
@@ -90,8 +106,6 @@ function thenIfId (d1, opt) {
 }
 
 function crawl (options) {
-    let dmm = crawlers['dmm'];
-
     if (typeof options == 'string') {
         return dmm.crawl(options);
     }

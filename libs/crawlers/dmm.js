@@ -86,12 +86,14 @@ function crawl (opt) {
                         origlang: 'Japanese',
                     });
                     let ele = $(el);
-                    let movid = ele.find('img').attr('src').split('/');
-                    movid = movid[movid.length - 2];
 
                     info.url = BASE_URL + decodeURIComponent(
                         ele.find('a').attr('href')
                     );
+
+                    let movid = info.url.split('/');
+                    movid = movid[movid.length - 2].replace('cid=', '');
+
                     info.posters.push({
                         url: ele.find('img').attr('src')
                     });

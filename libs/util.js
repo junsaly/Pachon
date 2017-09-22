@@ -204,7 +204,7 @@ function tryGetMovId (val) {
         }
     }
 
-    val = util.replaceAll(val, '-', '');
+    val = replaceAll(val, '-', '');
 
     return val;
 }
@@ -231,17 +231,19 @@ function syncObjects (des, src) {
         var p_des = des[key];
         var p_src = src[key];
 
-        if (!p_des) {
-            if (p_src) des[key] = p_src;
-        } else if (Array.isArray(p_des)) {
-            if (p_des.length == 0) des[key] = p_src;
-        } else if (typeof p_des === 'object') {
+        if (Array.isArray(p_des)) {
+            if (p_des.length == 0 && Array.isArray(p_src) && p_src.length > 0) {
+                des[key] = p_src;
+            }
+        } else if (typeof p_des === 'object' && p_des && typeof p_src === 'object' && p_src) {
             try {
                 des[key] = syncObjects(p_des, p_src);
             }
             catch (ex) {
                 console.error(ex);
             }
+        } else if (!p_des) {
+            if (p_src) des[key] = p_src;
         }
     }
 

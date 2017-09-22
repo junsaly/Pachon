@@ -15,22 +15,23 @@ module.exports.target = function () {
     return TARGET;
 }
 
+const r18 = crawlers["r18"];
+const javlib = crawlers["javlibrary"];
+
 function mixMovieInfo(d_r18, d_jav) {
     if (d_jav instanceof MovieInfo) {
         let d = clone(d_r18);
-        if (d.actors.length == 0) d.actors = d_jav.actors;
-        if (d.genres.length == 0) d.genres = d_jav.genres;
-        if (d.posters.length == 0) d.posters = d_jav.posters;
-        if (!d.director) d.director = d_jav.director;
-        if (!d.label) d.label = d_jav.label;
-        if (!d.maker) d.maker = d_jav.maker;
+        util.syncObjects(d, d_jav);
+        if (d_jav.actors.length > 0) d.actors = d_jav.actors;
+        if (d_jav.director) d.director = d_jav.director;
+        if (d_jav.label) d.label = d_jav.label;
+        if (d_jav.maker) d.maker = d_jav.maker;
         return d;
     }
 
     if (d_jav instanceof SearchResult) {
         let mov = d_jav.results[0];
         if (d_r18.title == mov.title) {
-            let javlib = crawlers["javlibrary"];
             return javlib.crawl(mov.url)
             .then(d2 => {
                 if (d2) {
@@ -46,8 +47,6 @@ function mixMovieInfo(d_r18, d_jav) {
 }
 
 function crawl (options) {
-    let r18 = crawlers["r18"];
-
     if (typeof options == 'string') {
         return r18.crawl(options);
     }
@@ -59,11 +58,9 @@ function crawl (options) {
         throw new Error('Invalid Argument');
     }
     
-    let javlib = crawlers["javlibrary"];
-
     return Promise.all([
         r18.crawl({qtext: qtext, type: type}),
-        javlib.crawl({qtext: util.tryGetMovId(qtext), type: 'search', lang: 'en'}),
+        javlib.crawl({qtext: util.tryGetMovId(qtext), type: 'search', lang: 'ja'}),
     ])
     .then(data => {
         let d_r18 = data[0];

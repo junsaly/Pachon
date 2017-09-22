@@ -15,18 +15,15 @@ module.exports.target = function () {
     return TARGET;
 }
 
+const r18 = crawlers["r18"];
+const javlib = crawlers["javlibrary"];
+
 function mixMovieInfo(d_jav, d_r18, lang) {
     if (d_r18 instanceof MovieInfo) {
         let d = clone(d_jav);
-        d.transtitle = d_r18.transtitle;
-        d.screenshots = d_r18.screenshots;
-        if (d.actors.length == 0) d.actors = d_r18.actors;
-        if (d.posters.length == 0) d.posters = d_r18.posters;
-        if (!d.director) d.director = d_r18.director;
-        if (!d.label) d.label = d_r18.label;
-        if (!d.maker) d.maker = d_r18.maker;
-        if (!d.duration) d.duration = d_r18.duration;
-        if (!d.year) d.year = d_r18.year;
+        util.syncObjects(d, d_r18);
+        if (d_r18.transtitle) d.transtitle = d_r18.transtitle;
+        if (d_r18.screenshots.length > 0) d.screenshots = d_r18.screenshots;
         if (lang == 'en') {
             if (d_r18.genres.length > 0) d.genres = d_r18.genres;
         }
@@ -42,7 +39,6 @@ function mixMovieInfo(d_jav, d_r18, lang) {
 
         if (movs.length > 0) {
             let mov = movs[0];
-            let r18 = crawlers["r18"];
             return r18.crawl(mov.url)
             .then(d2 => {
                 if (d2) {
@@ -72,8 +68,6 @@ function crawl (options) {
         throw new Error('Invalid Argument');
     }
     
-    let r18 = crawlers["r18"];
-
     return Promise.all([
         javlib.crawl({qtext: qtext, type: type, lang: lang}),
         r18.crawl({qtext: qtext, type: 'search'}),

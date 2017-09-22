@@ -46,6 +46,7 @@ function firstSpider (selector) {
 
 function summon (options) {
     let target = options.target || '';
+    let qtext = options.qtext || '';
 
     if (options.assign) {
         let assign = options.assign;
@@ -53,21 +54,19 @@ function summon (options) {
         let spider = firstSpider(v => v.name() == assign && 
                                       v.target() == target);
         if (spider) {
-            return [spider, null];
+            return [spider, qtext];
         }
 
         let crawler = firstCrawler(v => v.name() == assign);
         if (crawler) {
-            return [crawler, null];
+            return [crawler, qtext];
         }
     }
-
-    let qtext = options.qtext || '';
 
     if (target == "human") {
         return [ 
             firstSpider(v => v.name() == "minnano-av"), 
-            null 
+            qtext 
         ];
     }
 
