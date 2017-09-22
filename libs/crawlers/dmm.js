@@ -120,7 +120,7 @@ function crawl (opt) {
                     url: decodeURIComponent($('div#sample-video a').first().attr('href')),
                 });
 
-                let movid = $('div#sample-video a').first().attr('id');
+                let movid = $('td:contains("品番：")').next().text().trim();
 
                 $('div#sample-image-block img').each((i, el) => {
                     let ele = $(el);

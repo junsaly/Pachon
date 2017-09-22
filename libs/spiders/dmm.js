@@ -20,10 +20,16 @@ function mixMovieInfo (des, src) {
     if (src.title) des.title = src.title;
     if (src.transtitle) des.transtitle = src.transtitle;
     if (src.genres.length > 0) des.genres = src.genres;
+    if (src.actors.length > 0 && des.actors.length == 0) des.actors = src.actors;
     return des;
 }
 
 function tryGetMovId (val) {
+    val = val.toLowerCase();
+    if (val.indexOf('h_') == 0) {
+        val = val.substring(2);
+    }
+
     let len = val.length;
     let startpos = 0;
     let endpos = 0;
