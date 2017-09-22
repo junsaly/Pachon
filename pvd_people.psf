@@ -128,7 +128,7 @@ end;
 procedure ParseHTML(URL, HTML: string);
 var
   StartPos, EndPos: Integer;
-  Rating, Bio, Cup, Blood, MinnaURL, Tags: String;
+  Rating, Bio, Cup, Blood, Tags: String;
   Val: String;
 begin
   StartPos := Pos('<div class="row my-name">', HTML);
@@ -268,8 +268,8 @@ begin
   EndPos := PosFrom('</div>', HTML, StartPos);
   
   // MinnaURL
-  Val := HTMLValue(HTML, StartPos, EndPos, 'openLink(''', ''')');
-  MinnaURL := Val;
+  Val := HTMLValue(HTML, StartPos, EndPos, 'openLink("', '")');
+  AddHTMLValue('url', Val);
   
   
   StartPos := PosFrom('Tags:', HTML, EndPos);
@@ -283,11 +283,7 @@ begin
     LogMessage('genre: ' + Val);
     StartPos := PosFrom('<div class="chip">', HTML, StartPos + 1);
   end;
- 
-  // Comment
-  // AddHTMLValue('comment', 'Minnano-av URL: ' + '<link url="' + MinnaURL + '">' + 'www.minnano-av.com' + '</link>');
-  AddHTMLValue('url', MinnaURL);
-  
+
   // Cup & Blood
   if (Cup = '') and (Blood = '') then
     Val := ''
@@ -329,7 +325,7 @@ begin
         BASE_URL + HTMLValue(HTML, ItemStart, ItemEnd, 'src="', '"')
     );
     URL := FormatURL(
-        BASE_URL + '/human/' + HTMLValue(HTML, ItemStart, ItemEnd, 'openLink(''', ''')')
+        BASE_URL + '/human/' + HTMLValue(HTML, ItemStart, ItemEnd, 'openLink("', '")')
     );
     Name := HTMLValue(HTML, ItemStart, ItemEnd, '>', '</a>') + '  |  ' + HTMLValue(HTML, ItemStart, ItemEnd, '<p class="transname">', '</p>');
     

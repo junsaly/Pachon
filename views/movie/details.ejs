@@ -66,7 +66,7 @@
                 <dl>
                     <dt>Director:</dt>
                     <dd>
-                        <a href="javascipt:void(0)" onClick="openLink('<%= director.url %>')"><%= director.text %></a>
+                        <a href="javascipt:void(0)" onclick="openLink('<%= director.url %>')"><%= director.text %></a>
                     </dd>
                 </dl>
                 <% } %>
@@ -76,7 +76,7 @@
                     <dd>
                         <% actors.forEach(actor => { %>
                         <div class="chip">
-                            <a href="javascipt:void(0)" onClick="openLink('<%= actor.url %>')"><%= actor.text %></a>
+                            <a href="javascipt:void(0)" onclick="openLink('<%= actor.url %>')"><%= actor.text %></a>
                         </div>
                         <% }) %>
                     </dd>
@@ -86,7 +86,7 @@
                 <dl>
                     <dt>Label:</dt>
                     <dd>
-                        <a href="javascipt:void(0)" onClick="openLink('<%= label.url %>')"><%= label.text %></a>
+                        <a href="javascipt:void(0)" onclick="openLink('<%= label.url %>')"><%= label.text %></a>
                     </dd>
                 </dl>
                 <% } %>
@@ -95,7 +95,7 @@
                 <dl>
                     <dt>Series:</dt>
                     <dd>
-                        <a href="javascipt:void(0)" onClick="openLink('<%= series.url %>')"><%= series.text %></a>
+                        <a href="javascipt:void(0)" onclick="openLink('<%= series.url %>')"><%= series.text %></a>
                     </dd>
                 </dl>
                 <% } %>
@@ -109,7 +109,7 @@
                 <dl>
                     <dt>Provider:</dt>
                     <dd>
-                        <a href="javascipt:void(0)" onClick="openLink('<%= provider.url %>')"><%= provider.text %></a>
+                        <a href="javascipt:void(0)" onclick="openLink('<%= provider.url %>')"><%= provider.text %></a>
                     </dd>
                 </dl>
                 <% } %>
@@ -120,7 +120,7 @@
                     <dd>
                         <% genres.forEach(genre => { %>
                         <div class="chip">
-                            <a href="javascipt:void(0)" onClick="openLink('<%= genre.url %>')"><%= genre.text %></a>
+                            <a href="javascipt:void(0)" onclick="openLink('<%= genre.url %>')"><%= genre.text %></a>
                         </div>
                         <% }) %>
                     </dd>
@@ -133,7 +133,7 @@
                     <dd>
                         <% tags.forEach(tag => { %>
                         <div class="chip">
-                            <a href="javascipt:void(0)" onClick="openLink('<%= tag.url %>')"><%= tag.text %></a>
+                            <a href="javascipt:void(0)" onclick="openLink('<%= tag.url %>')"><%= tag.text %></a>
                         </div>
                         <% }) %>
                     </dd>
@@ -156,7 +156,7 @@
 
                 <dl>
                     <dt>URL:</dt>
-                    <dd><a href="javascipt:void(0)" class="truncate" onClick="openLink('<%= url %>')"><%= url %></a></dd>
+                    <dd><a href="javascipt:void(0)" class="truncate" onclick="openLink('<%= url %>')"><%= url %></a></dd>
                 </dl>
             </div>
         </div>

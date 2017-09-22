@@ -230,7 +230,7 @@ begin
         EndPos := PosFrom('</dd>', HTML, StartPos);
         AddFieldValue(11, 'Label: ' + HTMLValue(HTML, StartPos, EndPos, '>', '</a>'));
         sLabel := 'Label: <link url="' + 
-            HTMLValue(HTML, StartPos, EndPos, 'openLink(''', ''')') + 
+            HTMLValue(HTML, StartPos, EndPos, 'openLink("', '")') + 
             '">' + HTMLValue(HTML, StartPos, EndPos, '>', '</a>') + '</link>';
         
         AddFieldValue(6, HTMLValue(HTML, StartPos, EndPos, '>', '</a>'));
@@ -244,7 +244,7 @@ begin
         EndPos := PosFrom('</dd>', HTML, StartPos);
         AddFieldValue(11, 'Series: ' + HTMLValue(HTML, StartPos, EndPos, '>', '</a>'));
         sSeries := 'Series: <link url="' + 
-            HTMLValue(HTML, StartPos, EndPos, 'openLink(''', ''')') + 
+            HTMLValue(HTML, StartPos, EndPos, 'openLink("', '")') + 
             '">' + HTMLValue(HTML, StartPos, EndPos, '>', '</a>') + '</link>';
         
         AddFieldValue(6, HTMLValue(HTML, StartPos, EndPos, '>', '</a>'));
@@ -262,7 +262,7 @@ begin
         EndPos := PosFrom('</dd>', HTML, StartPos);
         AddFieldValue(11, 'Provider: ' + HTMLValue(HTML, StartPos, EndPos, '>', '</a>'));
         sProvider := 'Provider: <link url="' + 
-            HTMLValue(HTML, StartPos, EndPos, 'openLink(''', ''')') + 
+            HTMLValue(HTML, StartPos, EndPos, 'openLink("', '")') + 
             '">' + HTMLValue(HTML, StartPos, EndPos, '>', '</a>') + '</link>';
         
         AddFieldValue(6, HTMLValue(HTML, StartPos, EndPos, '>', '</a>'));
@@ -371,7 +371,7 @@ begin
         BASE_URL + HTMLValue(HTML, ItemStart, ItemEnd, 'src="', '"')
     );
     URL := FormatURL(
-        BASE_URL + '/movie/' + HTMLValue(HTML, ItemStart, ItemEnd, 'openLink(''', ''')')
+        BASE_URL + '/movie/' + HTMLValue(HTML, ItemStart, ItemEnd, 'openLink("', '")')
     );
     Name := HTMLValue(HTML, ItemStart, ItemEnd, '>', '</a>') + '  |  ' + HTMLValue(HTML, ItemStart, ItemEnd, '<p class="origtitle">', '</p>');
     
