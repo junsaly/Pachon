@@ -114,25 +114,28 @@ function crawl (opt) {
                 val = val[val.length - 1].nodeValue;
 
                 if (lang == 'ja') {
-                    info.origtitle = val;
+                    info.origtitle = util.wrapText(val);
                 }
 
                 if (lang == 'en') {
-                    info.transtitle = val;
+                    info.transtitle = util.wrapText(val);
                 }
 
                 info.releasedate = rootEl.find('li').eq(0).find('span').eq(1).text();
                 info.year = info.releasedate.substring(0, 4);
 
                 var val = rootEl.find('li').eq(1).find('a');
-                val.text().split(' ').forEach(v => {
-                    let actor = {
-                        url: getBaseURL(lang) + val.attr('href'),
-                        text: v.trim()
-                    }
-
-                    info.actors.push(actor);
-                });
+                val = val.text();
+                if (val.length < 50) {
+                    val.split(' ').forEach(v => {
+                        let actor = {
+                            url: getBaseURL(lang) + val.attr('href'),
+                            text: v.trim()
+                        }
+    
+                        info.actors.push(actor);
+                    });
+                }
 
                 var val = rootEl.find('li').eq(2).find('a');
                 info.provider = {

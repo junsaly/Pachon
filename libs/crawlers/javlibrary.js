@@ -64,10 +64,10 @@ function thenIfSearch ($, url, urlpath, lang) {
         }
         
         if (lang == 'en') {
-            info.transtitle = ele.find('a div.title').text();
+            info.transtitle = util.wrapText(ele.find('a div.title').text());
         }
         if (lang == 'ja') {
-            info.origtitle = ele.find('a div.title').text();
+            info.origtitle = util.wrapText(ele.find('a div.title').text());
         }
 
         result.results.push(info);

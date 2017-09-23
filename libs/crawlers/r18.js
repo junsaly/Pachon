@@ -90,7 +90,7 @@ function thenIfSearch ($, url) {
         let info = new MovieInfo();
 
         info.url = ele.find('a').attr('href');
-        info.transtitle = ele.find('img').attr('alt');
+        info.transtitle = util.wrapText(ele.find('img').attr('alt'));
         info.title = ele.find('.cmn-btn-imgHover01 a').attr('data-id');
         info.posters.push({
             url: util.replaceAll(
@@ -118,7 +118,7 @@ function thenIfSearch ($, url) {
 function thenIfId ($, url) {
     let info = new MovieInfo({url: url, country: 'Japan', origlang: 'Japanese'});
     
-    info.transtitle = $('h1').first().text().trim();
+    info.transtitle = util.wrapText($('h1').first().text().trim());
     info.releasedate = formatReleaseDate(
         $('dt:contains("Release Date:")').next().text().trim()
     );

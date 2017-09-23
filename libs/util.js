@@ -21,6 +21,19 @@ function formatText (str) {
 module.exports.formatText = formatText;
 
 
+function wrapText (val, maxLength) {
+    if (!maxLength) {
+        maxLength = 50;
+    }
+    if (val.length < maxLength) {
+        return val;
+    }
+    return val.substring(0, maxLength - 3) + '...';
+}
+
+module.exports.wrapText = wrapText;
+
+
 function replaceAll (s, oldS, newS) {
     return s.split(oldS).join(newS);
 }

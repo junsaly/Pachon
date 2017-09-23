@@ -158,24 +158,28 @@ function request (args, callback) {
         fn = callback;
     }
 
-    httpRequest(args["request"], (err, res, body) => {
-        
-        if (err) {
-            return fn(err, null);
-        }
-
-        if (res.statusCode !== 200) {
-            return fn(new Error("HTTP Code " + res.statusCode), null);
-        }
-
-        let charset = args["process"].charset;
-
-        if (!charset) {
-            charset = findEncoding(res, iconv.decode(body, "utf8")) || "utf8";
-        }
-
-        fn(null, { res: res, body: iconv.decode(body, charset) });        
-    })
+    try {
+        httpRequest(args["request"], (err, res, body) => {
+            
+            if (err) {
+                return fn(err, null);
+            }
+    
+            if (res.statusCode !== 200) {
+                return fn(new Error("HTTP Code " + res.statusCode), null);
+            }
+    
+            let charset = args["process"].charset;
+    
+            if (!charset) {
+                charset = findEncoding(res, iconv.decode(body, "utf8")) || "utf8";
+            }
+    
+            fn(null, { res: res, body: iconv.decode(body, charset) });        
+        })
+    } catch (ex) {
+        fn(ex, null);
+    }
 }
 
 function get (options, callback) {
@@ -216,7 +220,6 @@ function get (options, callback) {
 
         try {
             var $ = loadBody(body, res);
-     
             return fn(null, $);
         } catch (ex) {
             return fn(ex, null);
@@ -257,7 +260,6 @@ function post (options, callback) {
 
         try {
             var $ = loadBody(body, res);
-
             return fn(null, $);
         } catch (ex) {
             return fn(ex, null);
@@ -294,11 +296,15 @@ function retrieve (url, location, callback) {
                     var requestOpt = prepare({
                         url: url
                     })["request"];
-        
-                    httpRequest(requestOpt)
-                        .pipe(fs.createWriteStream(filepath))
-                        .on('finish', () => callback(null))
-                        .on('error', err => callback(err));
+                    
+                    try {
+                        httpRequest(requestOpt)
+                            .pipe(fs.createWriteStream(filepath))
+                            .on('finish', () => callback(null))
+                            .on('error', err => callback(err));
+                    } catch (ex) {
+                        callback(ex);
+                    }
                 }
             });     
         } else {
@@ -325,10 +331,14 @@ function pipe (options, callback) {
         fn = callback;
     }
 
-    httpRequest(args["request"])
-        .pipe(args["process"].target)
-        .on('finish', () => fn(null))
-        .on('error', err => callback(err));
+    try {
+        httpRequest(args["request"])
+            .pipe(args["process"].target)
+            .on('finish', () => fn(null))
+            .on('error', err => callback(err));
+    } catch (ex) {
+        fn(ex);
+    }
 }
 
 module.exports.pipe = pipe;

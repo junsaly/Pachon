@@ -99,7 +99,7 @@ function crawl (opt) {
                         url: ele.find('img').attr('src')
                     });
                     info.title = movid
-                    info.origtitle = ele.find('img').attr('alt');
+                    info.origtitle = util.wrapText(ele.find('img').attr('alt'));
 
                     let tag = ele.find('div.value p.price');
                     if (tag.length > 0) {
@@ -141,7 +141,7 @@ function crawl (opt) {
                 });
                 
                 info.title = util.tryGetMovId(movid);
-                info.origtitle = $('h1#title').text();
+                info.origtitle = util.wrapText($('h1#title').text());
 
                 info.description = $('div.mg-b20.lh4').text().trim().split('\n')[0];
 
