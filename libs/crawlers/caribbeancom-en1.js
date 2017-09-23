@@ -87,7 +87,7 @@ function crawl (opt) {
                 info.maker = 'Caribbeancom';
 
                 let rawgenres = 
-                    $('head meta[name="keywords"]').attr("content").trim().split(',');
+                    $('[name="keywords"]').attr("content").trim().split(',');
 
                 for (var i = info.actors.length; i < rawgenres.length; i++) {
                     let genre = {
