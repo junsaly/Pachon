@@ -1,5 +1,7 @@
 'use strict';
 
+const util = require('./util.js');
+
 const CATEGORIES = {
     ja : {
         // Update on 17-09-23
@@ -35,7 +37,7 @@ const CATEGORIES = {
         "中出し": "Creampie",
         "オナニー": "Masturbation",
         "潮吹き": "Squirting",
-        "生ハメ・生姦": "No Condom / Pregnant",
+        "生ハメ/生姦": "No Condom / Pregnant",
         "ナンパ": "Nanpa",
         "ハメ撮り": "Gonzo",
         "パイズリ": "Fucking",
@@ -51,9 +53,9 @@ const CATEGORIES = {
         "口内発射": "Oral In The Mouth",
         "SM": "SM",
         "ごっくん": "Cum Swallowing",
-        "淫語": "Dirty Language",
+        "淫語": "Dirty Talk",
         "野外露出": "Outdoor Exposure",
-        "青姦": "Aoi",
+        "青姦": "Rape",
         "痴漢": "Molester",
         "剃毛": "Shaved",
         "カーセックス": "Car Sex",
@@ -79,7 +81,7 @@ const CATEGORIES = {
         "初裏": "Debut",
         "ロリ系": "Lolita",
         "熟女/人妻": "MILF / Housewife",
-        "浴衣・着物": "Yukata / Kimono",
+        "浴衣/着物": "Yukata / Kimono",
         "看護婦": "Nurse",
         "レズ": "Lesbian",
         "洋物": "Foreign",
@@ -93,9 +95,9 @@ const CATEGORIES = {
         "浴衣": "Yukata",
         "着物": "Kimono",
         "熟女": "MILF",
-        "人妻": "Housewife",
         "ザーメン": "Semen",
         "人気シリーズ": "Polular Series",
+
 
         // Source: http://www.10musume.com
         // Other
@@ -108,8 +110,45 @@ const CATEGORIES = {
 
         // Body type
         "ぽっちゃり": "Chubby",
+
+
+        // Source: http://dmm.co.jp
+        // Situation
+        "人妻": "Housewife",
+
+        // Type
+
+        // Costume
+
+        // Genre
+        "単体作品": "Solowork",
+        "調教/奴隷": "Training / Slave",
+        "調教": "Training",
+        "奴隷": "Slave",
+        "寝取り/寝取られ": "Netori / Netore",
+        "寝取り": "Netori",
+        "寝取られ": "Netore",
+        "ドラマ": "Drama",
+
+        // Contents Of Play
+        "3P/4P": "3P / 4P",
+        "4P": "4P",
+        "拘束": "Restrain",
+        "母乳": "Breast Milk",
+
+        // Other
+        "サンプル動画": "Sample Video",
     }
 };
+
+function formatWord (value) {
+    var p = util.split(value, ['・', '、']);
+    if (p.length > 1) {
+        return p.join('/');
+    }
+
+    return value;
+}
 
 module.exports = function (options) {
     var lang, word;
@@ -124,6 +163,8 @@ module.exports = function (options) {
         word = (arguments[1] || '') + '';
     }
 
+    var word_formatted = formatWord(word);
+
     if (lang == 'en') {
         return word;
     }
@@ -134,5 +175,5 @@ module.exports = function (options) {
         throw new Error('Language not found: ' + lang);
     }
 
-    return dict[word] || word;
+    return dict[word_formatted] || word;
 }

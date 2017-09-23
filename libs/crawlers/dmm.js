@@ -68,7 +68,7 @@ function crawl (opt) {
     return new Promise((resolve, reject) => {
         leech.get(url)
         .then($ => {
-            if ($('p.red').length > 1 ||
+            if ($('p.red:contains("に一致する商品は見つかりませんでした。")').length > 0 ||
                 $('h1:contains("UNBLOCKDMM")').length > 0) {
                 return resolve(null);
             }

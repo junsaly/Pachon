@@ -48,6 +48,10 @@ function crawlByUrl (url, movid) {
         let d21 = d2[0];
         let d22 = d2[1];
 
+        if (!d21) {
+            return null;
+        }
+
         if (d22) {
             let d = clone(d21);
             mixMovieInfo(d, d22);

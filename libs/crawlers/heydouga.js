@@ -3,6 +3,7 @@
 const { MovieInfo } = require('../../models/types.js');
 const leech = require('../leech-promise.js');
 const util = require('../util.js');
+const dict = require('../category-dictionary.js');
 
 const NAME = 'heydouga';
 module.exports.name = function () {
@@ -150,7 +151,7 @@ function crawl (opt) {
                     let ele = $(el);
                     let genre = {
                         url: getBaseURL(lang) + ele.attr('href'),
-                        text: ele.text().trim()
+                        text: dict(lang, ele.text().trim())
                     };
 
                     info.genres.push(genre);
