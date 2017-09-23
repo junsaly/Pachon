@@ -113,21 +113,25 @@ function findEncoding (res, body) {
     }
 
     if (!charset) {
-        let startpos = body.indexOf('<meta charset="');
-        let endpos = body.indexOf('">', startpos);
-        charset = body.substring(
-            startpos + '<meta charset="'.length,
-            endpos
-        );
+        var startpos = body.indexOf('<meta charset="');
+        var endpos = body.indexOf('">', startpos);
+        if (startpos > -1 && endpos > startpos) {
+            charset = body.substring(
+                startpos + '<meta charset="'.length,
+                endpos
+            );
+        }
     }
 
     if (!charset) {
-        let startpos = body.indexOf('<meta http-equiv="Content-Type" content="text/html; charset=');
-        let endpos = body.indexOf('">', startpos);
-        charset = body.substring(
-            startpos + '<meta http-equiv="Content-Type" content="text/html; charset='.length,
-            endpos
-        );
+        var startpos = body.indexOf('<meta http-equiv="Content-Type" content="text/html; charset=');
+        var endpos = body.indexOf('">', startpos);
+        if (startpos > -1 && endpos > startpos) {
+            charset = body.substring(
+                startpos + '<meta http-equiv="Content-Type" content="text/html; charset='.length,
+                endpos
+            );
+        }
     }
 
     return charset;
