@@ -28,6 +28,24 @@ function replaceAll (s, oldS, newS) {
 module.exports.replaceAll = replaceAll;
 
 
+function format (s) {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+        args[i] = arguments[i];
+    }
+    args = args.slice(1);
+
+    var res = s;
+    for (var i=0; i<args.length; i++) {
+        res = replaceAll(res, '{' + i + '}', args[i]);
+    }
+
+    return res;
+}
+
+module.exports.format = format;
+
+
 function split (s, delimiters) {
     if (typeof delimiters == 'string') {
         return s.split(delimiters);
@@ -251,3 +269,16 @@ function syncObjects (des, src) {
 }
 
 module.exports.syncObjects = syncObjects;
+
+
+function catchError (err, resolve, reject) {
+    var mss = err.message;
+    if (mss.indexOf('HTTP Code') >= 0) {
+        console.log('<' + mss + '> at ' + url)
+        resolve(null);
+    } else {
+        reject(err);
+    }
+}
+
+module.exports.catchError = catchError;

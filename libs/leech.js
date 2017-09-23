@@ -96,6 +96,16 @@ function prepare (args) {
     };
 }
 
+function loadBody (body, response) {
+    var $ = cheerio.load(body, { decodeEntities: false });
+    $.response = response;
+    $.getCurrentURL = function () {
+        return this.response.request.uri['href'];
+    }
+
+    return $;
+}
+
 function findEncoding (res, body) {
     let charset = "";
 
@@ -205,8 +215,7 @@ function get (options, callback) {
         let body = data.body;
 
         try {
-            var $ = cheerio.load(body, { decodeEntities: false });
-            $.response = res;
+            var $ = loadBody(body, res);
      
             return fn(null, $);
         } catch (ex) {
@@ -247,8 +256,7 @@ function post (options, callback) {
         let body = data.body;
 
         try {
-            var $ = cheerio.load(body, { decodeEntities: false });
-            $.response = res;
+            var $ = loadBody(body, res);
 
             return fn(null, $);
         } catch (ex) {

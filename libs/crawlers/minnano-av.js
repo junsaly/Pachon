@@ -215,7 +215,7 @@ function crawl (opt) {
 
                     // return HumanInfo
                     var info = new HumanInfo({
-                        url: $.response.request.uri['href']
+                        url: $.getCurrentURL()
                     });
 
                     var ele = $('div.act-area'),
