@@ -1,7 +1,19 @@
 'use strict';
 
-const NodeCache = require('node-cache');
-const cache = new NodeCache();
+var NodeCache = require('node-cache');
+var cache = new NodeCache( { stdTTL: 60, checkperiod: 20 } );
+
+cache.on("set", function( key, value ){
+    console.log('Set: [' + key + '] ' + value);
+});
+
+// cache.on("del", function (key, value) {
+//     console.log('Del: [' + key + '] ' + value);
+// });
+
+cache.on("expired", function( key, value ){
+    console.log('Expired: [' + key + '] ' + value);
+});
 
 function getKey (type, key) {
 

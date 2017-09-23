@@ -5,7 +5,7 @@ const expect = require('chai').expect;
 
 const types = require('../models/types.js');
 
-describe.only('util.js test suite', function() {
+describe('util.js test suite', function() {
     
     const util = require('../libs/util.js');
 

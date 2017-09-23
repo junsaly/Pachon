@@ -3,7 +3,20 @@
 const { MovieInfo, SearchResult } = require('../../models/types.js');
 const leech = require('../leech-promise.js');
 const util = require('../util.js');
-require('../date.js');
+const months = {
+    "Jan." : 1,
+    "Feb." : 2,
+    "Mar." : 3,
+    "Apr." : 4,
+    "May"  : 5,
+    "June" : 6,
+    "July" : 7,
+    "Aug." : 8,
+    "Sept.": 9,
+    "Oct." : 10,
+    "Nov." : 11,
+    "Dec." : 12,
+}
 
 const NAME = 'r18';
 module.exports.name = function () {
@@ -23,8 +36,16 @@ module.exports.domain = function () {
 const BASE_URL = 'http://' + DOMAIN;
 
 function formatReleaseDate (val) {
-    let d = Date.parse(val);
-    return d.toString('yyyy-MM-dd');
+    val = val.split(',');
+    let year = val[1].trim();
+    val = val.split(' ');
+    let month = months[val[0].trim()];
+    let day = val[1].trim();
+
+    if (day < 10) {day = '0' + day;}
+    if (month < 10) {month = '0' + month;}
+
+    return year + '-' + month + '-' + day;
 }
 
 function formatText (val) {
