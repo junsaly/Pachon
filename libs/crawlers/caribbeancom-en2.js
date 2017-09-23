@@ -99,6 +99,11 @@ function crawl (opt) {
                 }
 
                 info.description = $('div.movie-comment > p').text().trim();
+                if (info.description.indexOf(
+                    'Caribbeancom has the widest selection of best'
+                ) > -1) {
+                    info.description = '';
+                }
 
                 info.posters.push({
                     url: formatPoster(url)
