@@ -94,12 +94,31 @@ function summon (options) {
             }
 
         } else {
-            crawler = firstSpider(v => v.name() == "dmm");
             movid = qtext;
         }
 
         return [ crawler, movid ];
     }
+
+    return [];
+}
+
+const HINTS_LIST = [
+    { crawler: 'r18', regex: /^asw-\d{3}$/ },
+    { crawler: 'dmm', regex: /.*/ },
+];
+
+function findHintsList (movid) {
+    var id = (movid || '').toLowerCase();
+    if (!id) {
+        return null;
+    }
+    for (var hint of HINTS_LIST) {
+        if (hint.regex.test(id)) {
+            return hint.crawler;
+        }
+    }
+    return null;
 }
 
 function crawl (queryText, options) {
@@ -117,13 +136,23 @@ function crawl (queryText, options) {
         throw new Error("Invalid Arguments");
     }
 
-    let [ spider, id ] = summon({
+    let [ crawler, id ] = summon({
         target: target, 
         qtext: qtext,
         assign: options.assign,
     });
 
-    if (!spider) {
+    if (!crawler) {
+        let crawlerName = findHintsList(id);
+        if (crawlerName) {
+            crawler = summon({
+                assign: crawlerName,
+                target: target,
+            })[0];
+        }
+    }
+
+    if (!crawler) {
         return Promise.reject('Crawler not found');
     }
 
@@ -131,10 +160,17 @@ function crawl (queryText, options) {
     if (data_cached) {
         return Promise.resolve(data_cached);
     } else {
-        return spider.crawl({
+        let options = {
             "type": type,
             "qtext": id,
-        }).then(data => {
+        };
+
+        console.log(
+            'Crawler: ' + crawler.name() + ' ' + 
+            JSON.stringify(options)
+        );
+
+        return crawler.crawl(options).then(data => {
             switch (type) {
                 case "search":
                     cache.set('data', id, data, 1800); // 30 minutes

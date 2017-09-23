@@ -140,7 +140,7 @@ function crawl (opt) {
                     });
                 });
                 
-                info.title = movid;
+                info.title = util.tryGetMovId(movid);
                 info.origtitle = $('h1#title').text();
 
                 info.description = $('div.mg-b20.lh4').text().trim().split('\n')[0];

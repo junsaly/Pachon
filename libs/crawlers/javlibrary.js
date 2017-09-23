@@ -67,7 +67,7 @@ function thenIfSearch ($, url, urlpath, lang) {
             info.transtitle = ele.find('a div.title').text();
         }
         if (lang == 'ja') {
-            info.title = ele.find('a div.title').text();
+            info.origtitle = ele.find('a div.title').text();
         }
 
         result.results.push(info);
