@@ -2,9 +2,10 @@
 
 const CATEGORIES = {
     ja : {
-        // Update At 17-09-23
+        // Update on 17-09-23
 
         // Source: http://www.caribbeancompr.com/category.html
+        // Source: http://www.caribbeancom.com/category.html
         // Actress Type
         "AV女優": "AV Actress",
         "素人": "Amateur",
@@ -19,7 +20,7 @@ const CATEGORIES = {
         "お姉さん": "Older Sister",
         "美尻": "Nice Bottom",
         "美脚": "Legs",
-        "微乳": "Small Milk",
+        "微乳": "Small Tits",
         "そっくりさん": "Same-Sick",
         "10代": "10'S",
         "ニューハーフ": "Shemale",
@@ -31,10 +32,10 @@ const CATEGORIES = {
         "フェラ": "Fellatio",
         "クンニ": "Cunni",
         "バイブ": "Vibe",
-        "中出し": "Cum Inside",
+        "中出し": "Creampie",
         "オナニー": "Masturbation",
         "潮吹き": "Squirting",
-        "生ハメ・生姦": "Slug / Pregnant",
+        "生ハメ・生姦": "No Condom / Pregnant",
         "ナンパ": "Nanpa",
         "ハメ撮り": "Gonzo",
         "パイズリ": "Fucking",
@@ -44,17 +45,17 @@ const CATEGORIES = {
         "コスプレ": "Cosplay",
         "ぶっかけ": "Bukkake",
         "手コキ": "Handjob",
-        "縛り(": "Tie Down",
-        "ハード系": "Hard System",
+        "縛り": "Bondage",
+        "ハード系": "Hardcore",
         "イラマチオ": "Imamachio",
         "口内発射": "Oral In The Mouth",
         "SM": "SM",
         "ごっくん": "Cum Swallowing",
-        "淫語": "Language",
+        "淫語": "Dirty Language",
         "野外露出": "Outdoor Exposure",
         "青姦": "Aoi",
         "痴漢": "Molester",
-        "剃毛": "Shave",
+        "剃毛": "Shaved",
         "カーセックス": "Car Sex",
         "クスコ": "Cusco",
         "ベスト/オムニバス": "Best Of / Various Actors",
@@ -78,7 +79,6 @@ const CATEGORIES = {
         "初裏": "Debut",
         "ロリ系": "Lolita",
         "熟女/人妻": "MILF / Housewife",
-        "縛り": "Bondage",
         "浴衣・着物": "Yukata / Kimono",
         "看護婦": "Nurse",
         "レズ": "Lesbian",
@@ -86,7 +86,7 @@ const CATEGORIES = {
         "3P": "3P",
         "洋物": "Western",
         "金髪": "Blond Hair",
-        "生ハメ": "Slug",
+        "生ハメ": "No Condom",
         "生姦": "Pregnant",
         "ベスト": "Best Of",
         "オムニバス": "Various Actors",
@@ -94,6 +94,8 @@ const CATEGORIES = {
         "着物": "Kimono",
         "熟女": "MILF",
         "人妻": "Housewife",
+        "ザーメン": "Semen",
+        "人気シリーズ": "Polular Series",
 
         // Source: http://www.10musume.com
         // Other
