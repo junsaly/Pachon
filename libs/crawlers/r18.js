@@ -205,16 +205,6 @@ function thenIfId ($, url) {
     return info;
 }
 
-function catchError (err, resolve, reject) {
-    var mss = err.message;
-    if (mss.indexOf('HTTP Code') >= 0) {
-        console.log('<' + mss + '> at ' + url)
-        resolve(null);
-    } else {
-        reject(err);
-    }
-}
-
 function crawl (opt) {
     let url = "";
     if (typeof opt == 'string') {
@@ -252,11 +242,11 @@ function crawl (opt) {
                     // Search result
                     Promise.resolve(thenIfSearch($, url))
                         .then(data => resolve(data))
-                        .catch(err => catchError(err, resolve, reject));
+                        .catch(err => util.catchURLError(url, err, resolve, reject));
                 }
             }
         })
-        .catch(err => catchError(err, resolve, reject));
+        .catch(err => util.catchURLError(url, err, resolve, reject));
     });
 }
 

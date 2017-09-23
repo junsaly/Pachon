@@ -167,7 +167,7 @@ function crawl (opt) {
                 resolve(info);
             }
         })
-        .catch(err => util.catchError(err, resolve, reject));
+        .catch(err => util.catchURLError(url, err, resolve, reject));
     })
 }
 

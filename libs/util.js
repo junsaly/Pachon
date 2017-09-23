@@ -284,7 +284,7 @@ function syncObjects (des, src) {
 module.exports.syncObjects = syncObjects;
 
 
-function catchError (err, resolve, reject) {
+function catchURLError (url, err, resolve, reject) {
     var mss = err.message;
     if (mss.indexOf('HTTP Code') >= 0) {
         console.log('<' + mss + '> at ' + url)
@@ -294,4 +294,4 @@ function catchError (err, resolve, reject) {
     }
 }
 
-module.exports.catchError = catchError;
+module.exports.catchURLError = catchURLError;

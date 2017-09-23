@@ -167,16 +167,6 @@ function thenIfId ($, url, urlpath, lang) {
     return info;
 }
 
-function catchError (err, resolve, reject) {
-    var mss = err.message;
-    if (mss.indexOf('HTTP Code') >= 0) {
-        console.log('<' + mss + '> at ' + url)
-        resolve(null);
-    } else {
-        reject(err);
-    }
-}
-
 function crawl (opt) {
     let url = "";
     let lang = "en";
@@ -217,7 +207,7 @@ function crawl (opt) {
                     // Search result
                     Promise.resolve(thenIfSearch($, url, urlpath, lang))
                         .then(data => resolve(data))
-                        .catch(err => catchError(err, resolve, reject));
+                        .catch(err => util.catchURLError(url, err, resolve, reject));
                 }
 
                 else {
@@ -231,7 +221,7 @@ function crawl (opt) {
                 }
             }
         })
-        .catch(err => catchError(err, resolve, reject));
+        .catch(err => util.catchURLError(url, err, resolve, reject));
     });
 }
 
