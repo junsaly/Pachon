@@ -24,9 +24,7 @@ function mixMovieInfo(d_jav, d_r18, lang) {
         util.syncObjects(d, d_r18);
         if (d_r18.transtitle) d.transtitle = d_r18.transtitle;
         if (d_r18.screenshots.length > 0) d.screenshots = d_r18.screenshots;
-        if (lang == 'en') {
-            if (d_r18.genres.length > 0) d.genres = d_r18.genres;
-        }
+        d.genres = d_r18.genres;
         return d;
     }
 

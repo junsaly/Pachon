@@ -19,28 +19,36 @@ const dmm = crawlers['dmm'];
 const javlib = require('./javlibrary.js');
 
 function mixMovieInfo (des, src) {
-    if (src.title) des.title = src.title;
-    if (src.transtitle) des.transtitle = src.transtitle;
+    util.syncObjects(des, src);
     if (src.genres.length > 0) des.genres = src.genres;
-    if (src.actors.length > 0 && des.actors.length == 0) des.actors = src.actors;
-    if (src.screenshots.length > 0 && des.screenshots.length == 0) des.screenshots = src.screenshots;
+    if (src.title) des.title = src.title;
     return des;
+}
+
+function crawlAdditionData (movid) {
+    return javlib.crawl({
+        qtext: movid,
+        type: 'search',
+        lang: 'ja',
+    })
+    .then(d => {
+        if (d instanceof MovieInfo) {
+            return d;
+        }
+        return null;
+    })
 }
 
 function crawlByUrl (url, movid) {
     return Promise.all([
         dmm.crawl(url),
-        javlib.crawl({
-            qtext: movid,
-            type: 'search',
-            lang: 'en',
-        }),
+        crawlAdditionData(movid),
     ])
     .then(d2 => {
         let d21 = d2[0];
         let d22 = d2[1];
 
-        if (d22 instanceof MovieInfo) {
+        if (d22) {
             let d = clone(d21);
             mixMovieInfo(d, d22);
             return d;
@@ -89,13 +97,9 @@ function thenIfSearch (d1, opt) {
 
 function thenIfId (d1, opt) {
     let movid = util.tryGetMovId(d1.title);
-    return javlib.crawl({
-        qtext: movid,
-        type: 'search',
-        lang: 'en',
-    })
+    return crawlAdditionData(movid)
     .then(d2 => {
-        if (d2 instanceof MovieInfo) {
+        if (d2) {
             let d = clone(d1);
             mixMovieInfo(d, d2);
             return d;

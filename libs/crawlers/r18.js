@@ -38,7 +38,7 @@ const BASE_URL = 'http://' + DOMAIN;
 function formatReleaseDate (val) {
     val = val.split(',');
     let year = val[1].trim();
-    val = val.split(' ');
+    val = val[0].split(' ');
     let month = months[val[0].trim()];
     let day = val[1].trim();
 
