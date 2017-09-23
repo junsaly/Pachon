@@ -31,9 +31,12 @@ function getKey (type, key) {
     return '[' + typ + ']' + ky;
 }
 
-function set (type, key, val) {
+function set (type, key, val, ttl) {
     let storeKey = getKey(type, key);
-    return cache.set(storeKey, val);
+    if (cache.get(storeKey)) {
+        return true;
+    }
+    return cache.set(storeKey, val, ttl);
 }
 
 module.exports.set = set;

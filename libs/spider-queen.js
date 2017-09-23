@@ -1,5 +1,6 @@
 'use strict';
 
+const cache = require('../config/cache.js');
 const crawlers = require('./crawlers');
 const spiders = require('./spiders');
 const util = require('./util.js');
@@ -126,10 +127,27 @@ function crawl (queryText, options) {
         return Promise.reject('Crawler not found');
     }
 
-    return spider.crawl({
-        "type": type,
-        "qtext": id,
-    });
+    let data_cached = cache.get('data', id);
+    if (data_cached) {
+        return Promise.resolve(data_cached);
+    } else {
+        return spider.crawl({
+            "type": type,
+            "qtext": id,
+        }).then(data => {
+            switch (type) {
+                case "search":
+                    cache.set('data', id, data, 1800); // 30 minutes
+                    break;
+
+                case "id":
+                    cache.set('data', id, data, 3600); // 1 hour
+                    break;
+            }
+            
+            return data;
+        });
+    }
 }
 
 module.exports.crawl = crawl;
