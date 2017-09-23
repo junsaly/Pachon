@@ -3,6 +3,7 @@
 const { MovieInfo, SearchResult } = require('../../models/types.js');
 const leech = require('../leech-promise.js');
 const util = require('../util.js');
+const dict = require('../category-dictionary.js');
 const parseURL = require('url').parse;
 
 const NAME = 'javlibrary';
@@ -147,7 +148,7 @@ function thenIfId ($, url, urlpath, lang) {
         let ele = $(el);
         let genre = {
             url: urlpath + ele.attr('href'),
-            text: ele.text(),
+            text: dict(lang, ele.text()),
         }
 
         info.genres.push(genre);

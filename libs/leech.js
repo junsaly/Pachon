@@ -164,9 +164,7 @@ function request (args, callback) {
             charset = findEncoding(res, iconv.decode(body, "utf8")) || "utf8";
         }
 
-        let data = iconv.decode(body, charset);
-
-        fn(null, data);        
+        fn(null, { res: res, body: iconv.decode(body, charset) });        
     })
 }
 
@@ -203,8 +201,13 @@ function get (options, callback) {
             return fn(err, null);
         }
 
+        let res = data.res;
+        let body = data.body;
+
         try {
-            var $ = cheerio.load(data, { decodeEntities: false });
+            var $ = cheerio.load(body, { decodeEntities: false });
+            $.response = res;
+     
             return fn(null, $);
         } catch (ex) {
             return fn(ex, null);
@@ -240,8 +243,13 @@ function post (options, callback) {
             return fn(err, null);
         }
 
+        let res = data.res;
+        let body = data.body;
+
         try {
-            var $ = cheerio.load(data, { decodeEntities: false });
+            var $ = cheerio.load(body, { decodeEntities: false });
+            $.response = res;
+
             return fn(null, $);
         } catch (ex) {
             return fn(ex, null);

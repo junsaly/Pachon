@@ -36,7 +36,6 @@ function crawl (opt) {
             if (d3) {
                 if (d3.transtitle) d.transtitle = d3.transtitle;
                 if (d3.description) d.description = d3.description;
-                if (d3.genres.length > 0) d.genres = d3.genres;
             }
             if (d2) {
                 if (d2.transtitle && !d.transtitle) d.transtitle = d2.transtitle;

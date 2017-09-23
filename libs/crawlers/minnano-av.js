@@ -2,6 +2,7 @@
 
 const { HumanName, HumanInfo, SearchResult } = require('../../models/types.js');
 const leech = require('../leech-promise.js');
+const dict = require('../category-dictionary.js');
 
 const NAME = 'minnano-av';
 module.exports.name = function () {
@@ -214,7 +215,7 @@ function crawl (opt) {
 
                     // return HumanInfo
                     var info = new HumanInfo({
-                        url: url
+                        url: $.response.request.uri['href']
                     });
 
                     var ele = $('div.act-area'),
@@ -340,7 +341,7 @@ function crawl (opt) {
                     ).each((idx, el) => {
                         var e = $(el),
                             tag = {
-                                text: e.text(),
+                                text: dict('ja', e.text()),
                                 url: e.attr('href')
                             };
 

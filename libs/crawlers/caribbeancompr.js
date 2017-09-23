@@ -2,6 +2,7 @@
 
 const { MovieInfo } = require('../../models/types.js');
 const leech = require('../leech-promise.js');
+const dict = require('../category-dictionary.js');
 
 const NAME = 'caribbeancompr';
 module.exports.name = function () {
@@ -19,82 +20,6 @@ module.exports.domain = function () {
 }
 
 const BASE_URL = 'http://' + DOMAIN;
-
-const CATEGORIES = {
-    // Update At 17-09-23 @ http://www.caribbeancompr.com/category.Html
-    // Actress Type
-    "AV女優": "AV Actress",
-    "素人": "Amateur",
-    "洋物/金髪": "Western Objects / Blond Hair",
-    "巨乳": "Big Tits",
-    "美乳": "Beautiful Breast",
-    "スレンダー": "Slender",
-    "ロリ": "Loli",
-    "ギャル": "Gal",
-    "痴女": "Slut",
-    "パイパン": "Shaved",
-    "お姉さん": "Older Sister",
-    "美尻": "Nice Bottom",
-    "美脚": "Legs",
-    "微乳": "Small Milk",
-    "そっくりさん": "Same-Sick",
-    "10代": "10'S",
-    "ニューハーフ": "Shemale",
-    "女子校生": "Schoolgirl",
-    "アニメ": "Anime",
-
-    // Contents Of Play
-    "69": "69",
-    "フェラ": "Fellatio",
-    "クンニ": "Cunni",
-    "バイブ": "Vibe",
-    "中出し": "Cum Inside",
-    "オナニー": "Masturbation",
-    "潮吹き": "Squirting",
-    "生ハメ・生姦": "Raw Slug / Fuck",
-    "ナンパ": "Nanpa",
-    "ハメ撮り": "Gonzo",
-    "パイズリ": "Fucking",
-    "アナル": "Anal",
-    "乱交": "Orgy",
-    "顔射": "Facial Cum Shot",
-    "コスプレ": "Cosplay",
-    "ぶっかけ": "Bukkake",
-    "手コキ": "Handjob",
-    "縛り(": "Tie Down",
-    "ハード系": "Hard System",
-    "イラマチオ": "Imamachio",
-    "口内発射": "Oral In The Mouth",
-    "SM": "SM",
-    "ごっくん": "Cum Swallowing",
-    "淫語": "Language",
-    "野外露出": "Outdoor Exposure",
-    "青姦": "Aoi",
-    "痴漢": "Molester",
-    "剃毛": "Shave",
-    "カーセックス": "Car Sex",
-    "クスコ": "Cusco",
-    "ベスト/オムニバス": "Best / Va",
-
-    // Costume
-    "制服": "Uniform",
-    "水着": "Swimming Suit",
-    "ブルマ": "Bulma",
-    "浴衣/着物": "Yukata / Kimono",
-    "ナース": "Nurse",
-    "メイド": "Maid",
-    "女教師": "Female Teacher",
-    "OL": "OL",
-    "めがね": "Glasses",
-    "エプロン": "Apron",
-    "ボンテージ": "Bondage",
-    
-    // Other
-    "オリジナル動画": "Original Video",
-    "フェラチオ": "Blow Job",
-    "初裏": "Debut",
-    "ロリ系": "Lolita",
-};
 
 function formatTitle (val) {
     return val.replace(BASE_URL, '')
@@ -147,7 +72,7 @@ function crawl (opt) {
                     let ele = $(el);
                     let genre = {
                         url: BASE_URL + ele.find('a').attr('href'),
-                        text: CATEGORIES[ele.text().trim()] || ele.text().trim(),
+                        text: dict('ja', ele.text().trim()),
                     };
 
                     info.genres.push(genre);
