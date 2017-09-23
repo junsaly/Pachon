@@ -124,12 +124,12 @@ function crawl (opt) {
                 info.releasedate = rootEl.find('li').eq(0).find('span').eq(1).text();
                 info.year = info.releasedate.substring(0, 4);
 
-                var val = rootEl.find('li').eq(1).find('a');
-                val = val.text();
+                var ele = rootEl.find('li').eq(1).find('a');
+                var val = ele.text();
                 if (val.length < 50) {
                     val.split(' ').forEach(v => {
                         let actor = {
-                            url: getBaseURL(lang) + val.attr('href'),
+                            url: getBaseURL(lang) + ele.attr('href'),
                             text: v.trim()
                         }
     
