@@ -153,7 +153,7 @@ function cacheURLs (data) {
             let footprint = d.getFootprint(obj);
             let id = genId(JSON.stringify(footprint));
 
-            cache.set('id', id, footprint);
+            cache.set('id', id, footprint, 3600); // 1 hour
             d.results[i].url = id;
         }
 
