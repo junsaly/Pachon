@@ -96,7 +96,7 @@ function crawl (opt) {
                     let ele = $(el);
                     let genre = {
                         url: BASE_URL + ele.attr('href'),
-                        text: ele.text(),
+                        text: dict('ja', ele.text()),
                     }
 
                     info.genres.push(genre);

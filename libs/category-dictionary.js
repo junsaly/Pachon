@@ -77,7 +77,7 @@ const CATEGORIES = {
         
         // Other
         "オリジナル動画": "Original Video",
-        "フェラチオ": "Blow Job",
+        "フェラチオ": "Fellatio",
         "初裏": "Debut",
         "ロリ系": "Lolita",
         "熟女/人妻": "MILF / Housewife",
@@ -138,6 +138,22 @@ const CATEGORIES = {
 
         // Other
         "サンプル動画": "Sample Video",
+
+
+        // Source: http://www.heyzo.com/categorys.html
+        // Actress Type
+
+        // Play Contents
+        "素股": "Sumata",
+        "フェラ抜き": "Fellatio",
+        "口内射精": "Cum In Mouth",
+
+        // Theme
+
+        // Other
+        "セクシー下着": "Sexy Underwear",
+        "Gカップ": "G Cup",
+        "尻コキ": "Shirikoki",
     }
 };
 
