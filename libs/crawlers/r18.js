@@ -194,13 +194,15 @@ function thenIfId ($, url) {
         info.genres.push(genre);
     })
 
-    $('.img02 img').each((i, el) => {
-        let ele = $(el);
-        let screenshot = {
-            url: ele.attr('data-src'),
-        }
-        info.screenshots.push(screenshot);
-    })
+    if ($('.product-gallery.preview-grid a').length > 0) {
+        $('.img02 img').each((i, el) => {
+            let ele = $(el);
+            let screenshot = {
+                url: ele.attr('data-src'),
+            }
+            info.screenshots.push(screenshot);
+        })
+    }
 
     return info;
 }

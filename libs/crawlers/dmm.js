@@ -131,14 +131,16 @@ function crawl (opt) {
 
                 let movid = $('td:contains("品番：")').next().text().trim();
 
-                $('div#sample-image-block img').each((i, el) => {
-                    let ele = $(el);
-                    info.screenshots.push({
-                        url: decodeURIComponent(
-                            util.replaceAll(ele.attr('src'), '-', 'jp-')
-                        ),
+                if ($('div#sample-image-block a[name="sample-image"]').length > 0) {
+                    $('div#sample-image-block > a[name="sample-image"] img').each((i, el) => {
+                        let ele = $(el);
+                        info.screenshots.push({
+                            url: decodeURIComponent(
+                                util.replaceAll(ele.attr('src'), '-', 'jp-')
+                            ),
+                        });
                     });
-                });
+                }
                 
                 info.title = util.tryGetMovId(movid);
                 info.origtitle = util.wrapText($('h1#title').text());
