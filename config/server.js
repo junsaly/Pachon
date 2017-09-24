@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, '../statics')));
 app.use(function (req, res, next) {
     res.send_my = res.send;
     res.send = (body) => {
-        if (body) {
+        if (typeof body == 'string') {
             let result = minify(body, {
                 collapseInlineTagWhitespace: true,
                 collapseWhitespace: true,
