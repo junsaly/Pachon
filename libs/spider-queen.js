@@ -72,32 +72,34 @@ function summon (options) {
     }
 
     if (target == "movie") {
-        let crawler = null;
         let movid = '';
 
         if (qtext.indexOf(' ') > 0) {
             let pos = qtext.indexOf(' ');
             let name = qtext.substring(0, pos).trim();
             
-            movid = qtext.substring(pos).trim();
-            
             let spider = firstSpider(
                 v => 
                     v.name().indexOf(name) > -1 && 
                     v.target() == target);
-
             if (spider) {
-                crawler = spider;
-
-            } else {
-                crawler = firstCrawler(v => v.name() == name);
+                movid = qtext.substring(pos).trim();
+                return [ spider, movid ];
             }
+            
+            let crawler = firstCrawler(v => v.name() == name);
+            if (crawler) {
+                movid = qtext.substring(pos).trim();
+                return [ crawler, movid ];
+            }
+
+            movid = qtext;
+            return [ null, movid ];
 
         } else {
             movid = qtext;
+            return [ null, movid ];
         }
-
-        return [ crawler, movid ];
     }
 
     return [];
@@ -105,20 +107,28 @@ function summon (options) {
 
 const HINTS_LIST = [
     { crawler: 'r18', regex: /^asw-\d{3}$/ },
+    { crawler: 'r18', regex: /^ght-\d{3}$/ },
+    { crawler: 'caribbeancom', regex: /^(carib|caribbean) \d{6}-\d{3}$/ },
+    { crawler: 'caribbeancompr', regex: /^(caribpr|caribbeanpr) \d{6}_\d{3}$/ },
     { crawler: 'dmm', regex: /.*/ },
 ];
 
 function findHintsList (movid) {
-    var id = (movid || '').toLowerCase();
-    if (!id) {
-        return null;
+    var qtext = (movid || '').toLowerCase();
+    if (!qtext) {
+        return [];
     }
     for (var hint of HINTS_LIST) {
-        if (hint.regex.test(id)) {
-            return hint.crawler;
+        if (hint.regex.test(qtext)) {
+            let id = qtext;
+            if (qtext.indexOf(' ') > 0) {
+                let pos = qtext.indexOf(' ');
+                id = qtext.substring(pos).trim();
+            }
+            return [ hint.crawler, id ];
         }
     }
-    return null;
+    return [];
 }
 
 function crawl (queryText, options) {
@@ -143,12 +153,15 @@ function crawl (queryText, options) {
     });
 
     if (!crawler) {
-        let crawlerName = findHintsList(id);
+        let [crawlerName, movid] = findHintsList(id);
         if (crawlerName) {
             crawler = summon({
                 assign: crawlerName,
                 target: target,
             })[0];
+        }
+        if (movid) {
+            id = movid;
         }
     }
 
