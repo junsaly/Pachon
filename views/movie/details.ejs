@@ -1,7 +1,6 @@
 <% include ../utils %>
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css">
@@ -9,6 +8,7 @@
     <meta name="title" content="<%= title %>">
     <meta name="transtitle" content="<%= transtitle %>">
     <meta name="maker" content="<%= maker %>">
+    <meta name="provider" content="<%= provider %>">
     <meta name="reference" content="<%= url %>">
     <title><%= title %></title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -20,6 +20,23 @@
 </head>
 
 <body>
+    <nav>
+        <div class="nav-wrapper red lighten-2">
+            <form action="/movie/search" method="get">
+                <a href="javascript:void(0)" class="brand-logo left">Leech Everything</a>
+                <div class="input-field right">
+                    <input type="search" name="q" required>
+                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
+                </div>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="/movie">Movie</a></li>
+                    <li><a href="/human">People</a></li>
+                </ul>
+            </form>
+        </div>
+    </nav>
+
     <div class="container">
 
         <div class="row">

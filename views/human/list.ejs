@@ -9,11 +9,29 @@
     </title>
     <link rel="stylesheet" href="/assets/styles/reset.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="/assets/styles/default.css">
     <link rel="stylesheet" href="/assets/styles/human.list.css">
 </head>
 
 <body>
+    <nav>
+        <div class="nav-wrapper teal lighten-2">
+            <form action="/human/search" method="get">
+                <a href="javascript:void(0)" class="brand-logo left">Leech Everything</a>
+                <div class="input-field right">
+                    <input type="search" name="q" required>
+                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
+                </div>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="/movie">Movie</a></li>
+                    <li><a href="/human">People</a></li>
+                </ul>
+            </form>
+        </div>
+    </nav>
+
     <div class="container">
         
         <div class="row">

@@ -24,3 +24,17 @@ li {
     li:hover {
         background-color: #f5f5f5;
     }
+
+.nav-wrapper .label-icon {
+    top: -10px;
+}
+.nav-wrapper .input-field {
+    min-width: 400px;
+}
+.nav-wrapper li {
+    margin: 0;
+}
+
+.brand-logo {
+    margin-left: 20px;
+}

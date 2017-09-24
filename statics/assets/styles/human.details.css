@@ -12,7 +12,7 @@ p {
     font-size: 1.3em;
 }
 
-li {
+.my-value li {
     font-size: 1.3em;
     line-height: 20px;
     -webkit-transition: background-color .25s ease;
