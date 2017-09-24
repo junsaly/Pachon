@@ -61,9 +61,9 @@ function crawl (opt) {
                         info.photos = dd.photos;
                     }
 
-                    if (dd.tags.length > 0) {
-                        info.tags = dd.tags;
-                    }
+                    // if (dd.tags.length > 0) {
+                    //     info.tags = dd.tags;
+                    // }
                 }
                 
                 return info;
