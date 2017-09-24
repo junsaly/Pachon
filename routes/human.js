@@ -2,7 +2,6 @@
 
 const SpiderQueen = require('../libs/spider-queen.js');
 const { HumanName, HumanInfo, SearchResult } = require('../models/types.js');
-const cache = require('../config/cache.js');
 const util = require('../libs/util.js');
 
 const express = require('express');
@@ -70,56 +69,51 @@ router.get('/', function (req, res) {
 
     let info_cached = util.cacheImageURLs(info);
 
-    util.render(res, 'human/details', info_cached);
+    res.render('human/details', info_cached);
 });
 
 router.get('/search', function (req, res) {
     const type = 'human';
     var query = util.replaceAll(req.query['q'], '+', ' ');
 
-    var result = cache.get(type, query);
-    if (result) {
-        res.status(200).render('human/details', result);
-    } else {
-        SpiderQueen.crawl(query, {
-            target: 'human',
-            type: 'search'
-        })
-        .then(data => {
-            let data_cached = util.cacheImageURLs(data);
+    SpiderQueen.crawl(query, {
+        target: 'human',
+        type: 'search'
+    })
+    .then(data => {
+        let data_cached = util.cacheImageURLs(data);
 
-            if (data_cached instanceof HumanInfo) {
-                if (data_cached.photos.length == 0) {
-                    data_cached.photos.push(
-                        '/assets/images/noimageps.gif'
-                    );
-                }
-
-                util.render(res, 'human/details', data_cached);
-
-            } else if (data_cached instanceof SearchResult) {
-                data_cached = util.cacheURLs(data_cached);
-                data_cached.results.filter(v => v.photos.length == 0).forEach(d => {
-                    d.photos.push(
-                        '/assets/images/noimageps.gif'
-                    );
-                })
-
-                if (data_cached.results.length == 0) {
-                    util.render(res, 'human/list-notfound', data_cached);
-                } else {
-                    util.render(res, 'human/list', data_cached);
-                }
-                
-            } else {
-                res.status(404).end();
+        if (data_cached instanceof HumanInfo) {
+            if (data_cached.photos.length == 0) {
+                data_cached.photos.push(
+                    '/assets/images/noimageps.gif'
+                );
             }
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).end();
-        });
-    }
+
+            res.render('human/details', data_cached);
+
+        } else if (data_cached instanceof SearchResult) {
+            data_cached = util.cacheURLs(data_cached);
+            data_cached.results.filter(v => v.photos.length == 0).forEach(d => {
+                d.photos.push(
+                    '/assets/images/noimageps.gif'
+                );
+            })
+
+            if (data_cached.results.length == 0) {
+                res.render('human/list-notfound', data_cached);
+            } else {
+                res.render('human/list', data_cached);
+            }
+            
+        } else {
+            res.status(404).end();
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(500).end();
+    });
 });
 
 router.get('/:infoid', function (req, res) {
@@ -141,7 +135,7 @@ router.get('/:infoid', function (req, res) {
                         '/assets/images/noimageps.gif'
                     );
                 }
-                util.render(res, 'human/details', data_cached);
+                res.render('human/details', data_cached);
 
             } else {
                 res.status(404).end();
