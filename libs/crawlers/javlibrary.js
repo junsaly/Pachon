@@ -191,7 +191,7 @@ function crawl (opt) {
     
     let url_parsed = parseURL(url);
     let urlpath = BASE_URL + 
-        url_parsed.pathname.substring(0, url_parsed.pathname.lastIndexOf('/'));
+        url_parsed.pathname.substring(0, url_parsed.pathname.lastIndexOf('/')) + '/';
 
     return new Promise((resolve, reject) => {
         leech.get(url)
