@@ -2,6 +2,7 @@
 
 const SpiderQueen = require('../libs/spider-queen.js');
 const { HumanName, HumanInfo, SearchResult } = require('../models/types.js');
+const cache = require('../config/cache.js');
 const util = require('../libs/util.js');
 
 const express = require('express');
