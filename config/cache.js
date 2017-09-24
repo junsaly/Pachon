@@ -4,7 +4,7 @@ var NodeCache = require('node-cache');
 var cache = new NodeCache( { stdTTL: 60, checkperiod: 20 } );
 
 cache.on("set", function( key, value ){
-    console.log('Set: [' + key + '] ' + value);
+    console.log('Set: [' + key + '] ' + JSON.stringify(value));
 });
 
 // cache.on("del", function (key, value) {
@@ -12,7 +12,7 @@ cache.on("set", function( key, value ){
 // });
 
 cache.on("expired", function( key, value ){
-    console.log('Expired: [' + key + '] ' + value);
+    console.log('Expired: [' + key + '] ');
 });
 
 function getKey (type, key) {
