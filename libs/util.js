@@ -23,7 +23,7 @@ module.exports.formatText = formatText;
 
 function wrapText (val, maxLength) {
     if (!maxLength) {
-        maxLength = 50;
+        maxLength = 100;
     }
     if (val.length < maxLength) {
         return val;
