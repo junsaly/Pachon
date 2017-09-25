@@ -371,7 +371,7 @@ begin
         BASE_URL + HTMLValue(HTML, ItemStart, ItemEnd, 'src="', '"')
     );
     URL := FormatURL(
-        BASE_URL + '/movie/' + HTMLValue(HTML, ItemStart, ItemEnd, 'href="', '")')
+        BASE_URL + '/movie/' + HTMLValue(HTML, ItemStart, ItemEnd, 'href="', '"')
     );
     Name := HTMLValue(HTML, ItemStart, ItemEnd, '>', '</a>') + '  |  ' + HTMLValue(HTML, ItemStart, ItemEnd, '<p class="origtitle">', '</p>');
     
