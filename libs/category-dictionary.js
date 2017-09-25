@@ -180,6 +180,7 @@ const CATEGORIES = {
         "引退→復活/移籍": "Retirement to Resurrection / Transfer",
         "引退": "Retirement",
         "移籍": "Transfer",
+        "清楚": "Neat",
 
 
         // Source: http://javlibrary.com
