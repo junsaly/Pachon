@@ -121,6 +121,7 @@ class MovieInfo {
         if (opt && typeof opt === 'object') {
             op = opt;
         }
+        this.movid = op.movid || '';
         this.title = op.title || '';
         this.origtitle = op.origtitle || '';
         this.transtitle = op.transtitle || '';

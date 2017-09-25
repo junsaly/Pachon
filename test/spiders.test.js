@@ -3,7 +3,7 @@
 const chai = require('chai');
 var expect = require('chai').expect;
 
-describe.only('spiders/... test suite', function() {
+describe('spiders/... test suite', function() {
 
     // disable time-out
     this.timeout(0);
@@ -52,5 +52,6 @@ describe.only('spiders/... test suite', function() {
     test(spiders['javlibrary'], {qtext: 'avop021', type: 'search', lang: 'en'});
     test(spiders['heydouga'], {qtext: '4037/348'});
     test(spiders['heydouga'], {qtext: '4017/245'});
-    test.only(spiders['dmm'], {qtext: 'xrw-011', type: 'search'});
+    test(spiders['dmm'], {qtext: 'xrw-011', type: 'search'});
+    test(spiders['tokyo-hot'], {qtext: 'n0900', type: 'search'});
 });
