@@ -166,6 +166,7 @@ function crawl (opt) {
                             }
                             info.genres.push(genre);
                         });
+                    info.maker = 'TOKYO-HOT';
 
                     resolve(info);
                 }
