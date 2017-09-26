@@ -181,6 +181,7 @@ const CATEGORIES = {
         "引退": "Retirement",
         "移籍": "Transfer",
         "清楚": "Neat",
+        "妹系": "Sister Family",
 
 
         // Source: http://javlibrary.com
