@@ -162,7 +162,9 @@ function crawl (opt) {
                             let ele = $(el);
                             let genre = {
                                 url: BASE_URL + ele.attr('href'),
-                                text: dict(lang, ele.text()),
+                                text: util.formatProperCase(
+                                    dict(lang, ele.text())
+                                ),
                             }
                             info.genres.push(genre);
                         });

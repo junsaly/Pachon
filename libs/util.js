@@ -34,6 +34,20 @@ function wrapText (val, maxLength) {
 module.exports.wrapText = wrapText;
 
 
+function formatProperCase (val) {
+    var res = [];
+    val.split(' ').forEach(v => {
+        v = v.toLowerCase();
+        res.push(
+            v.replace(v.charAt(0), v.charAt(0).toUpperCase())
+        );
+    });
+    return res.join(' ');
+}
+
+module.exports.formatProperCase = formatProperCase;
+
+
 function replaceAll (s, oldS, newS) {
     return s.split(oldS).join(newS);
 }
