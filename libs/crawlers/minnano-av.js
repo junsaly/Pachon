@@ -252,8 +252,6 @@ function crawl (opt) {
                     ele = $('div.act-profile > table tr');
 
                     // get name, nicknames, alias =============================
-                    val = $(ele[0]).find('td h2').text().trim();
-                    
                     info.name = formatName(
                         $(ele[0]).find('td h2').text().trim()
                     );
