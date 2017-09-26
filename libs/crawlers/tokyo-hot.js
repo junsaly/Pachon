@@ -122,9 +122,16 @@ function crawl (opt) {
                     var title = $(`.infowrapper dt:contains("${LangMap['title'][lang]}")`)
                         .next().text();
                     info.title = 'Tokyo-Hot ' + title;
-                    info.posters.push({
-                        url: `http://my.cdn.tokyo-hot.com/media/${info.movid}/jacket/${title}.jpg`,
-                    });
+                    var jacket = $('.package a').first().attr('href')
+                    if (jacket.indexOf('jacket') > -1) {
+                        info.posters.push({
+                            url: jacket,
+                        });
+                    } else {
+                        info.posters.push({
+                            url: $('video').attr('poster'),
+                        });
+                    }
                     if (lang == 'ja') {
                         info.origtitle = $('.contents > h2').text();
                     }
@@ -163,7 +170,7 @@ function crawl (opt) {
                             let genre = {
                                 url: BASE_URL + ele.attr('href'),
                                 text: util.formatProperCase(
-                                    dict(lang, ele.text())
+                                    dict('ja', ele.text())
                                 ),
                             }
                             info.genres.push(genre);

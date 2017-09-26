@@ -405,6 +405,28 @@ const CATEGORIES = {
         "microSD": "MicroSD",
         "UMD": "UMD",
         "VHS": "VHS",
+
+
+        // Source: http://my.tokyo-hot.com/product/
+        // Personality
+        
+        // Play
+        "飲ザーメン": "Drinking Semen",
+        "拘束具": "Restraint",
+        "テコキ": "Tekki",
+        "ブッカケ": "Bukkake",
+        "膣内撮影": "Intravaginal Imaging",
+        "二穴同時挿入": "Double Penetration",
+
+        // Costume
+        "普段着": "Casual Wear",
+        "セレブ系": "Celebrity",
+        "萌え系": "Moe",
+        "オミズ系": "Omys",
+
+        // Resolution
+
+        // File Size
     }
 };
 

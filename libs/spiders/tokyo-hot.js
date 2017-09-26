@@ -45,6 +45,9 @@ function thenIfID (opt) {
                 if (d2.description) d.description = d2.description;
                 if (d2.genres.length > 0) d.genres = d2.genres;
             }
+            if (d.origtitle == d.transtitle) {
+                d.transtitle = '';
+            }
             return d;
         }
         return clone(d2);
