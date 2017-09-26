@@ -110,6 +110,7 @@ const HINTS_LIST = [
     { crawler: 'r18', regex: /^ght-\d{3}$/ },
     { crawler: 'caribbeancom', regex: /^(carib|caribbean) \d{6}-\d{3}$/ },
     { crawler: 'caribbeancompr', regex: /^(caribpr|caribbeanpr) \d{6}_\d{3}$/ },
+    { crawler: 'tokyo-hot', regex: /^tokyohot .*$/ },
     { crawler: 'dmm', regex: /.*/ },
 ];
 
