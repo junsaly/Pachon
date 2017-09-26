@@ -43,6 +43,8 @@ function mixMovieInfo(d_r18, d_jav) {
         }
     }
 
+    d_r18.origtitle = d_r18.transtitle;
+    d_r18.transtitle = '';
     return d_r18;
 }
 

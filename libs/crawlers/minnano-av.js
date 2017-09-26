@@ -252,11 +252,10 @@ function crawl (opt) {
                     ele = $('div.act-profile > table tr');
 
                     // get name, nicknames, alias =============================
-                    val = $(ele[0]).find('td h2').text().split('（');
+                    val = $(ele[0]).find('td h2').text().trim();
                     
                     info.name = formatName(
-                        val[0].trim(),
-                        val[1].substring(0, val[1].length - 1).trim()
+                        $(ele[0]).find('td h2').text().trim()
                     );
 
                     if ($(ele).find('span:contains("愛称")').length > 0) {

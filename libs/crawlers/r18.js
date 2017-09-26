@@ -81,8 +81,8 @@ function getFootprint (data) {
     };
 }
 
-function thenIfSearch ($, url) {
-    let result = new SearchResult({url: url, footprint: getFootprint});
+function thenIfSearch ($) {
+    let result = new SearchResult({url: $.getCurrentURL(), footprint: getFootprint});
     result.queryString = $('.searchBox').attr('value');
 
     $('.cmn-list-product01 li').each((i, el) => {
@@ -115,8 +115,8 @@ function thenIfSearch ($, url) {
     return result;
 }
 
-function thenIfId ($, url) {
-    let info = new MovieInfo({url: url, country: 'Japan', origlang: 'Japanese'});
+function thenIfId ($) {
+    let info = new MovieInfo({url: $.getCurrentURL(), country: 'Japan', origlang: 'Japanese'});
     
     info.transtitle = util.wrapText($('h1').first().text().trim());
     info.releasedate = formatReleaseDate(
@@ -152,16 +152,15 @@ function thenIfId ($, url) {
         }
     }
 
-    let movid = $('dt:contains("DVD ID:")').next().text().trim();
-    info.title = movid;
+    let dvdid = $('dt:contains("DVD ID:")').next().text().trim();
+    info.movid = dvdid;
+    info.title = dvdid;
 
-    let contentid = $('dt:contains("Content ID:")').next().text().trim();
-    info.posters.push({
-        url: util.replaceAll(
-            'http://pics.r18.com/digital/video/{id}/{id}pl.jpg', 
-            '{id}', 
-            contentid)
-    });
+    if ($('.detail-single-picture img').length > 0) {
+        info.posters.push({
+            url: $('.detail-single-picture img').attr('src')
+        });
+    }
 
     let series = $('dt:contains("Series:")').next().find('a');
     if (series.length > 0) {
@@ -235,14 +234,14 @@ function crawl (opt) {
                 if ($('.product-details').length > 0) {
                     // Movie content
                     try {
-                        let info = thenIfId($, url);
+                        let info = thenIfId($);
                         resolve(info);
                     } catch (ex) {
                         reject(ex);
                     }
                 } else {
                     // Search result
-                    Promise.resolve(thenIfSearch($, url))
+                    Promise.resolve(thenIfSearch($))
                         .then(data => resolve(data))
                         .catch(err => util.catchURLError(url, err, resolve, reject));
                 }
