@@ -61,4 +61,6 @@ describe('crawlers/... test suite', function() {
     test(crawlers['dmm'], 'http://unblockdmm.com/browse.php?u=http://www.dmm.co.jp/mono/dvd/-/detail/=/cid=18mstg003/?i3_ref=search&i3_ord=2&b=0');
     test(crawlers['r18'], 'http://www.r18.com/common/search/searchword=Sw-261/');
     test(crawlers['r18'], 'http://www.r18.com/common/search/searchword=DKSW-261/');
+    test(crawlers['avent'], 'http://www.aventertainments.com/search_Products.aspx?languageID=1&keyword=pink-019&searchby=keyword');
+    test(crawlers['avent'], 'http://www.aventertainments.com/product_lists.aspx?product_id=109021&languageID=1&dept_id=29');
 });
