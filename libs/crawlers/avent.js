@@ -98,6 +98,7 @@ function thenIfSearch ($, lang) {
 
         ele = ele.find('td').eq(1)[0];
         info.url = ele.childNodes[1].attribs["href"];
+        info.movid = formatMovId(info.url);
         if (lang == 'en') {
             info.transtitle = util.wrapText(ele.childNodes[1].children[0].data.trim());
         }
