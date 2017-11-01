@@ -147,13 +147,18 @@ const CATEGORIES = {
         "素股": "Sumata",
         "フェラ抜き": "Fellatio",
         "口内射精": "Cum In Mouth",
+        "バック": "Riding",
+        "手かせ": "Handjob",
 
         // Theme
+        "店員": "Clerk",
 
         // Other
         "セクシー下着": "Sexy Underwear",
         "Gカップ": "G Cup",
         "尻コキ": "Shirikoki",
+        "初登場": "Debug Work",
+        "Fカップ": "F Cup",
 
 
         // Source: http://www.minnano-av.com
