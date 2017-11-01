@@ -163,7 +163,7 @@ const CATEGORIES = {
 
         // Source: http://www.minnano-av.com
         "低身長": "Short Stature",
-        "改名→移籍": "Rename to Transfer",
+        "改名→移籍": "Renamed → Transfer",
         "フィストファック": "Fist Sex",
         "AV女優＆ヌードモデル＆女優": "AV Actress & Nude Model & Actress",
         "ヌードモデル": "Nude Model",
@@ -182,11 +182,15 @@ const CATEGORIES = {
         "エロボディ": "Erotic Body",
         "エロ乳首": "Erotic Nipple",
         "最強ボディ": "Strong Body",
-        "引退→復活/移籍": "Retirement to Resurrection / Transfer",
+        "引退→復活/移籍": "Retirement → Resurrection / Transfer",
         "引退": "Retirement",
         "移籍": "Transfer",
         "清楚": "Neat",
         "妹系": "Sister Family",
+        "改名/移籍": "Renamed / Transfer",
+        "ロリ巨乳": "Lolita Big Tits",
+        "引退→復活/引退→復活": "Retirement → Resurrection / Retirement → Resurrection",
+        "ダイナマイトボディ": "Dynamite Body",
 
 
         // Source: http://javlibrary.com
@@ -436,7 +440,7 @@ const CATEGORIES = {
 };
 
 function formatWord (value) {
-    var p = util.split(value, ['・', '、']);
+    var p = util.split(value, ['・', '、', '→']);
     if (p.length > 1) {
         return p.join('/');
     }
