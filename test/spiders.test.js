@@ -46,6 +46,7 @@ describe('spiders/... test suite', function() {
     test(spiders['minnano-av'], {qtext: '竹内しずか【登', type: 'search'});
     test(spiders['caribbeancom'], {qtext: '091317-498', type: 'search'});
     test(spiders['heyzo'], {qtext: '0585', type: 'search'});
+    test(spiders['heyzo'], {qtext: '0727', type: 'search'});
     test(spiders['dmm'], {qtext: 'AVOP-210', type: 'search'});
     test(spiders['dmm'], {qtext: 'AVOP 2', type: 'search'});
     test(spiders['r18'], {qtext: '1sw00261', type: 'id'});

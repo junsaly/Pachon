@@ -66,10 +66,10 @@ function crawl (opt) {
                     url: 'http://www.heyzo.com/contents/3000/' + movid + '/images/player_thumbnail.jpg'
                 })
 
-                info.releasedate = util.formatText($('div#movie span.release-day').next().text());
+                info.releasedate = util.formatText($('.table-release-day td').eq(1).text().trim());
                 info.year = info.releasedate.substring(0, 4);
 
-                $('div#movie span.actor').next().find('a').each((i, el) => {
+                $('.table-actor').find('a').each((i, el) => {
                     let ele = $(el);
                     let actor = {
                         url: BASE_URL + ele.attr('href'),
@@ -89,10 +89,10 @@ function crawl (opt) {
                 }
 
                 info.rating = parseFloat(
-                    $('div#movie span.estimate').next().find('span[itemprop=ratingValue]').text()
+                    $('.table-estimate').find('span[itemprop=ratingValue]').text()
                 ) * 2;
 
-                $('div#movie div.actor-type a').each((i, el) => {
+                $('.table-actor-type a').each((i, el) => {
                     let ele = $(el);
                     let genre = {
                         url: BASE_URL + ele.attr('href'),
@@ -102,7 +102,7 @@ function crawl (opt) {
                     info.genres.push(genre);
                 });
 
-                $('div#movie div.tag_cloud a').each((i, el) => {
+                $('.table-tag-keyword-small a').each((i, el) => {
                     let ele = $(el);
                     let genre = {
                         url: BASE_URL + ele.attr('href'),

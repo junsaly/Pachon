@@ -65,10 +65,10 @@ function crawl (opt) {
                     url: 'http://www.heyzo.com/contents/3000/' + movid + '/images/player_thumbnail_en.jpg'
                 })
 
-                info.releasedate = util.formatText($('div#movie span.release-day').next().text());
+                info.releasedate = util.formatText($('.movieInfo td:contains("Released")').next().text());
                 info.year = info.releasedate.substring(0, 4);
 
-                $('div#movie span.actor').next().find('a').each((i, el) => {
+                $('.movieInfo td:contains("Actress")').next().find('a').each((i, el) => {
                     let ele = $(el);
                     let actor = {
                         url: BASE_URL + ele.attr('href'),
@@ -78,7 +78,7 @@ function crawl (opt) {
                     info.actors.push(actor);
                 });
 
-                let ele = $('div#movie span.label').next().find('a');
+                let ele = $('.movieInfo td:contains("Series")').next().find('a');
                 
                 if (ele.length > 0) {
                     info.series = {
@@ -87,7 +87,7 @@ function crawl (opt) {
                     }
                 }
 
-                $('div#movie div.actor-type a').each((i, el) => {
+                $('.movieInfo td:contains("Type")').next().find('a').each((i, el) => {
                     let ele = $(el);
                     let genre = {
                         url: BASE_URL + ele.attr('href'),
@@ -97,7 +97,7 @@ function crawl (opt) {
                     info.genres.push(genre);
                 });
 
-                $('div#movie div.play-type a').each((i, el) => {
+                $('.movieInfo td:contains("Sex Styles")').next().find('a').each((i, el) => {
                     let ele = $(el);
                     let genre = {
                         url: BASE_URL + ele.attr('href'),
@@ -107,7 +107,7 @@ function crawl (opt) {
                     info.genres.push(genre);
                 });
 
-                $('div#movie div.theme a').each((i, el) => {
+                $('.movieInfo td:contains("Theme")').next().find('a').each((i, el) => {
                     let ele = $(el);
                     let genre = {
                         url: BASE_URL + ele.attr('href'),
@@ -116,8 +116,6 @@ function crawl (opt) {
 
                     info.genres.push(genre);
                 });
-
-                info.description = $('div#movie p.memo').text();
 
                 info.maker = 'HEYZO';
 
