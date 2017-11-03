@@ -142,6 +142,8 @@ const CATEGORIES = {
 
         // Source: http://www.heyzo.com/categorys.html
         // Actress Type
+        "元芸能人": "Former Celebrity",
+        "ミクロ": "Close-Up",
 
         // Play Contents
         "素股": "Sumata",
@@ -159,6 +161,10 @@ const CATEGORIES = {
         "尻コキ": "Shirikoki",
         "初登場": "Debug Work",
         "Fカップ": "F Cup",
+        "Eカップ": "E Cup",
+        "破廉恥": "Humiliation",
+        "彼氏": "Boyfriend",
+        "校舎": "In School",
 
 
         // Source: http://www.minnano-av.com
