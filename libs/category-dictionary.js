@@ -152,6 +152,7 @@ const CATEGORIES = {
         "バック": "Riding",
         "手かせ": "Handjob",
         "３P": "3P",
+        "2穴責め": "2-Holes Tortue",
 
         // Theme
         "店員": "Clerk",
@@ -209,6 +210,15 @@ const CATEGORIES = {
         "ディルド": "Dildo",
         "高身長": "Tall",
         "和室": "Washitsu",
+        "黒タイツ": "Black Tights",
+        "セクシー女優": "Sexy Actress",
+        "マネージャー": "Manager",
+        "チャット" : "Chat",
+        "お尻": "Buttocks",
+        "軟体": "Soft Body",
+        "姉妹丼": "Sisters",
+        "複数": "Multiple",
+        "2ケツ": "2 Ketsu",
 
 
         // Source: http://www.minnano-av.com
