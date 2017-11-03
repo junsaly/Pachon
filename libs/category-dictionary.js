@@ -157,6 +157,7 @@ const CATEGORIES = {
         "店員": "Clerk",
         "不倫/浮気": "Affair / Cheating",
         "浮気": "Cheating",
+        "ホテル": "Hotel",
 
         // Other
         "セクシー下着": "Sexy Underwear",
@@ -177,6 +178,23 @@ const CATEGORIES = {
         "親友の彼": "Best Friend",
         "誘惑": "Temptation",
         "新居": "New Home",
+        "フェロモン": "Pheromone",
+        "ドッキリ": "Secretly",
+        "清掃員": "Cleaning Staff",
+        "トイレ": "Toilet",
+        "ファン": "Fan",
+        "人気女優": "Popular Actress",
+        "メイド服": "Maid Uniform",
+        "ご奉仕": "Service",
+        "ストッキング": "Stockings",
+        "美肌": "Beautiful Skin",
+        "元アナウンサー": "Former Announcer",
+        "喘ぎ声": "Pant Voice",
+        "白昼": "Daylight",
+        "欲求不満": "Sexual Desire",
+        "S級女優": "S-Class Actress",
+        "元グラドル": "Former Gravure",
+        "痙攣イキ": "Keiren Iki",
 
 
         // Source: http://www.minnano-av.com
