@@ -151,9 +151,12 @@ const CATEGORIES = {
         "口内射精": "Cum In Mouth",
         "バック": "Riding",
         "手かせ": "Handjob",
+        "３P": "3P",
 
         // Theme
         "店員": "Clerk",
+        "不倫/浮気": "Affair / Cheating",
+        "浮気": "Cheating",
 
         // Other
         "セクシー下着": "Sexy Underwear",
@@ -165,6 +168,15 @@ const CATEGORIES = {
         "破廉恥": "Humiliation",
         "彼氏": "Boyfriend",
         "校舎": "In School",
+        "連続中だし": "Endless Fuck",
+        "ぶっ掛け": "Bukkake",
+        "激イカセ": "Geki Ikase",
+        "撮影会": "Photo Studio",
+        "ハイレグ": "HD",
+        "バーチャル視点": "POV",
+        "親友の彼": "Best Friend",
+        "誘惑": "Temptation",
+        "新居": "New Home",
 
 
         // Source: http://www.minnano-av.com
