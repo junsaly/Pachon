@@ -195,6 +195,12 @@ const CATEGORIES = {
         "S級女優": "S-Class Actress",
         "元グラドル": "Former Gravure",
         "痙攣イキ": "Keiren Iki",
+        "ピンヒール": "High Heels",
+        "保健室": "Hospital",
+        "網タイツ": "Fishnet Stockings",
+        "先生": "Teacher",
+        "痙攣": "Convulsions",
+        "連続中出し": "Continuous Cum Shot",
 
 
         // Source: http://www.minnano-av.com
