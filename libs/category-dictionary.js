@@ -158,6 +158,7 @@ const CATEGORIES = {
         "不倫/浮気": "Affair / Cheating",
         "浮気": "Cheating",
         "ホテル": "Hotel",
+        "セフレ": "Sex Friend",
 
         // Other
         "セクシー下着": "Sexy Underwear",
@@ -200,7 +201,14 @@ const CATEGORIES = {
         "網タイツ": "Fishnet Stockings",
         "先生": "Teacher",
         "痙攣": "Convulsions",
-        "連続中出し": "Continuous Cum Shot",
+        "連続中出し": "Continuous Cum Shots",
+        "連続生中出し": "Continuous Creampies",
+        "アナル舐め": "Rim Job",
+        "チンぐり返し": "Chin Guri-Gaeshi",
+        "アナル中だし": "Anal Cum Shot",
+        "ディルド": "Dildo",
+        "高身長": "Tall",
+        "和室": "Washitsu",
 
 
         // Source: http://www.minnano-av.com
