@@ -187,11 +187,11 @@ function crawl (queryText, options) {
         return crawler.crawl(options).then(data => {
             switch (type) {
                 case "search":
-                    cache.set('data', id, data, 1800); // 30 minutes
+                    cache.set('data-search', id, data, 1800); // 30 minutes
                     break;
 
                 case "id":
-                    cache.set('data', id, data, 3600); // 1 hour
+                    cache.set('data-id', id, data, 3600); // 1 hour
                     break;
             }
             

@@ -70,7 +70,7 @@ function prepare (args) {
 
     let prcObj = {
         charset: null,
-        target: null,
+        targets: [],
     };
 
     if (PROXY !== "" && typeof PROXY == 'string') {
@@ -331,11 +331,17 @@ function pipe (options, callback) {
         fn = callback;
     }
 
+    let targets = args["process"].targets;
+
     try {
-        httpRequest(args["request"])
-            .pipe(args["process"].target)
+        let req = httpRequest(args["request"])
             .on('finish', () => fn(null))
             .on('error', err => callback(err));
+
+        targets.forEach(target => {
+            req.pipe(target);
+        });
+
     } catch (ex) {
         fn(ex);
     }

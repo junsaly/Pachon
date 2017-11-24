@@ -1,5 +1,7 @@
 'use strict';
 
+const storage = require('./storage.js');
+
 var NodeCache = require('node-cache');
 var cache = new NodeCache( { stdTTL: 60, checkperiod: 20 } );
 
@@ -13,6 +15,12 @@ cache.on("set", function( key, value ){
 
 cache.on("expired", function( key, value ){
     console.log('Expired: [' + key + '] ');
+    let [ typ, ky ] = parseKey(key);
+    console.log(parseKey(key));
+    if (typ == 'data-id') {
+        // write to disk
+        storage.writeJson('records', ky + '.json', value);
+    }
 });
 
 function getKey (type, key) {
@@ -28,7 +36,14 @@ function getKey (type, key) {
         throw new Error('Invalid argument values');
     }
 
-    return '[' + typ + ']' + ky;
+    return `[${typ}]${ky}`;
+}
+
+function parseKey (value) {
+    let p = value.indexOf(']');
+    let type = value.substring(1, p);
+    let key = value.substring(p+1);
+    return [ type, key ];
 }
 
 function set (type, key, val, ttl) {

@@ -3,10 +3,15 @@
 const path = require('path');
 
 const express = require('express');
+const app = express();
+
+const storage = require('./storage.js');
+storage.init({
+    dirs: [ 'images', 'records', 'backup' ]
+});
+
 const viewEngine = require('ejs-locals');
 const minify = require('html-minifier').minify;
-
-const app = express();
 
 // Server Config ==========================================
 

@@ -44,7 +44,9 @@
         </div>
 
         <div class="row">
-            <img class="poster materialboxed z-depth-5" src="<%= posters[0] %>" />
+            <a href="#video-wrapper" id="poster-wrapper">
+                <img class="poster materialboxed z-depth-5" src="<%= posters[0] %>" height="480" />
+            </a>
         </div>
 
         <div class="row">
@@ -182,6 +184,14 @@
             <%- description.split('\r\n').map(v => '<p>' + v + '</p>').join(' ') %>
         </div>
 
+        <div class="row" id="video-wrapper">
+            <iframe src="https://openload.co/embed/kmK9NpO8bY8/" 
+                scrolling="no" frameborder="0" 
+                width="100%" height="480" 
+                allowfullscreen="true" webkitallowfullscreen="true" 
+                mozallowfullscreen="true"></iframe>
+        </div>
+
         <% if (screenshots.length > 0) { %>
         <div class="row" itemprop="screenshots">
             <p>Screenshots</p>
@@ -201,6 +211,15 @@
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script src="/assets/scripts/base.js"></script>
+    <script>
+        $(document).on('click', '#poster-wrapper', function(event){
+            event.preventDefault();
+
+            $('html, body').animate({
+                scrollTop: $( $.attr(this, 'href') ).offset().top
+            }, 500);
+        });
+    </script>
 </body>
 
 </html>
