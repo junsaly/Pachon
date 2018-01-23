@@ -162,6 +162,12 @@ function thenIfId ($) {
         });
     }
 
+    if ($('.product-image img').length > 0) {
+        info.thumb.push({
+            url: $('.product-image img').attr('src')
+        });
+    }
+
     let series = $('dt:contains("Series:")').next().find('a');
     if (series.length > 0) {
         info.series = {

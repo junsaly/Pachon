@@ -136,6 +136,7 @@ class MovieInfo {
         this.posters = op.posters || [];
         this.screenshots = op.screenshots || [];
         this.covers = op.covers || [];
+        this.thumb = op.thumb || [];
         this.url = op.url || '';
 
         this.country = op.country || '';

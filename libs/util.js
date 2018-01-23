@@ -136,6 +136,14 @@ function cacheImageURLs (data) {
             d.covers[i] = '/images/' + id;
         }
 
+        for (var i=0; i<d.thumb.length; i++) {
+            let obj = d.thumb[i];
+            let id = genId(obj.url) + '.jpg';
+            cache.set('image', id, obj);
+
+            d.thumb[i] = '/images/' + id;
+        }
+
         return d;
     }
 
