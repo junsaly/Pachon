@@ -52,12 +52,14 @@ app.use(function (err, req, res, next) {
 const imageRoute = require('../routes/images.js');
 const humanRoute = require('../routes/human.js');
 const movieRoute = require('../routes/movie.js');
+const apiRoute = require('../routes/api.js');
 
 // ========================================================
 
 app.use('/images', imageRoute);
 app.use('/human', humanRoute);
 app.use('/movie', movieRoute);
+app.use('/api', apiRoute);
 
 app.all('/', (req, res) => {
     res.redirect('https://www.google.com');
