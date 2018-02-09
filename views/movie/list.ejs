@@ -61,7 +61,7 @@
                                 <div class="my-value">
                                     <p class="title">
                                         <a href="<%= result.url %>">
-                                            <%= result.title.toUpperCase() %>
+                                            <%= ((result.title || "").toUpperCase() + " " + (result.transtitle || "")).trim() %>
                                         </a>
                                     </p>
                                     <p class="origtitle"><%= result.origtitle %></p>
