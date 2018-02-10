@@ -67,6 +67,9 @@ function crawl (opt) {
                 }
                 
                 return info;
+            }).catch(err => {
+                console.error(err);
+                return d;
             });
         } else {
             return d;
