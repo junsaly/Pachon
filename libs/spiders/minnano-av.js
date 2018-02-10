@@ -41,6 +41,8 @@ function crawl (opt) {
                     return crawler.crawl({
                         type: 'id',
                         qtext: infoid
+                    }).catch(err => {
+                        return err;
                     });
                 })
             ).then(results => {
@@ -50,8 +52,8 @@ function crawl (opt) {
                 let birthday = info.birthday;
                 let matched = results.filter(
                     res => 
-                        res != null && 
-                        res.birthday === birthday &&
+                        res != null && res instanceof HumanInfo &&
+                        //res.birthday === birthday &&
                         names.some(v => v.og === res.name.og)
                 );
                 
