@@ -42,6 +42,7 @@ function crawl (opt) {
                         type: 'id',
                         qtext: infoid
                     }).catch(err => {
+                        console.error(err);
                         return err;
                     });
                 })
