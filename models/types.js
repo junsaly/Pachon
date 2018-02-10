@@ -2,6 +2,12 @@
 
 const clone = require('clone');
 
+class NamedType {
+    constructor() {
+        this.__type__ = this.constructor.name;
+    }
+}
+
 // HumanName: object for saving human name
 class HumanName {
     constructor(opt) {
@@ -28,8 +34,10 @@ class HumanName {
 module.exports.HumanName = HumanName;
 
 // HumanInfo: object contain some infomation of human.
-class HumanInfo {
+class HumanInfo extends NamedType {
     constructor(opt) {
+        super(opt);
+
         var op = {};
         if (opt && typeof opt === 'object') {
             op = opt;
@@ -91,8 +99,10 @@ class HumanInfo {
 module.exports.HumanInfo = HumanInfo;
 
 // SearchResult contain data of searching.
-class SearchResult {
+class SearchResult extends NamedType {
     constructor(opt) {
+        super(opt);
+
         var op = {};
         if (opt && typeof opt === 'object') {
             op = opt;
@@ -115,8 +125,10 @@ class SearchResult {
 module.exports.SearchResult = SearchResult;
 
 // MovieInfo contains some infomation about movie
-class MovieInfo {
+class MovieInfo extends NamedType {
     constructor(opt) {
+        super(opt);
+        
         var op = {};
         if (opt && typeof opt === 'object') {
             op = opt;
