@@ -94,8 +94,8 @@ function thenIfSearch ($, lang) {
         let ele = $(el);
         let info = new MovieInfo();
 
-        let newItem = isNewItem(ele, lang);
-        let imgTypeCode = newItem ? "new" : "archive";
+        let streamingItem = isStreamingItem(ele, lang);
+        let imgTypeCode = streamingItem ? "new" : "archive";
 
         ele = ele.find('td').eq(1)[0];
         info.url = ele.childNodes[1].attribs["href"];
@@ -107,7 +107,7 @@ function thenIfSearch ($, lang) {
             info.origtitle = util.wrapText(ele.childNodes[1].children[0].data.trim());
         }
 
-        if (newItem) {
+        if (streamingItem) {
             info.title = ele.childNodes[13].data.replace(LangMap['title'][lang], '').trim();
         } else {
             info.title = ele.childNodes[11].data.replace(LangMap['title'][lang], '').trim();
@@ -160,7 +160,7 @@ function thenIfId ($, lang) {
     info.title = $('div#mini-tabet div').text().replace(LangMap['title'][lang], '').trim();
     
     let imgCode = info.title.toLowerCase();
-    let imgTypeCode = isNewItem($, lang) ? "new" : "archive";
+    let imgTypeCode = info.year > 2013 ? "new" : "archive";
 
     info.title = processREDTitle(info.title);
 
@@ -260,7 +260,7 @@ function processREDTitle(title) {
     return title;
 }
 
-function isNewItem($, lang) {
+function isStreamingItem($, lang) {
     let img = {
         "ja": '/img/gif_dlst.gif',
         "en": '/img/en/gif_dlst.gif',
