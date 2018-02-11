@@ -48,9 +48,7 @@ function getFootprint (data) {
 
 function formatMovId (val) {
     var uri = urlParse(val);
-    var qstr = querystring.parse(
-        uri.path.replace(uri.pathname, '')
-    );
+    var qstr = querystring.parse(uri.query);
     return qstr['product_id'];
 }
 
@@ -96,6 +94,9 @@ function thenIfSearch ($, lang) {
         let ele = $(el);
         let info = new MovieInfo();
 
+        let newItem = isNewItem(ele, lang);
+        let imgTypeCode = newItem ? "new" : "archive";
+
         ele = ele.find('td').eq(1)[0];
         info.url = ele.childNodes[1].attribs["href"];
         info.movid = formatMovId(info.url);
@@ -105,9 +106,15 @@ function thenIfSearch ($, lang) {
         if (lang == 'ja') {
             info.origtitle = util.wrapText(ele.childNodes[1].children[0].data.trim());
         }
-        info.title = ele.childNodes[13].data.replace(LangMap['title'][lang], '').trim();
+
+        if (newItem) {
+            info.title = ele.childNodes[13].data.replace(LangMap['title'][lang], '').trim();
+        } else {
+            info.title = ele.childNodes[11].data.replace(LangMap['title'][lang], '').trim();
+        }
+        
         info.posters.push({
-            url: `http://imgs.aventertainments.com/new/jacket_images/dvd1${info.title.toLowerCase()}.jpg`
+            url: `http://imgs.aventertainments.com/${imgTypeCode}/jacket_images/dvd1${info.title.toLowerCase()}.jpg`
         });
 
         result.results.push(info);
@@ -151,9 +158,18 @@ function thenIfId ($, lang) {
     info.maker = $(`div#titlebox li:contains("${LangMap['maker'][lang]}") > a`).text().trim();
 
     info.title = $('div#mini-tabet div').text().replace(LangMap['title'][lang], '').trim();
+    
+    let imgCode = info.title.toLowerCase();
+    let imgTypeCode = isNewItem($, lang) ? "new" : "archive";
+
+    info.title = processREDTitle(info.title);
 
     info.posters.push({
-        url: `http://imgs.aventertainments.com/new/bigcover/dvd1${info.title.toLowerCase()}.jpg`
+        url: `http://imgs.aventertainments.com/${imgTypeCode}/bigcover/dvd1${imgCode}.jpg`
+    })
+
+    info.thumb.push({
+        url: `http://imgs.aventertainments.com/${imgTypeCode}/jacket_images/dvd1${imgCode}.jpg`
     })
 
     $(`div#titlebox li:contains("${LangMap['actors'][lang]}") > a`).each((i, el) => {
@@ -175,7 +191,7 @@ function thenIfId ($, lang) {
     })
 
     info.screenshots.push({
-        url: `http://imgs.aventertainments.com/new/screen_shot/dvd1${info.title.toLowerCase()}.jpg`
+        url: `http://imgs.aventertainments.com/${imgTypeCode}/screen_shot/dvd1${imgCode}.jpg`
     });
 
     return info;
@@ -192,6 +208,11 @@ function crawl (opt) {
     if (typeof opt == 'object') {
         let type = opt.type || '';
         let qtext = opt.qtext || '';
+
+        if (/^red-\d{3}$/.test(qtext)) {
+            qtext = util.replaceAll(qtext, '-', '')
+        }
+
         lang = opt.lang || 'en';
         if (type && qtext) {
             url = TEMPLATE[type]
@@ -229,6 +250,27 @@ function crawl (opt) {
         })
         .catch(err => util.catchURLError(url, err, resolve, reject));
     });
+}
+
+function processREDTitle(title) {
+    if (/^RED\d{3}$/.test(title.toUpperCase())) {
+        return util.replaceAll(title, 'RED', 'RED-')
+    }
+
+    return title;
+}
+
+function isNewItem($, lang) {
+    let img = {
+        "ja": '/img/gif_dlst.gif',
+        "en": '/img/en/gif_dlst.gif',
+    }
+
+    if ($.find) {
+        return $.find(`img[src="${img[lang]}"]`).length > 0;
+    } else {
+        return $(`img[src="${img[lang]}"]`).length > 0;
+    }
 }
 
 module.exports.crawl = crawl;
