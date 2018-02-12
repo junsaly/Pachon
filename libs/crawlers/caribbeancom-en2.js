@@ -101,10 +101,6 @@ function crawl (opt) {
                 }
 
                 info.posters.push({
-                    url: formatPoster(url)
-                });
-
-                info.posters.push({
                     url: `https://en.caribbeancom.com/moviepages/${info.movid}/images/l_l.jpg`
                 });
 
