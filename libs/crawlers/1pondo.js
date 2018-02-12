@@ -74,6 +74,10 @@ function crawlInternal (movid, url) {
             url: d_details["ThumbHigh"]
         });
 
+        info.thumb.push({
+            url: d_details["MovieThumb"]
+        })
+
         info.duration = formatDuration(d_details["Duration"]);
 
         info.description = d_details["Desc"];

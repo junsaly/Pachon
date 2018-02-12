@@ -58,7 +58,9 @@ function crawl (opt) {
             } else {
                 let info = new MovieInfo({ url: url, country: 'Japan', origlang: 'Japanese' });
 
-                info.title = 'Caribbeancompr ' + formatTitle(url);
+                info.movid = formatTitle(url);
+
+                info.title = 'Caribbeancompr ' + info.movid;
                 info.origtitle = $('div.video-detail > h1').text().trim();
 
                 info.releasedate = $('div.movie-info dt:contains("販売日:")').next().text();
@@ -114,7 +116,11 @@ function crawl (opt) {
                 }
 
                 info.posters.push({
-                    url: formatPoster(url)
+                    url: `http://www.caribbeancompr.com/moviepages/${info.movid}/images/l_l.jpg`
+                });
+
+                info.thumb.push({
+                    url: `http://www.caribbeancompr.com/moviepages/${info.movid}/images/main_b.jpg`
                 });
 
                 resolve(info);

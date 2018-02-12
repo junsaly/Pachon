@@ -34,11 +34,6 @@ function formatDate (val) {
     return { year, releasedate };
 }
 
-function formatPoster (val) {
-    let url = val.replace('index.html', '');
-    return url + 'images/poster_en.jpg';
-}
-
 function crawl (opt) {
     let url = "";
     if (typeof opt == 'string') {
@@ -107,6 +102,14 @@ function crawl (opt) {
 
                 info.posters.push({
                     url: formatPoster(url)
+                });
+
+                info.posters.push({
+                    url: `https://en.caribbeancom.com/moviepages/${info.movid}/images/l_l.jpg`
+                });
+
+                info.thumb.push({
+                    url: `https://en.caribbeancom.com/moviepages/${info.movid}/images/jacket.jpg`
                 });
 
                 resolve(info);

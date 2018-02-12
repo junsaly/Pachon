@@ -98,6 +98,7 @@ function crawl (opt) {
                     info.posters.push({
                         url: ele.find('img').attr('src')
                     });
+                    info.movid = movid
                     info.title = movid
                     info.origtitle = util.wrapText(ele.find('img').attr('alt'));
 
@@ -130,6 +131,11 @@ function crawl (opt) {
                 });
 
                 let movid = $('td:contains("品番：")').next().text().trim();
+                info.movid = movid;
+
+                info.thumb.push({
+                    url: $(`#package-src-${info.movid}`).attr("src")
+                })
 
                 if ($('div#sample-image-block a[name="sample-image"]').length > 0) {
                     $('div#sample-image-block > a[name="sample-image"] img').each((i, el) => {

@@ -57,12 +57,17 @@ function crawl (opt) {
                 });
 
                 let movid = getMovieID(url);
+                info.movid = movid;
 
                 info.title = 'HEYZO ' + movid;
                 info.transtitle = util.formatText($('div#movie h1').text()).split(' - ')[0];
 
                 info.posters.push({
-                    url: 'http://www.heyzo.com/contents/3000/' + movid + '/images/player_thumbnail_en.jpg'
+                    url: `http://en.heyzo.com/contents/3000/${info.movid}/images/player_thumbnail_en.jpg`
+                })
+
+                info.thumb.push({
+                    url: `http://en.heyzo.com/contents/3000/${info.movid}/images/thumbnail.jpg`
                 })
 
                 info.releasedate = util.formatText($('.movieInfo td:contains("Released")').next().text());

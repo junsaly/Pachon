@@ -65,7 +65,9 @@ function crawl (opt) {
             } else {
                 let info = new MovieInfo({ url: url, country: 'Japan', origlang: 'Japanese' });
 
-                info.title = 'Caribbeancom ' + formatTitle(url);
+                info.movid = formatTitle(url);
+
+                info.title = 'Caribbeancom ' + info.movid;
                 info.origtitle = $('div.video-detail > h1').text().trim();
 
                 let { year, releasedate } = formatDate($('dd[itemprop="uploadDate"]').text());
@@ -114,7 +116,11 @@ function crawl (opt) {
                 }
 
                 info.posters.push({
-                    url: formatPoster(url)
+                    url: `https://www.caribbeancom.com/moviepages/${info.movid}/images/l_l.jpg`
+                });
+
+                info.thumb.push({
+                    url: `https://www.caribbeancom.com/moviepages/${info.movid}/images/jacket.jpg`
                 });
 
                 resolve(info);

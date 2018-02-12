@@ -59,11 +59,17 @@ function crawl (opt) {
 
                 let movid = getMovieID(url);
 
-                info.title = 'HEYZO ' + movid;
+                info.movid = movid;
+
+                info.title = 'HEYZO ' + info.movid;
                 info.origtitle = util.formatText($('div#movie h1').text()).split(' - ')[0];
 
                 info.posters.push({
-                    url: 'http://www.heyzo.com/contents/3000/' + movid + '/images/player_thumbnail.jpg'
+                    url: `http://www.heyzo.com/contents/3000/${info.movid}/images/player_thumbnail.jpg`
+                })
+
+                info.thumb.push({
+                    url: `http://www.heyzo.com/contents/3000/${info.movid}/images/thumbnail.jpg`
                 })
 
                 info.releasedate = util.formatText($('.table-release-day td').eq(1).text().trim());

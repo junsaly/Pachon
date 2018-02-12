@@ -29,11 +29,6 @@ function formatTitle (val) {
         .trim();
 }
 
-function formatPoster (val) {
-    let url = val.replace('index.html', '');
-    return url + 'images/str.jpg';
-}
-
 function crawl (opt) {
     let url = "";
     if (typeof opt == 'string') {
@@ -62,7 +57,9 @@ function crawl (opt) {
             } else {
                 let info = new MovieInfo({ url: url, country: 'Japan', origlang: 'Japanese' });
 
-                info.title = '10musume ' + formatTitle(url);
+                info.movid = formatTitle(url);
+
+                info.title = '10musume ' + info.movid;
                 info.origtitle = $('div.detail-info__meta dt:contains("タイトル:")').next().text();
 
                 info.releasedate = $('div.detail-info__meta dt:contains("配信日:")').next().text();
@@ -97,7 +94,11 @@ function crawl (opt) {
                 info.description = $('div.detail-info__item > p.detail-info__comment').text().trim();
 
                 info.posters.push({
-                    url: formatPoster(url)
+                    url: `http://www.10musume.com/moviepages/${info.movid}/images/str.jpg`
+                });
+
+                info.thumb.push({
+                    url: `http://www.10musume.com/moviepages/${info.movid}/images/list1.jpg`
                 });
 
                 resolve(info);

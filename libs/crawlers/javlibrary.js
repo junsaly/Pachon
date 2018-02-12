@@ -94,12 +94,17 @@ function thenIfId ($, url, urlpath, lang) {
     });
 
     let movid = $('div#video_id td.text').text();
+    info.movid;
 
     let val = $('div#video_jacket img').attr('src');
     if (val.indexOf('img/noimagepl.gif') == - 1) {
         info.posters.push({
             url: 'http:' + val
         });
+
+        info.thumb.push({
+            url: 'http:' + util.replaceAll(val, 'pl.jpg', 'ps.jpg')
+        })
     }
     
     info.title = movid.toUpperCase();
