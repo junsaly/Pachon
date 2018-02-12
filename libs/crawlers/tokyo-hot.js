@@ -132,6 +132,9 @@ function crawl (opt) {
                             url: $('video').attr('poster'),
                         });
                     }
+                    info.thumb.push({
+                        url: `http://my.cdn.tokyo-hot.com/media/${info.movid}/package/_v.jpg`
+                    })
                     if (lang == 'ja') {
                         info.origtitle = $('.contents > h2').text();
                     }
