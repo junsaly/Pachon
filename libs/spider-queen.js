@@ -113,6 +113,7 @@ const HINTS_LIST = [
     { crawler: 'tokyo-hot', regex: /^tokyohot .*$/ },
     { crawler: 'avent', regex: /^(sky|red|rhj|skyhd|pt|pb|hey|bt|drc|s2m)-\d{3}$/ },
     { crawler: 'avent', regex: /^(cwp|cwdv|cz|smd|laf|kg|dsam)-\d+$/ },
+    { crawler: 'avent', regex: /^mkd-s\d+$/ },
     { crawler: 'r18', regex: /.*/ }, // unblockdmm.com is current down 18/01/23
 ];
 
