@@ -64,4 +64,6 @@ describe('crawlers/... test suite', function() {
     test(crawlers['r18'], 'http://www.r18.com/common/search/searchword=DKSW-261/');
     test(crawlers['avent'], 'http://www.aventertainments.com/search_Products.aspx?languageID=1&keyword=pink-019&searchby=keyword');
     test(crawlers['avent'], 'http://www.aventertainments.com/product_lists.aspx?product_id=109021&languageID=1&dept_id=29');
+    test(crawlers['pacopacomama'], 'http://www.pacopacomama.com/moviepages/012018_210/index.html');
+    test(crawlers['pacopacomama-en'], 'http://en.pacopacomama.com/eng/moviepages/022018_224/index.html');
 });
