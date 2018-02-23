@@ -211,11 +211,11 @@ function findStrategies (movid) {
 function cacheData (type, id, data) {
     switch (type) {
         case "search":
-            cache.set('data', id, data, 1800); // 30 minutes
+            cache.set('data', id, data, 900); // 15 minutes
             break;
 
         case "id":
-            cache.set('data', id, data, 3600); // 1 hour
+            cache.set('data', id, data, 1800); // 30 minutes
             break;
     }
 }
