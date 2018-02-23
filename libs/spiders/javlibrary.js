@@ -15,10 +15,9 @@ module.exports.target = function () {
     return TARGET;
 }
 
-const r18 = crawlers["r18"];
 const javlib = crawlers["javlibrary"];
 
-function mixMovieInfo(d_jav, d_r18, lang) {
+function mixMovieInfo(d_jav, d_r18) {
     if (d_r18 instanceof MovieInfo) {
         let d = clone(d_jav);
         util.syncObjects(d, d_r18);
@@ -67,30 +66,38 @@ function crawl (options) {
     }
     
     return Promise.all([
-        javlib.crawl({qtext: qtext, type: type, lang: lang}),
-        r18.crawl({qtext: qtext, type: 'search'}),
+        javlib.crawl({qtext: qtext, type: type, lang: "ja"}),
+        javlib.crawl({qtext: qtext, type: type, lang: "en"}),
     ])
     .then(data => {
-        let d_jav = data[0];
-        let d_r18 = data[1];
+        let d_0 = data[0];
+        let d_1 = data[1];
         
-        if (d_jav instanceof SearchResult) {
+        if (d_0 instanceof SearchResult) {
             let id = util.tryGetMovId(qtext);
-            let mov_id = util.tryGetMovId(d_jav.results[0].title);
+            let mov_id = util.tryGetMovId(d_0.results[0].title);
             if (id == mov_id) {
-                return javlib.crawl(d_jav.results[0].url)
-                .then(d => {
-                    if (d) {
-                        return mixMovieInfo(d, d_r18, lang);
+                return Promise.all([
+                    javlib.crawl(d_0.results[0].url),
+                    javlib.crawl(d_1.results[0].url),
+                ]).then(d => {
+                    if (d[1]) {
+                        let data = util.syncObjects(d[0], d[1]);
+                        data.genres = d[1].genres;
+                        return data;
                     }
-                    return d_jav;
+
+                    return d[0];
                 })
             }
-            return d_jav;
+
+            return d_0;
         }
 
-        if (d_jav instanceof MovieInfo) {
-            return mixMovieInfo(d_jav, d_r18, lang);
+        if (d_0 instanceof MovieInfo) {
+            let data = util.syncObjects(d_0, d_1);
+            data.genres = d_1.genres;
+            return data;
         }
 
         return null;

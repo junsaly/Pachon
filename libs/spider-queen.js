@@ -4,6 +4,7 @@ const cache = require('../config/cache.js');
 const crawlers = require('./crawlers');
 const spiders = require('./spiders');
 const util = require('./util.js');
+const strategies = require('../config/strategies.js');
 
 function findCrawlers (selector) {
     let result = [];
@@ -105,35 +106,118 @@ function summon (options) {
     return [];
 }
 
-const HINTS_LIST = [
-    { crawler: 'r18', regex: /^asw-\d{3}$/ },
-    { crawler: 'r18', regex: /^ght-\d{3}$/ },
-    { crawler: 'caribbeancom', regex: /^(carib|caribbean) \d{6}-\d{3}$/ },
-    { crawler: 'caribbeancompr', regex: /^(caribpr|caribbeanpr) \d{6}_\d{3}$/ },
-    { crawler: 'tokyo-hot', regex: /^tokyohot .*$/ },
-    { crawler: 'pacopacomama', regex: /^paco \d{6}_\d{3}$/ },
-    { crawler: 'avent', regex: /^(sky|red|rhj|skyhd|pt|pb|hey|bt|drc|s2m)-\d{3}$/ },
-    { crawler: 'avent', regex: /^(cwp|cwdv|cz|smd|laf|kg|dsam)-\d+$/ },
-    { crawler: 'avent', regex: /^mkd-s\d+$/ },
-    { crawler: 'r18', regex: /.*/ }, // unblockdmm.com is current down 18/01/23
-];
+function runStrategy (strategy, options) {
+    try {
+        var [crawler, _] = summon({
+            assign: strategy.crawler,
+            target: options.target,
+        })
+    
+        var id = strategies.getId(options.qtext)
+    
+        if (!crawler) {
+            return Promise.resolve({
+                "success": false,
+                "error": new Error("Crawler not found")
+            });
+        }
+    
+        let data_cached = cache.get('data', id);
+        if (data_cached) {
+            return Promise.resolve({
+                "success": true,
+                "data": data_cached
+            });
+        }
 
-function findHintsList (movid) {
-    var qtext = (movid || '').toLowerCase();
-    if (!qtext) {
+        console.log(
+            'Crawler: ' + crawler.name() + ' ' + 
+            JSON.stringify(options)
+        );
+    
+        return crawler.crawl({
+            "type": options.type,
+            "qtext": id,
+        }).then(data => {
+            return {
+                "success": data != null,
+                "data": data
+            };
+        }).catch(err => {
+            return {
+                "success": false,
+                "error": err
+            };
+        });
+    }
+    catch (ex) {
+        return Promise.resolve({
+            "success": false,
+            "error": ex
+        })
+    }
+    
+}
+
+function runStrategyList (strategies, options, errors) {
+    var opt = options || {};
+    var errs = errors || [];
+    var strategy = strategies.shift();
+
+    if (!strategy) {
+        return Promise.reject(errs);
+    }
+
+    return runStrategy(strategy, opt)
+        .then(result => {
+            var success = result.success;
+            if (success) {
+                return result.data
+            }
+
+            errs.push({
+                "strategy": strategy,
+                "options": opt,
+                "error": result.error,
+            });
+            
+            return runStrategyList(strategies, opt, errs);
+        });
+}
+
+function findStrategies (movid) {
+    var q = (movid || '').toLowerCase();
+    if (!q) {
         return [];
     }
-    for (var hint of HINTS_LIST) {
-        if (hint.regex.test(qtext)) {
-            let id = qtext;
-            if (qtext.indexOf(' ') > 0) {
-                let pos = qtext.indexOf(' ');
-                id = qtext.substring(pos).trim();
-            }
-            return [ hint.crawler, id ];
+
+    var strategyList = [];
+
+    for (let strategy of strategies.STRAGETIES.main) {
+        if (strategies.checkCondition(strategy.condition, q)) {
+            strategyList.push(strategy);
         }
     }
-    return [];
+
+    if (strategyList.length == 0) {
+        for (let strategy of strategies.STRAGETIES.all) {
+            strategyList.push(strategy);
+        }
+    }
+
+    return strategyList;
+}
+
+function cacheData (type, id, data) {
+    switch (type) {
+        case "search":
+            cache.set('data', id, data, 1800); // 30 minutes
+            break;
+
+        case "id":
+            cache.set('data', id, data, 3600); // 1 hour
+            break;
+    }
 }
 
 function crawl (queryText, options) {
@@ -157,48 +241,43 @@ function crawl (queryText, options) {
         assign: options.assign,
     });
 
-    if (!crawler) {
-        let [crawlerName, movid] = findHintsList(id);
-        if (crawlerName) {
-            crawler = summon({
-                assign: crawlerName,
-                target: target,
-            })[0];
-        }
-        if (movid) {
-            id = movid;
-        }
-    }
+    if (crawler) {
 
-    if (!crawler) {
-        return Promise.reject('Crawler not found');
-    }
+        let data_cached = cache.get('data', id);
 
-    let data_cached = cache.get('data', id);
-    if (data_cached) {
-        return Promise.resolve(data_cached);
+        if (data_cached) {
+            return Promise.resolve(data_cached);
+        } else {
+            let options = {
+                "type": type,
+                "qtext": id,
+            };
+    
+            console.log(
+                'Crawler: ' + crawler.name() + ' ' + 
+                JSON.stringify(options)
+            );
+    
+            return crawler.crawl(options).then(data => {
+                cacheData(type, id, data);
+                return data;
+            });
+        }
+
     } else {
-        let options = {
+
+        let strategies = findStrategies(id);
+
+        if (strategies.length == 0) {
+            return Promise.reject('Crawler not found');
+        }
+
+        return runStrategyList(strategies, {
             "type": type,
+            "target": target, 
             "qtext": id,
-        };
-
-        console.log(
-            'Crawler: ' + crawler.name() + ' ' + 
-            JSON.stringify(options)
-        );
-
-        return crawler.crawl(options).then(data => {
-            switch (type) {
-                case "search":
-                    cache.set('data', id, data, 1800); // 30 minutes
-                    break;
-
-                case "id":
-                    cache.set('data', id, data, 3600); // 1 hour
-                    break;
-            }
-            
+        }).then(data => {
+            cacheData(type, id, data);
             return data;
         });
     }
