@@ -111,7 +111,7 @@ const HINTS_LIST = [
     { crawler: 'caribbeancom', regex: /^(carib|caribbean) \d{6}-\d{3}$/ },
     { crawler: 'caribbeancompr', regex: /^(caribpr|caribbeanpr) \d{6}_\d{3}$/ },
     { crawler: 'tokyo-hot', regex: /^tokyohot .*$/ },
-    { crawler: 'pacopacomama', regex: /^paco .*$/ },
+    { crawler: 'pacopacomama', regex: /^paco \d{6}_\d{3}$/ },
     { crawler: 'avent', regex: /^(sky|red|rhj|skyhd|pt|pb|hey|bt|drc|s2m)-\d{3}$/ },
     { crawler: 'avent', regex: /^(cwp|cwdv|cz|smd|laf|kg|dsam)-\d+$/ },
     { crawler: 'avent', regex: /^mkd-s\d+$/ },
