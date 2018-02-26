@@ -56,6 +56,7 @@ describe('spiders/... test suite', function() {
     test(spiders['heydouga'], {qtext: '4017/245'});
     test(spiders['dmm'], {qtext: 'xrw-011', type: 'search'});
     test(spiders['tokyo-hot'], {qtext: 'n0900', type: 'search'});
+    test(spiders['tokyo-hot'], {qtext: 'k1278', type: 'search'});
     test(spiders['avent'], {qtext: 'pink-019', type: 'search'});
     test(spiders['r18'], {qtext: 'kk-016', type: 'search'});
     test(spiders['pacopacomama'], {qtext: '022018_224', type: 'search'});

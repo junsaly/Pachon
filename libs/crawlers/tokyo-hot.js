@@ -122,7 +122,7 @@ function crawl (opt) {
                     var title = $(`.infowrapper dt:contains("${LangMap['title'][lang]}")`)
                         .next().text();
                     info.title = 'Tokyo-Hot ' + title;
-                    var jacket = $('.package a').first().attr('href')
+                    var jacket = $('.package a').first().attr('href') || ''
                     if (jacket.indexOf('jacket') > -1) {
                         info.posters.push({
                             url: jacket,
