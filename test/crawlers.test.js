@@ -66,4 +66,5 @@ describe('crawlers/... test suite', function() {
     test(crawlers['avent'], 'http://www.aventertainments.com/product_lists.aspx?product_id=109021&languageID=1&dept_id=29');
     test(crawlers['pacopacomama'], 'http://www.pacopacomama.com/moviepages/012018_210/index.html');
     test(crawlers['pacopacomama-en'], 'http://en.pacopacomama.com/eng/moviepages/022018_224/index.html');
+    test(crawlers['tokyo-hot'], {"qtext": "6232", "type": "id", "lang": "ja"});
 });

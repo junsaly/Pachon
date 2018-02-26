@@ -12,7 +12,7 @@ module.exports.name = function () {
 
 const TEMPLATE = {
     "search": "http://my.tokyo-hot.com/product/?q={qtext}&{lang}",
-    "id": "http://my.tokyo-hot.com/product/{qtext}/?{lang}",
+    "id": "http://my.tokyo-hot.com/product/{qtext}/",
 }
 
 const DOMAIN = 'my.tokyo-hot.com';
@@ -40,7 +40,7 @@ function getFootprint (data) {
 
 function formatMovID (val) {
     var p = val.split('product/');
-    var pp = p[1].split('/?');
+    var pp = p[1].split('/');
     return pp[0];
 }
 
@@ -60,12 +60,12 @@ function crawl (opt) {
 
         if (opt.lang == 'ja') {
             lang = 'ja';
-            url = url.replace('{lang}', 'lang=jp');
+            // url = url.replace('{lang}', 'lang=jp');
         }
 
         if (opt.lang == 'en') {
             lang = 'en';
-            url = url.replace('{lang}', 'lang=en');
+            url = url + '?lang=en';
         }
     }
 
