@@ -28,7 +28,9 @@ const LangMap = {
     'title': { 'ja': '作品番号', 'en': 'Product ID' },
     'actors': { 'ja': '出演者', 'en': 'Actress' },
     'series': { 'ja': 'シリーズ', 'en': 'Theme' },
-    'genres': { 'ja': 'カテゴリ', 'en': 'Category' },
+    'label': { 'ja': 'レーベル', 'en': 'Label' },
+    'play': { 'ja': 'プレイ内容', 'en': 'Play' },
+    'tags': { 'ja': 'タグ', 'en': 'Tags' },
 }
 
 function getFootprint (data) {
@@ -167,7 +169,8 @@ function crawl (opt) {
                             text: ele.text(),
                         };
                     }
-                    $(`.infowrapper dt:contains("${LangMap['genres'][lang]}")`)
+
+                    $(`.infowrapper dt:contains("${LangMap['play'][lang]}")`)
                         .next().find('a').each((i, el) => {
                             let ele = $(el);
                             let genre = {
@@ -178,7 +181,29 @@ function crawl (opt) {
                             }
                             info.genres.push(genre);
                         });
+
+                    $(`.infowrapper dt:contains("${LangMap['tags'][lang]}")`)
+                        .next().find('a').each((i, el) => {
+                            let ele = $(el);
+                            let genre = {
+                                url: BASE_URL + ele.attr('href'),
+                                text: util.formatProperCase(
+                                    dict('ja', ele.text())
+                                ),
+                            }
+                            info.genres.push(genre);
+                        });
+
                     info.maker = 'TOKYO-HOT';
+
+                    var ele = $(`.infowrapper dt:contains("${LangMap['label'][lang]}")`)
+                        .next().find('a');
+                    if (ele.length > 0) {
+                        info.label = {
+                            url: BASE_URL + ele.attr('href'),
+                            text: ele.text(),
+                        };
+                    }
 
                     resolve(info);
                 }

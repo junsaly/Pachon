@@ -44,6 +44,7 @@ function thenIfID (opt) {
                 util.syncObjects(d, d2);
                 if (d2.description) d.description = d2.description;
                 if (d2.genres.length > 0) d.genres = d2.genres;
+                if (d2.series) d.series = d2.series;
             }
             if (d.origtitle == d.transtitle) {
                 d.transtitle = '';
