@@ -81,7 +81,7 @@ function getFootprint (data) {
     };
 }
 
-function thenIfSearch ($) {
+function thenIfSearch ($, matchExact) {
     let result = new SearchResult({url: $.getCurrentURL(), footprint: getFootprint});
     result.queryString = $('.searchBox').attr('value');
 
@@ -110,6 +110,17 @@ function thenIfSearch ($) {
         .then($$ => {
             return thenIfId($$);
         })
+    }
+
+    if (matchExact) {
+        let d = result.results.filter(v => result.queryString == v.title);
+        if (d.length == 1) {
+            let mov = d[0];
+            return leech.get(mov.url)
+            .then($$ => {
+                return thenIfId($$);
+            });
+        }
     }
 
     return result;
@@ -230,6 +241,8 @@ function crawl (opt) {
         throw new Error("Invalid Arguments");
     }
 
+    let matchExact = (opt.matchExact || false);
+
     return new Promise((resolve, reject) => {
         leech.get(url)
         .then($ => {
@@ -247,7 +260,7 @@ function crawl (opt) {
                     }
                 } else {
                     // Search result
-                    Promise.resolve(thenIfSearch($))
+                    Promise.resolve(thenIfSearch($, matchExact))
                         .then(data => resolve(data))
                         .catch(err => util.catchURLError(url, err, resolve, reject));
                 }

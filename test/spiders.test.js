@@ -60,4 +60,8 @@ describe('spiders/... test suite', function() {
     test(spiders['avent'], {qtext: 'pink-019', type: 'search'});
     test(spiders['r18'], {qtext: 'kk-016', type: 'search'});
     test(spiders['pacopacomama'], {qtext: '022018_224', type: 'search'});
+    test(spiders['jcen'], {qtext: 'cjod-048', type: 'search'});
+    test(spiders['jcen'], {qtext: 'ssni-101', type: 'search'});
+    test(spiders['jcen'], {qtext: 'rbd-075', type: 'search'});
+    test(spiders['jcen'], {qtext: 'mad-83', type: 'search'});
 });

@@ -13,9 +13,7 @@ module.exports = {
         ],
     
         all: [
-            { crawler: "r18" },
-            { crawler: "dmm" },
-            { crawler: "javlibrary" },
+            { crawler: "jcen" },
         ],
     },
 

@@ -13,6 +13,7 @@ const {
 } = require('../models/types.js');
 
 const minify = require('html-minifier').minify;
+const stringSimilarity = require('string-similarity');
 
 function formatText (str) {
     return str.replace(/\s\s+/g, ' ').trim();
@@ -29,6 +30,7 @@ function wrapText (val, maxLength) {
         return val;
     }
     return val.substring(0, maxLength - 3) + '...';
+    //return val;
 }
 
 module.exports.wrapText = wrapText;
@@ -190,11 +192,19 @@ function cacheURLs (data) {
 module.exports.cacheURLs = cacheURLs;
 
 
-function tryGetMovId (val) {
+function tryGetMovId (val, sample) {
     val = val.toLowerCase();
+    sample = (sample || "").toLowerCase();
+
+    val = replaceAll(val, '-', '');
+    sample = replaceAll(sample, '-', '');
 
     if (val.indexOf('h_') == 0) {
         val = val.substring(2);
+
+        if (val == sample) {
+            return val;
+        }
     }
 
     let len = val.length;
@@ -218,6 +228,10 @@ function tryGetMovId (val) {
     }
 
     val = val.substring(startpos, endpos+1);
+    if (val == sample) {
+        return val;
+    }
+
     len = val.length;
     startpos = -1;
 
@@ -232,18 +246,30 @@ function tryGetMovId (val) {
     if (startpos > -1) {
         while (val.charAt(startpos) == '0') {
             val = val.replace('0', '')
+            if (val == sample) {
+                return val;
+            }
         }
     }
-
-    val = replaceAll(val, '-', '');
 
     return val;
 }
 
 module.exports.tryGetMovId = tryGetMovId;
 
+function compareString (s1, s2) {
+    return replaceAll(s1, '-', '').toLowerCase() == replaceAll(s2, '-', '').toLowerCase();
+}
 
-function syncObjects (des, src) {
+module.exports.compareString = compareString;
+
+function compareStringSimilarity (s1, s2) {
+    return stringSimilarity.compareTwoStrings(s1.toLowerCase(), s2.toLowerCase());
+}
+
+module.exports.compareStringSimilarity = compareStringSimilarity;
+
+function syncObjects (des, src, overwrite) {
     if (!des) {
         throw new Error('Invalid Arguments');
     }

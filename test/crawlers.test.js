@@ -67,4 +67,5 @@ describe('crawlers/... test suite', function() {
     test(crawlers['pacopacomama'], 'http://www.pacopacomama.com/moviepages/012018_210/index.html');
     test(crawlers['pacopacomama-en'], 'http://en.pacopacomama.com/eng/moviepages/022018_224/index.html');
     test(crawlers['tokyo-hot'], {"qtext": "6232", "type": "id", "lang": "ja"});
+    test(crawlers['javlibrary'], 'http://www.javlibrary.com/ja/?v=javli43g5u');
 });

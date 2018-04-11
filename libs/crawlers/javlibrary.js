@@ -41,7 +41,7 @@ function getFootprint (data) {
     }
 }
 
-function thenIfSearch ($, url, urlpath, lang) {
+function thenIfSearch ($, url, urlpath, lang, matchExact) {
     let result = new SearchResult({ 
         url: url,
         queryString: 
@@ -53,7 +53,7 @@ function thenIfSearch ($, url, urlpath, lang) {
         let info = new MovieInfo();
 
         let ele = $(el);
-        info.url = urlpath + ele.find('a').attr('href').substring(1);
+        info.url = urlpath + ele.find('a').attr('href').substring(2);
         info.title = ele.find('a div.id').text().toUpperCase();
 
         let val = ele.find('a img').attr('src');
@@ -75,13 +75,16 @@ function thenIfSearch ($, url, urlpath, lang) {
 
     result.more = $('div.page_selector').length > 0;
 
-    // let mov = result.results[0];
-    // if (result.queryString == mov.title) {
-    //     return leech.get(mov.url)
-    //     .then($$ => {
-    //         return thenIfId($$, mov.url, urlpath);
-    //     })
-    // }
+    if (matchExact) {
+        let d = result.results.filter(v => result.queryString.toLowerCase() == v.title.toLowerCase());
+        if (d.length > 0) {
+            let mov = d[d.length-1];
+            return leech.get(mov.url)
+            .then($$ => {
+                return thenIfId($$, mov.url, urlpath, lang);
+            });
+        }
+    }
 
     return result;
 }
@@ -177,6 +180,7 @@ function crawl (opt) {
     let lang = "en";
     if (typeof opt == 'string') {
         url = opt;
+        lang = url.split('/')[3];
     }
 
     if (typeof opt == 'object') {
@@ -198,6 +202,8 @@ function crawl (opt) {
     let urlpath = BASE_URL + 
         url_parsed.pathname.substring(0, url_parsed.pathname.lastIndexOf('/')) + '/';
 
+    let matchExact = (opt.matchExact || false);
+
     return new Promise((resolve, reject) => {
         leech.get(url)
         .then($ => {
@@ -210,7 +216,7 @@ function crawl (opt) {
                 if ($('div:contains("ID Search Result")').length > 0 ||
                     $('div:contains("品番検索結果")').length > 0) {
                     // Search result
-                    Promise.resolve(thenIfSearch($, url, urlpath, lang))
+                    Promise.resolve(thenIfSearch($, url, urlpath, lang, matchExact))
                         .then(data => resolve(data))
                         .catch(err => util.catchURLError(url, err, resolve, reject));
                 }
