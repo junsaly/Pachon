@@ -85,7 +85,7 @@ function crawl (options) {
                     (ja["dmm"].data instanceof MovieInfo) &&
                     util.compareStringSimilarity(ja["dmm"].data.origtitle, ja["javlib"].data.origtitle) > 0.7) {
 
-                    r_ja = ja["dmm"].data;
+                    r_ja = util.syncObjects(ja["dmm"].data, ja["javlib"].data);
                 }
             }
 
@@ -99,9 +99,16 @@ function crawl (options) {
             let r_en = null;
             if (en["r18"].success && en["r18"].data instanceof MovieInfo) {
                 r_en = en["r18"].data;
+
+                if (en["javlib"].success && en["javlib"].data instanceof MovieInfo) {
+                    r_en = util.syncObjects(en["r18"].data, en["javlib"].data);
+                }
+                
             } else if (en["javlib"].success && en["javlib"].data instanceof MovieInfo) {
                 r_en = en["javlib"].data;
             }
+
+            /* ---------- */
 
             if (!r_ja && !r_en) {
                 if (exactMatch) {
