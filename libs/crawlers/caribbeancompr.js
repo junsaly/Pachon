@@ -115,7 +115,7 @@ function crawl (opt) {
                     }
                 }
 
-                info.posters.push({
+                info.covers.push({
                     url: `http://www.caribbeancompr.com/moviepages/${info.movid}/images/l_l.jpg`
                 });
 

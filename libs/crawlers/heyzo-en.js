@@ -62,7 +62,7 @@ function crawl (opt) {
                 info.title = 'HEYZO ' + movid;
                 info.transtitle = util.formatText($('div#movie h1').text()).split(' - ')[0];
 
-                info.posters.push({
+                info.covers.push({
                     url: `http://en.heyzo.com/contents/3000/${info.movid}/images/player_thumbnail_en.jpg`
                 })
 

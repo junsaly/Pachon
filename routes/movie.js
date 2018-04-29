@@ -92,9 +92,15 @@ router.get('/search', (req, res) => {
 
         if (data_cached instanceof MovieInfo) {
             if (data_cached.posters.length == 0) {
-                data_cached.posters.push(
-                    '/assets/images/noimagepl.gif'
-                )
+                if (data_cached.covers.length > 0) {
+                    data_cached.posters.push(
+                        data_cached.covers[0]
+                    )
+                } else {
+                    data_cached.posters.push(
+                        '/assets/images/noimagepl.gif'
+                    )
+                }
             }
 
             res.render('movie/details', data_cached);
@@ -142,9 +148,15 @@ router.get('/:infoid', function (req, res) {
     
             if (data_cached instanceof MovieInfo) {
                 if (data_cached.posters.length == 0) {
-                    data_cached.posters.push(
-                        '/assets/images/noimagepl.gif'
-                    );
+                    if (data_cached.covers.length > 0) {
+                        data_cached.posters.push(
+                            data_cached.covers[0]
+                        )
+                    } else {
+                        data_cached.posters.push(
+                            '/assets/images/noimagepl.gif'
+                        )
+                    }
                 }
                 res.render('movie/details', data_cached);
 

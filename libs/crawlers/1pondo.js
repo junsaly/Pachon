@@ -70,7 +70,7 @@ function crawlInternal (movid, url) {
         info.releasedate = d_details["Release"];
         info.year = d_details["Year"];
 
-        info.posters.push({
+        info.covers.push({
             url: d_details["ThumbHigh"]
         });
 

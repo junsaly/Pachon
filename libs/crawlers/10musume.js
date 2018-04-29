@@ -93,7 +93,7 @@ function crawl (opt) {
 
                 info.description = $('div.detail-info__item > p.detail-info__comment').text().trim();
 
-                info.posters.push({
+                info.covers.push({
                     url: `http://www.10musume.com/moviepages/${info.movid}/images/str.jpg`
                 });
 

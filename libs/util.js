@@ -51,7 +51,7 @@ module.exports.formatProperCase = formatProperCase;
 
 
 function replaceAll (s, oldS, newS) {
-    return s.split(oldS).join(newS);
+    return (s || "").split(oldS).join(newS);
 }
 
 module.exports.replaceAll = replaceAll;

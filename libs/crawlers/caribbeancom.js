@@ -115,7 +115,7 @@ function crawl (opt) {
                     info.rating = ele.text().trim().length * 2;
                 }
 
-                info.posters.push({
+                info.covers.push({
                     url: `https://www.caribbeancom.com/moviepages/${info.movid}/images/l_l.jpg`
                 });
 

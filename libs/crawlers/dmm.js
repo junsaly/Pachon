@@ -119,7 +119,7 @@ function thenIfId ($, url, sample) {
         origlang: 'Japanese',
     });
 
-    info.posters.push({
+    info.covers.push({
         url: decodeURIComponent($('div#sample-video a').first().attr('href')),
     });
 

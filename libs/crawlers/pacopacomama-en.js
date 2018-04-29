@@ -103,7 +103,7 @@ function crawl (opt) {
                 info.genres.push(genre);
             });
 
-            info.posters.push({
+            info.covers.push({
                 url: `http://www.pacopacomama.com/moviepages/${info.movid}/images/l_hd.jpg`
             });
 

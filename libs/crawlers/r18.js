@@ -168,7 +168,7 @@ function thenIfId ($) {
     info.title = dvdid;
 
     if ($('.detail-single-picture img').length > 0) {
-        info.posters.push({
+        info.covers.push({
             url: $('.detail-single-picture img').attr('src')
         });
     }

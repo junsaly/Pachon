@@ -108,7 +108,7 @@ function crawl (opt) {
 
             info.description = $('dd.comment > div').text().trim();
 
-            info.posters.push({
+            info.covers.push({
                 url: `http://www.pacopacomama.com/moviepages/${info.movid}/images/l_hd.jpg`
             });
 

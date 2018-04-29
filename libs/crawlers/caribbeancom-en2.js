@@ -100,7 +100,7 @@ function crawl (opt) {
                     info.description = '';
                 }
 
-                info.posters.push({
+                info.covers.push({
                     url: `https://en.caribbeancom.com/moviepages/${info.movid}/images/l_l.jpg`
                 });
 

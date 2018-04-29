@@ -164,7 +164,7 @@ function thenIfId ($, lang) {
 
     info.title = processREDTitle(info.title);
 
-    info.posters.push({
+    info.covers.push({
         url: `http://imgs.aventertainments.com/${imgTypeCode}/bigcover/dvd1${imgCode}.jpg`
     })
 

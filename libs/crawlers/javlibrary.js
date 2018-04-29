@@ -101,7 +101,7 @@ function thenIfId ($, url, urlpath, lang) {
 
     let val = $('div#video_jacket img').attr('src');
     if (val.indexOf('img/noimagepl.gif') == - 1) {
-        info.posters.push({
+        info.covers.push({
             url: 'http:' + val
         });
 

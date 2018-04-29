@@ -225,7 +225,7 @@ function crawl (queryText, options) {
     let opt = options || {};
     
     if (qtext == '') {
-        return null;
+        return Promise.resolve(null);
     }
 
     let target = opt.target || '';

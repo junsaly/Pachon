@@ -126,11 +126,11 @@ function crawl (opt) {
                     info.title = 'Tokyo-Hot ' + title;
                     var jacket = $('.package a').first().attr('href') || ''
                     if (jacket.indexOf('jacket') > -1) {
-                        info.posters.push({
+                        info.covers.push({
                             url: jacket,
                         });
                     } else {
-                        info.posters.push({
+                        info.covers.push({
                             url: $('video').attr('poster'),
                         });
                     }

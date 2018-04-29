@@ -160,7 +160,7 @@ function crawl (opt) {
                     info.genres.push(genre);
                 });
 
-                info.posters.push({
+                info.covers.push({
                     url: formatPoster(info.url, lang)
                 });
 
