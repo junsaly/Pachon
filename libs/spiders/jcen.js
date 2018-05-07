@@ -26,8 +26,7 @@ function silent (promise) {
             data: r
         }
     }).catch(e => {
-        console.log(e);
-
+        if (e) console.log(e);
         return {
             success: false,
             error: e

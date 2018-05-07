@@ -207,8 +207,7 @@ function crawl (opt) {
     return new Promise((resolve, reject) => {
         leech.get(url)
         .then($ => {
-            if ($('title:contains("404")').length > 0 || 
-                $('div:contains("Search Tips")').length > 0 ||
+            if ($('div:contains("Search Tips")').length > 0 ||
                 $('div:contains("検索ヒント")').length > 0) {
                 resolve(null);
             } else {
@@ -216,7 +215,7 @@ function crawl (opt) {
                 if ($('div:contains("ID Search Result")').length > 0 ||
                     $('div:contains("品番検索結果")').length > 0) {
                     // Search result
-                    Promise.resolve(thenIfSearch($, url, urlpath, lang, matchExact))
+                    Promise.resolve(thenIfSearch($, $.getCurrentURL(), urlpath, lang, matchExact))
                         .then(data => resolve(data))
                         .catch(err => util.catchURLError(url, err, resolve, reject));
                 }
