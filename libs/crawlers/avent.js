@@ -107,11 +107,9 @@ function thenIfSearch ($, lang) {
             info.origtitle = util.wrapText(ele.childNodes[1].children[0].data.trim());
         }
 
-        if (streamingItem) {
-            info.title = ele.childNodes[13].data.replace(LangMap['title'][lang], '').trim();
-        } else {
-            info.title = ele.childNodes[11].data.replace(LangMap['title'][lang], '').trim();
-        }
+        info.title = ele.childNodes
+            .filter(v => v.type == 'text' && v.data.trim() !== '')[0].data
+                .replace(LangMap['title'][lang], '').trim();
         
         info.posters.push({
             url: `http://imgs.aventertainments.com/${imgTypeCode}/jacket_images/dvd1${info.title.toLowerCase()}.jpg`
