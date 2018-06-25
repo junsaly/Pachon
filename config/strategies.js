@@ -8,7 +8,7 @@ module.exports = {
             { crawler: 'tokyo-hot', condition: /^tokyohot .*$/ },
             { crawler: 'pacopacomama', condition: /^paco \d{6}_\d{3}$/ },
             { crawler: 'avent', condition: /^(sky|red|rhj|skyhd|pt|pb|hey|bt|drc|s2m|ssk-bd|sskj|trg|trp|pink)-\d{3}$/ },
-            { crawler: 'avent', condition: /^(cwp|cwdv|cz|smd|laf|kg|dsam|shd|smr)-\d+$/ },
+            { crawler: 'avent', condition: /^(cwp|cwdv|cz|smd|smbd|laf|kg|dsam|shd|smr)-\d+$/ },
             { crawler: 'avent', condition: /^(mkd-s|mkbd-s)\d+$/ },
             { crawler: 'avent', condition: /^cld\d{2}$/ },
             { crawler: 'avent', condition: /^cw3d2bd-\d{2}$/ },
