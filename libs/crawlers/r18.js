@@ -90,7 +90,7 @@ function thenIfSearch ($, matchExact) {
         let info = new MovieInfo();
 
         info.url = ele.find('a').attr('href');
-        info.transtitle = util.wrapText(ele.find('img').attr('alt'));
+        info.transtitle = util.wrapText(ele.find('dl:first-child dt').text() || '');
         info.title = ele.find('.cmn-btn-imgHover01 a').attr('data-id');
         info.posters.push({
             url: util.replaceAll(

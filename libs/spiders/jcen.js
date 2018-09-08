@@ -77,15 +77,15 @@ function crawl (options) {
             };
 
             let r_ja = null;
-            if (ja["javlib"].success && ja["javlib"].data instanceof MovieInfo) {
-                r_ja = ja["javlib"].data;
+            if (ja["dmm"].success && ja["dmm"].data instanceof MovieInfo) {
+                r_ja = ja["dmm"].data;
 
-                if (ja["dmm"].success && 
-                    (ja["dmm"].data instanceof MovieInfo) &&
-                    util.compareStringSimilarity(ja["dmm"].data.origtitle, ja["javlib"].data.origtitle) > 0.7) {
-
+                if (ja["javlib"].success && ja["javlib"].data instanceof MovieInfo &&
+                util.compareStringSimilarity(ja["dmm"].data.origtitle, ja["javlib"].data.origtitle) > 0.7) {
                     r_ja = util.syncObjects(ja["dmm"].data, ja["javlib"].data);
                 }
+            } else if (ja["javlib"].success && ja["javlib"].data instanceof MovieInfo) {
+                r_ja = ja["javlib"].data;
             }
 
             /* ---------- */
