@@ -127,7 +127,7 @@ function thenIfId ($, url, sample) {
     info.movid = movid;
 
     info.thumb.push({
-        url: $(`#package-src-${info.movid}`).attr("src")
+        url: $('img[id^=package-src-]').attr("src")
     })
 
     if ($('div#sample-image-block a[name="sample-image"]').length > 0) {
