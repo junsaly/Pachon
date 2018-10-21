@@ -68,28 +68,28 @@ function crawl (opt) {
                 info.movid = formatTitle(url);
 
                 info.title = 'Caribbeancom ' + info.movid;
-                info.origtitle = $('div.video-detail > h1').text().trim();
+                info.origtitle = $('h1[itemprop="name"]').text().trim();
 
-                let { year, releasedate } = formatDate($('dd[itemprop="uploadDate"]').text());
+                let { year, releasedate } = formatDate($('span[itemprop="uploadDate"]').text());
                 info.year = year;
                 info.releasedate = releasedate;
 
-                info.duration = $('dd span[itemprop="duration"]').text().trim();
+                info.duration = $('span.spec-title:contains("再生時間")').next().text().trim();
 
                 info.maker = 'カリビアンコム';
 
-                $('dl.movie-info-cat dd').each((i, el) => {
+                $('span.spec-title:contains("タグ")').next().find('a').each((i, el) => {
                     let ele = $(el);
                     let genre = {
-                        url: BASE_URL + ele.find('a').attr('href'),
+                        url: BASE_URL + ele.attr('href'),
                         text: dict('ja', ele.text()),
                     };
 
                     info.genres.push(genre);
                 });
 
-                if ($('dt:contains("出演:")').length > 0) {
-                    $('dt:contains("出演:")').next().find('a').each((i, el) => {
+                if ($('span.spec-title:contains("出演")').length > 0) {
+                    $('span.spec-title:contains("出演")').next().find('a').each((i, el) => {
                         let ele = $(el);
                         let actor = {
                             url: BASE_URL + ele.attr('href'),
@@ -100,18 +100,18 @@ function crawl (opt) {
                     });
                 }
 
-                info.description = $('div.movie-comment > p').text().trim();
+                info.description = $('p[itemprop="description"]').text().trim();
 
-                if ($('dt:contains("シリーズ:")').length > 0) {
-                    let ele = $('dt:contains("シリーズ:")').next().find('a');
+                if ($('span.spec-title:contains("シリーズ")').length > 0) {
+                    let ele = $('span.spec-title:contains("シリーズ")').next().find('a');
                     info.series = {
                         url: BASE_URL + ele.attr('href'),
                         text: ele.text(),
                     }
                 }
 
-                if ($('dt:contains("ユーザー評価:")').length > 0) {
-                    let ele = $('dt:contains("ユーザー評価:")').next()
+                if ($('span.spec-title:contains("ユーザー評価")').length > 0) {
+                    let ele = $('span.spec-title:contains("ユーザー評価")').next()
                     info.rating = ele.text().trim().length * 2;
                 }
 
