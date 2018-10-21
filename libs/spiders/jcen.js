@@ -62,7 +62,7 @@ function crawl (options) {
             ),
             silent(
                 // javlib.crawl(Object.assign({}, opt, {lang: "ja", matchExact: true}))
-                Promise.reject("Crawler can't pass DDOS Checking")
+                Promise.reject("Crawler can't pass DDOS Checking for javlibrary.com")
             ),
             // en record
             silent(
@@ -70,7 +70,7 @@ function crawl (options) {
             ),
             silent(
                 // javlib.crawl(Object.assign({}, opt, {lang: "en", matchExact: true}))
-                Promise.reject("Crawler can't pass DDOS Checking")
+                Promise.reject("Crawler can't pass DDOS Checking for javlibrary.com")
             ),
         ]).then(records => {
             let ja = {
