@@ -11,8 +11,8 @@ module.exports.name = function () {
 }
 
 const TEMPLATE = {
-    "search": "http://my.tokyo-hot.com/product/?q={qtext}&{lang}",
-    "id": "http://my.tokyo-hot.com/product/{qtext}/",
+    "search": "https://my.tokyo-hot.com/product/?q={qtext}",
+    "id": "https://my.tokyo-hot.com/product/{qtext}/",
 }
 
 const DOMAIN = 'my.tokyo-hot.com';
@@ -20,7 +20,7 @@ module.exports.domain = function () {
     return DOMAIN;
 }
 
-const BASE_URL = 'http://' + DOMAIN;
+const BASE_URL = 'https://' + DOMAIN;
 
 const LangMap = {
     'releasedate': { 'ja': '配信開始日', 'en': 'Release Date' },
@@ -67,7 +67,7 @@ function crawl (opt) {
 
         if (opt.lang == 'en') {
             lang = 'en';
-            url = url + '?lang=en';
+            url = url + '&lang=en';
         }
     }
 
