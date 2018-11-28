@@ -66,8 +66,10 @@ function crawl (opt) {
         }
 
         if (opt.lang == 'en') {
-            lang = 'en';
-            url = url + '&lang=en';
+            // lang = 'en';
+            // url = url + '&lang=en';
+
+            return Promise.resolve(null);
         }
     }
 
