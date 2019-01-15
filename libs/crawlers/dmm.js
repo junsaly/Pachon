@@ -10,12 +10,19 @@ module.exports.name = function () {
     return NAME;
 }
 
+// const TEMPLATE = {
+//     "search": "http://unblockdmm.com/browse.php?u=http://www.dmm.co.jp/search/=/searchstr={qtext}/sort=date",
+//     "id": "http://unblockdmm.com/browse.php?u=http://www.dmm.co.jp/mono/dvd/-/detail/=/cid={qtext}",
+// }
+
 const TEMPLATE = {
-    "search": "http://unblockdmm.com/browse.php?u=http://www.dmm.co.jp/search/=/searchstr={qtext}/sort=date",
-    "id": "http://unblockdmm.com/browse.php?u=http://www.dmm.co.jp/mono/dvd/-/detail/=/cid={qtext}",
+    "search": "http://www.dmm.co.jp/search/=/searchstr={qtext}/sort=date",
+    "id": "http://www.dmm.co.jp/mono/dvd/-/detail/=/cid={qtext}",
 }
 
-const DOMAIN = 'unblockdmm.com';
+// const DOMAIN = 'unblockdmm.com';
+const DOMAIN = 'dmm.com.jp';
+
 module.exports.domain = function () {
     return DOMAIN;
 }
