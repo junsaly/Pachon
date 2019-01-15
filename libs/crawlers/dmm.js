@@ -68,7 +68,7 @@ function thenIfSearch ($, url, matchExact) {
         });
         let ele = $(el);
 
-        info.url = BASE_URL + decodeURIComponent(
+        info.url = /*BASE_URL + */decodeURIComponent(
             ele.find('a').attr('href')
         );
 

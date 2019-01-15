@@ -17,7 +17,7 @@ module.exports.target = function () {
 
 const r18 = crawlers["r18"];
 const dmm = crawlers["dmm"];
-const javlib = crawlers["javlibrary"];
+//const javlib = crawlers["javlibrary"];
 
 function silent (promise) {
     return promise.then(r => {
@@ -26,7 +26,7 @@ function silent (promise) {
             data: r
         }
     }).catch(e => {
-        if (e) console.log(e);
+        if (e) console.error(e);
         return {
             success: false,
             error: e
