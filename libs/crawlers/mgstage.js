@@ -16,6 +16,16 @@ module.exports.domain = function () {
     return DOMAIN;
 }
 
+const LangMap = {
+    'actors': '出演',
+    'maker': 'メーカー',
+    'duration': '収録時間',
+    'title': '品番',
+    'releasedate': '配信開始日',
+    'series': 'シリーズ',
+    'label': 'レーベル',
+}
+
 const BASE_URL = 'https://' + DOMAIN;
 
 function formatReleaseDate (val) {
@@ -70,35 +80,41 @@ function crawl (opt) {
             info.title = info.movid;
             info.origtitle = $('.common_detail_cover h1').text().trim();
             
-            var detailDataTableRows = $('.detail_data table tr');
-
+            var detail_tr = $('.detail_data table tr');
+            var get_detail_data = function (field) {
+                return detail_tr.find(`th:contains("${field}")`).next()
+            }
+            
             // info.actors.push({
-            //     text: detailDataTableRows.eq(0).find('td').text().trim()
+            //     text: get_detail_data(LangMap.actors).text().trim()
             // })
             
-            info.maker = detailDataTableRows.eq(1).find('td').text().trim();
+            info.maker = get_detail_data(LangMap.maker).text().trim();
             
-            info.duration = formatDuration(detailDataTableRows.eq(2).find('td').text().trim());
+            info.duration = formatDuration(get_detail_data(LangMap.duration).text().trim());
             
-            // info.title = detailDataTableRows.eq(3).find('td').text().trim()
+            // info.title = get_detail_data(LangMap.title).text().trim()
 
-            info.releasedate = formatReleaseDate(detailDataTableRows.eq(4).find('td').text().trim());
+            info.releasedate = formatReleaseDate(get_detail_data(LangMap.releasedate).text().trim());
 
             info.year = info.releasedate.slice(0, 4)
             
             info.series = {
-                url: BASE_URL + detailDataTableRows.eq(5).find('td a').attr('href'),
-                text: detailDataTableRows.eq(5).find('td a').text().trim(),
+                url: BASE_URL + get_detail_data(LangMap.series).find('a').attr('href'),
+                text: get_detail_data(LangMap.series).text().trim(),
             };
             
-            if (detailDataTableRows.eq(6).find('td').children().length > 0) {
-                throw new Error('This movie has label. Implement it!')
+            if (get_detail_data(LangMap.label).children().length > 0) {
+                info.label = {
+                    url: BASE_URL + get_detail_data(LangMap.label).find('a').attr('href'),
+                    text: get_detail_data(LangMap.label).text().trim(),
+                }
             }
 
             info. description = $('#introduction p.introduction').text().trim();
 
             var movid_parts = info.movid.toLowerCase().split('-');
-            var maker_id = detailDataTableRows.eq(1).find('td a').attr('href').trim().split('=').pop();
+            var maker_id = get_detail_data(LangMap.maker).find('a').attr('href').trim().split('=').pop();
 
             info.covers.push({
                 url: `https://image.mgstage.com/images/${maker_id}/${movid_parts[0]}/${movid_parts[1]}/pb_e_${info.movid.toLowerCase()}.jpg`

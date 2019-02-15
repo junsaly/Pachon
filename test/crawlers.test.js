@@ -69,4 +69,5 @@ describe('crawlers/... test suite', function() {
     test(crawlers['tokyo-hot'], {"qtext": "6232", "type": "id", "lang": "ja"});
     test(crawlers['wap'], 'つぼみ');
     test(crawlers['mgstage'], {"qtext": "200GANA-1637"});
+    test(crawlers['mgstage'], {"qtext": "277DCV-104"});
 });
