@@ -337,9 +337,14 @@ function pipe (options, callback) {
 
     try {
         httpRequest(args["request"])
+            .on('response', function(res) {
+                if (options['content-type']) {
+                    res.headers['content-type'] = options['content-type']
+                }
+            })
             .pipe(args["process"].target)
             .on('finish', () => fn(null))
-            .on('error', err => callback(err));
+            .on('error', err => fn(err));
     } catch (ex) {
         fn(ex);
     }

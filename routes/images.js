@@ -13,11 +13,11 @@ router.get('/:resid', (req, res) => {
     if (reqObj) {
         let options = clone(reqObj);
         options['target'] = res;
+        options['content-type'] = 'image/jpeg';
 
         leech.pipe(options)
         .catch(err => {
             console.error(err);
-            res.setHeader('Content-Type', 'image/jpeg')
             res.status(500).end();
         });
     } else {
