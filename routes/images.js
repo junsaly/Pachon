@@ -17,6 +17,7 @@ router.get('/:resid', (req, res) => {
         leech.pipe(options)
         .catch(err => {
             console.error(err);
+            res.setHeader('Content-Type', 'image/jpeg')
             res.status(500).end();
         });
     } else {
