@@ -30,6 +30,7 @@ const
   RATING_NAME    = 'Avg';
 
   BASE_URL   = 'http://leech-server.herokuapp.com';
+  //BASE_URL   = 'http://localhost:3000';
   SEARCH_STR_TMP = '/movie/search?q={qtext}';
   
 var
@@ -110,6 +111,19 @@ begin
     Result := '';
 end;
 
+function StringWrap(Text: String): String;
+var
+  Len: Integer;
+begin
+  Len := Length(Text);
+  Result := Text;
+  if Len > 75 then
+  begin
+    Result := Copy(Result, 0, 75 - 3);
+    Result := Result + '...';
+  end;
+end;
+
 function HTMLValue(HTML: string; StartPos, EndPos: Integer; StartValue, EndValue: string): string;
 var
   ValueStart, ValueEnd: Integer;
@@ -177,11 +191,11 @@ begin
     LogMessage('poster: '+ PosterURL);
     
     // Original Title
-    Value := GetData(HTML, 'Original Title:');
+    Value := StringWrap(GetData(HTML, 'Original Title:'));
     AddHTMLValue(Value, 'origtitle', 0, 0, '', '');
     
     // Translated Title
-    Value := GetData(HTML, 'Translated Title:');
+    Value := StringWrap(GetData(HTML, 'Translated Title:'));
     AddHTMLValue(Value, 'aka', 0, 0, '', '');
     
     // Release Date
