@@ -165,7 +165,11 @@ function runStrategyList (strategies, options, errors) {
     var strategy = strategies.shift();
 
     if (!strategy) {
-        return Promise.reject(errs);
+        if (errs.error) {
+            return Promise.reject(errs)
+        } else {
+            return Promise.resolve(null);
+        }
     }
 
     return runStrategy(strategy, opt)
@@ -200,7 +204,7 @@ function findStrategies (movid) {
     }
 
     if (strategyList.length == 0) {
-        for (let strategy of strategies.STRAGETIES.all) {
+        for (let strategy of strategies.STRAGETIES.default) {
             strategyList.push(strategy);
         }
     }
@@ -257,7 +261,7 @@ function crawl (queryText, options) {
                 'Crawler: ' + crawler.name() + ' ' + 
                 JSON.stringify(options)
             );
-    
+            
             return crawler.crawl(options).then(data => {
                 cacheData(type, id, data);
                 return data;

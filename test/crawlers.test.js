@@ -68,4 +68,5 @@ describe('crawlers/... test suite', function() {
     test(crawlers['r18'], 'http://www.r18.com/common/search/searchword=Sw-261/');
     test(crawlers['tokyo-hot'], {"qtext": "6232", "type": "id", "lang": "ja"});
     test(crawlers['wap'], 'つぼみ');
+    test(crawlers['mgstage'], {"qtext": "200GANA-1637"});
 });

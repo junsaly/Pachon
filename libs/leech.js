@@ -90,6 +90,10 @@ function prepare (args) {
         reqObj.headers[key] = HEADERS[key];
     }
 
+    if (args['cookie']) {
+        reqObj.headers['Cookie'] = httpRequest.cookie(args['cookie']);
+    }
+
     return {
         "request": reqObj,
         "process": prcObj,
