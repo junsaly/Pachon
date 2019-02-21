@@ -83,7 +83,7 @@
                 <dl>
                     <dt>Director:</dt>
                     <dd>
-                        <a href="javascipt:void(0)" onclick="openLink('<%= director.url %>')"><%= director.text %></a>
+                        <a href="<%= director.url %>" target="_blank" rel="noopener"><%= director.text %></a>
                     </dd>
                 </dl>
                 <% } %>
@@ -93,7 +93,7 @@
                     <dd>
                         <% actors.forEach(actor => { %>
                         <div class="chip">
-                            <a href="javascipt:void(0)" onclick="openLink('<%= actor.url %>')"><%= actor.text %></a>
+                            <a href="<%= actor.url %>" target="_blank" rel="noopener"><%= actor.text %></a>
                         </div>
                         <% }) %>
                     </dd>
@@ -103,7 +103,7 @@
                 <dl>
                     <dt>Label:</dt>
                     <dd>
-                        <a href="javascipt:void(0)" onclick="openLink('<%= label.url %>')"><%= label.text %></a>
+                        <a href="<%= label.url %>" target="_blank" rel="noopener"><%= label.text %></a>
                     </dd>
                 </dl>
                 <% } %>
@@ -112,7 +112,7 @@
                 <dl>
                     <dt>Series:</dt>
                     <dd>
-                        <a href="javascipt:void(0)" onclick="openLink('<%= series.url %>')"><%= series.text %></a>
+                        <a href="<%= series.url %>" target="_blank" rel="noopener"><%= series.text %></a>
                     </dd>
                 </dl>
                 <% } %>
@@ -126,7 +126,7 @@
                 <dl>
                     <dt>Provider:</dt>
                     <dd>
-                        <a href="javascipt:void(0)" onclick="openLink('<%= provider.url %>')"><%= provider.text %></a>
+                        <a href="<%= provider.url %>" target="_blank" rel="noopener"><%= provider.text %></a>
                     </dd>
                 </dl>
                 <% } %>
@@ -137,7 +137,7 @@
                     <dd>
                         <% genres.forEach(genre => { %>
                         <div class="chip">
-                            <a href="javascipt:void(0)" onclick="openLink('<%= genre.url %>')"><%= genre.text %></a>
+                            <a href="<%= genre.url %>" target="_blank" rel="noopener"><%= genre.text %></a>
                         </div>
                         <% }) %>
                     </dd>
@@ -150,7 +150,7 @@
                     <dd>
                         <% tags.forEach(tag => { %>
                         <div class="chip">
-                            <a href="javascipt:void(0)" onclick="openLink('<%= tag.url %>')"><%= tag.text %></a>
+                            <a href="<%= tag.url %>" target="_blank" rel="noopener"><%= tag.text %></a>
                         </div>
                         <% }) %>
                     </dd>
@@ -173,7 +173,7 @@
 
                 <dl>
                     <dt>URL:</dt>
-                    <dd><a href="javascipt:void(0)" class="truncate" onclick="openLink('<%= url %>')"><%= url %></a></dd>
+                    <dd><a class="truncate" href="<%= url %>" target="_blank" rel="noopener"><%= url %></a></dd>
                 </dl>
             </div>
         </div>
@@ -200,7 +200,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-    <script src="/assets/scripts/base.js"></script>
 </body>
 
 </html>
