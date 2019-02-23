@@ -70,4 +70,5 @@ describe('crawlers/... test suite', function() {
     test(crawlers['wap'], 'つぼみ');
     test(crawlers['mgstage'], {"qtext": "200GANA-1637"});
     test(crawlers['mgstage'], {"qtext": "277DCV-104"});
+    test.only(crawlers['mgstage'], {"qtext": "SIRO-3615"});
 });
