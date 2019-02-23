@@ -13,6 +13,7 @@ module.exports = {
             { crawler: 'avent', condition: /^cld\d{2}$/ },
             { crawler: 'avent', condition: /^cw3d2bd-\d{2}$/ },
             { crawler: 'mgstage', condition: /^\d{3}\w+-\d+$/}
+            { crawler: 'mgstage', condition: /^SIRO-\d+$/}
         ],
     
         default: [
