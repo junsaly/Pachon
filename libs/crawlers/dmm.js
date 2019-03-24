@@ -21,7 +21,7 @@ const TEMPLATE = {
 }
 
 // const DOMAIN = 'unblockdmm.com';
-const DOMAIN = 'dmm.com.jp';
+const DOMAIN = 'dmm.co.jp';
 
 module.exports.domain = function () {
     return DOMAIN;
