@@ -5,6 +5,7 @@ const crawlers = require('./crawlers');
 const spiders = require('./spiders');
 const util = require('./util.js');
 const strategies = require('../config/strategies.js');
+const { MovieInfo, SearchResult } = require('../models/types.js');
 
 function findCrawlers (selector) {
     let result = [];
@@ -212,15 +213,13 @@ function findStrategies (movid) {
     return strategyList;
 }
 
-function cacheData (type, id, data) {
-    switch (type) {
-        case "search":
-            cache.set('data', id, data, 900); // 15 minutes
-            break;
+function cacheData (id, data) {
+    if (data instanceof MovieInfo) {
+        cache.set('data', id, data, 1800); // 30 minutes
+    }
 
-        case "id":
-            cache.set('data', id, data, 1800); // 30 minutes
-            break;
+    if (data instanceof SearchResult) {
+        cache.set('cache', id, data, 900); // 15 minutes
     }
 }
 
@@ -263,7 +262,7 @@ function crawl (queryText, options) {
             );
             
             return crawler.crawl(options).then(data => {
-                cacheData(type, id, data);
+                cacheData(id, data);
                 return data;
             });
         }
@@ -281,7 +280,7 @@ function crawl (queryText, options) {
             "target": target, 
             "qtext": id,
         }).then(data => {
-            cacheData(type, id, data);
+            cacheData(id, data);
             return data;
         });
     }
