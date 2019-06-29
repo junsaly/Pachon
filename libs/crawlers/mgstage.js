@@ -99,7 +99,10 @@ function crawl (opt) {
 
             info.year = info.releasedate.slice(0, 4)
 
-            info.genres.push('Amateur');
+            info.genres.push({
+                url: "#",
+                text: 'Amateur',
+            });
             
             info.series = {
                 url: BASE_URL + get_detail_data(LangMap.series).find('a').attr('href'),
