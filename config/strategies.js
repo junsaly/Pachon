@@ -9,7 +9,7 @@ module.exports = {
             { crawler: 'pacopacomama', condition: /^paco \d{6}_\d{3}$/ },
             { crawler: 'avent', condition: /^(emp|sky|red|rhj|skyhd|pt|pb|hey|bt|drc|s2m|ssk-bd|sskj|trg|trp|pink)-\d{3}$/ },
             { crawler: 'avent', condition: /^bt-\d{2}$/ },
-            { crawler: 'avent', condition: /^(cwp|cwdv|cz|smd|smbd|laf|kg|dsam|shd|smr)-\d+$/ },
+            { crawler: 'avent', condition: /^(cwdv|cwp|cz|dsam|kg|laf|mcbd|shd|smbd|smd|smr)-\d+$/ },
             { crawler: 'avent', condition: /^(mkd-s|mkbd-s)\d+$/ },
             { crawler: 'avent', condition: /^cld\d{2}$/ },
             { crawler: 'avent', condition: /^cw3d2bd-\d{2}$/ },
