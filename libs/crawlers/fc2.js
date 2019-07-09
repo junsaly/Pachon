@@ -75,7 +75,12 @@ function crawl (opt) {
         info.genres.push({
             url: '',
             text: 'Uncensored'
-        })
+        });
+
+        info.label = {
+            url: info.director.url,
+            text: info.director.url.split('/').slice(-2, -1)[0]
+        };
 
         return info;
     });
