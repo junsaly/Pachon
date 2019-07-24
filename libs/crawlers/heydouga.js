@@ -31,17 +31,8 @@ function getBaseURL (lang) {
 }
 
 function formatMovID (val, lang) {
-    var res = val;
-    if (lang == 'ja') {
-        res = res.replace('http://www.heydouga.com/moviepages/', '');
-    }
-    if (lang == 'en') {
-        res = res.replace('http://en.heydouga.com/moviepages/', '');
-    }
-    res = res.replace('/index.html', '');
-    res = res.replace('/', '-');
-    
-    return res;
+    var res = val.split('/');
+    return `${res[4]}-${res[5]}`;
 }
 
 function formatDuration (val) {
@@ -58,10 +49,10 @@ function formatDuration (val) {
 function formatPoster (val, lang) {
     var res = val;
     if (lang == 'en') {
-        res = res.replace('en', 'image01');
+        res = res.replace('en', 'image01-www');
     }
     if (lang == 'ja') {
-        res = res.replace('www', 'image01');
+        res = res.replace('www', 'image01-www');
     }
     res = res.replace('moviepages', 'contents');
     res = res.replace('index.html', 'player_thumb.jpg');
