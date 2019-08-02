@@ -5,6 +5,8 @@ module.exports = {
             { crawler: 'r18', condition: /^ght-\d{3}$/ },
             { crawler: 'caribbeancom', condition: /^(carib|caribbean) \d{6}-\d{3}$/ },
             { crawler: 'caribbeancompr', condition: /^(caribpr|caribbeanpr) \d{6}_\d{3}$/ },
+            { crawler: '1pondo', condition: /^(1pondo|1pon) \d{6}_\d{3}$/ },
+            { crawler: '10musume', condition: /^(10musume|10mu) \d{6}_\d{2}$/ },
             { crawler: 'tokyo-hot', condition: /^tokyohot .*$/ },
             { crawler: 'pacopacomama', condition: /^paco \d{6}_\d{3}$/ },
             { crawler: 'avent', condition: /^(emp|sky|red|rhj|skyhd|pt|pb|hey|bt|drc|s2m|ssk-bd|sskj|trg|trp|pink)-\d{3}$/ },
