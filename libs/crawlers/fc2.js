@@ -48,10 +48,10 @@ function crawl (opt) {
         info.year = dReleaseDate.slice(0, 4);
 
         let dDirector = $('.main_info_block dt:contains("販売者")').next().find('a');
-        info.director = {
-            url: BASE_URL + dDirector.attr("href"),
-            text: dDirector.text()
-        }
+        // info.director = {
+        //     url: BASE_URL + dDirector.attr("href"),
+        //     text: dDirector.text()
+        // }
 
         info.posters.push({
             url: $('a.analyticsLinkClick_mainThum').attr('href')
@@ -68,7 +68,7 @@ function crawl (opt) {
             })
         });
 
-        info.maker = 'FC2コンテンツマーケット';
+        info.maker = info.director.text;
 
         info.description = $('section.explain p.text').html().trim();
 
