@@ -47,12 +47,6 @@ function crawl (opt) {
         info.releasedate = util.replaceAll(dReleaseDate, '/', '-');
         info.year = dReleaseDate.slice(0, 4);
 
-        let dDirector = $('.main_info_block dt:contains("販売者")').next().find('a');
-        // info.director = {
-        //     url: BASE_URL + dDirector.attr("href"),
-        //     text: dDirector.text()
-        // }
-
         info.posters.push({
             url: $('a.analyticsLinkClick_mainThum').attr('href')
         });
@@ -68,7 +62,20 @@ function crawl (opt) {
             })
         });
 
-        info.maker = info.director.text;
+        let dDirector = $('.main_info_block dt:contains("販売者")').next().find('a');
+        let makerURL = BASE_URL + dDirector.attr("href");
+
+        // info.director = {
+        //     url: BASE_URL + dDirector.attr("href"),
+        //     text: dDirector.text()
+        // }
+
+        info.label = {
+            url: makerURL,
+            text: makerURL.split('/').slice(-2, -1)[0]
+        };
+
+        info.maker = dDirector.text();
 
         info.description = $('section.explain p.text').html().trim();
 
@@ -76,11 +83,6 @@ function crawl (opt) {
             url: '',
             text: 'Uncensored'
         });
-
-        info.label = {
-            url: info.director.url,
-            text: info.director.url.split('/').slice(-2, -1)[0]
-        };
 
         return info;
     });
