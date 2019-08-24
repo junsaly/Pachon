@@ -161,16 +161,19 @@ function request (args, callback) {
     if (callback) {
         fn = callback;
     }
+    
+    let requestArgs = args["request"];
 
     try {
-        httpRequest(args["request"], (err, res, body) => {
+        httpRequest(requestArgs, (err, res, body) => {
             
             if (err) {
                 return fn(err, null);
             }
     
             if (res.statusCode !== 200) {
-                return fn(new Error("HTTP Code " + res.statusCode), null);
+                //return fn(new Error("HTTP Code " + res.statusCode), null);
+                return fn(new Error(`HTTP Code ${res.statusCode}. Url: ${requestArgs.url}`), null);
             }
     
             let charset = args["process"].charset;

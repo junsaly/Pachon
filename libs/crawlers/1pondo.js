@@ -56,11 +56,10 @@ function crawlInternal (movid, url) {
                 headers: {
                     'Referer': url
                 }
-            });
+            }).catch(err => null);
         })
     ).then($ => {
         let d_details = JSON.parse($[0]('body').text());
-        let d_reviews = JSON.parse($[1]('body').text());
         
         let info = new MovieInfo({ url: url, country: 'Japan', origlang: 'Japanese' });
 
@@ -108,8 +107,11 @@ function crawlInternal (movid, url) {
                 text: d_details['Series']
             }
         }
-
-        info.rating = parseFloat(d_reviews["AvgRating"]) * 2;
+        
+        if ($[1] != null) {
+            let d_reviews = JSON.parse($[1]('body').text());
+            info.rating = parseFloat(d_reviews["AvgRating"]) * 2;
+        }
 
         return info;
     });
