@@ -1,4 +1,4 @@
-﻿const
+const
 
   //Parse results
   prError     = 0; 
@@ -138,6 +138,8 @@ begin
   Val := HTMLValue(HTML, StartPos, EndPos, '<h2>', '</h2>');
   AddHTMLValue('name', Val);
   
+  // start left column
+  
   StartPos := PosFrom('<div class="container">', HTML, EndPos);
   EndPos := PosFrom('</div>', HTML, StartPos);
   
@@ -166,6 +168,11 @@ begin
   
   Rating := Val;
   LogMessage('rating: ' + Rating);
+  
+  // end left column, start right column
+  
+  StartPos := Pos('<div class="col s12 l7 m7 pull-l1">', HTML);
+  EndPos := StartPos;
   
   StartPos := PosFrom('Translated name:', HTML, EndPos);
   if StartPos > 0 then
