@@ -1,7 +1,7 @@
 'use strict';
 
 const clone = require('clone');
-const util = require('../util.js');
+//const util = require('../util.js');
 const crawlers = require('../crawlers');
 
 const { HumanInfo } = require('../../models/types.js');
@@ -36,21 +36,25 @@ function crawl (opt) {
             });
 
             return Promise.all(
-                infoids.map(infoid => {
-                    let crawler = crawlers["javmodel"];
-                    return crawler.crawl({
-                        type: 'id',
-                        qtext: infoid
-                    }).catch(err => {
-                        console.error(err);
-                        return err;
-                    });
+                // infoids.map(infoid => {
+                //     let crawler = crawlers["javmodel"];
+                //     return crawler.crawl({
+                //         type: 'id',
+                //         qtext: infoid
+                //     }).catch(err => {
+                //         console.error(err);
+                //         return err;
+                //     });
+                // })
+                new Promise((res, rej) => {
+                    console.log("javmodel have the problem!");
+                    return res([]);
                 })
             ).then(results => {
                 let info = clone(d);
 
                 let names = info.names;
-                let birthday = info.birthday;
+                //let birthday = info.birthday;
                 let matched = results.filter(
                     res => 
                         res != null && res instanceof HumanInfo &&
