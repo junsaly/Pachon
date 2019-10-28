@@ -91,7 +91,7 @@ function thenIfSearch ($, matchExact) {
         
         info.url = ele.find('a').attr('href');
         info.origtitle = util.wrapText(ele.find('a dt').text() || '');
-        info.title = ele.find('.cmn-btn-imgHover01 a').attr('data-id');
+        info.title = ele.find('.cmn-btn-imgHover01 div:first-child').attr('data-wishlist-id');
         info.posters.push({
             url: `http://pics.r18.com/digital/video/${info.title}/${info.title}ps.jpg`
         });
