@@ -74,13 +74,15 @@ function thenIfSearch ($, url, matchExact) {
 
         let movid = info.url.split('/');
         movid = movid[movid.length - 2].replace('cid=', '');
+        
+        info.movid = movid;
+        //info.title = util.tryGetMovId(movid, result.queryString)
+        info.title = movid;
+        info.origtitle = util.wrapText(ele.find('img').attr('alt'));
 
         info.posters.push({
-            url: ele.find('img').attr('src')
+            url: `https:${ele.find("a img").attr("src")}`
         });
-        info.movid = movid
-        info.title = util.tryGetMovId(movid, result.queryString)
-        info.origtitle = util.wrapText(ele.find('img').attr('alt'));
 
         let tag = ele.find('div.value p.price');
         if (tag.length > 0) {

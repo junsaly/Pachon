@@ -53,8 +53,6 @@ function crawl (options) {
             type: type
         }
 
-        let exactMatch = options.exactMatch || true;
-
         return Promise.all([
             // ja record
             silent(
@@ -119,9 +117,7 @@ function crawl (options) {
             /* ---------- */
 
             if (!r_ja && !r_en) {
-                if (exactMatch) {
-                    return null;
-                }
+                return en["r18"].data;
             }
 
             r_ja = r_ja || new MovieInfo();

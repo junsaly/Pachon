@@ -88,15 +88,12 @@ function thenIfSearch ($, matchExact) {
     $('.cmn-list-product01 li').each((i, el) => {
         let ele = $(el);
         let info = new MovieInfo();
-
+        
         info.url = ele.find('a').attr('href');
-        info.transtitle = util.wrapText(ele.find('dl:first-child dt').text() || '');
+        info.origtitle = util.wrapText(ele.find('a dt').text() || '');
         info.title = ele.find('.cmn-btn-imgHover01 a').attr('data-id');
         info.posters.push({
-            url: util.replaceAll(
-                'http://pics.r18.com/digital/video/{id}/{id}ps.jpg', 
-                '{id}', 
-                info.title)
+            url: `http://pics.r18.com/digital/video/${info.title}/${info.title}ps.jpg`
         });
 
         result.results.push(info);
