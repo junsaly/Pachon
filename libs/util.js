@@ -12,7 +12,6 @@ const {
     MovieInfo
 } = require('../models/types.js');
 
-const minify = require('html-minifier').minify;
 const stringSimilarity = require('string-similarity');
 
 function formatText (str) {

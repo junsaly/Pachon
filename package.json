@@ -29,6 +29,7 @@
     "clone": "^2.1.1",
     "cross-env": "^5.0.5",
     "ejs-locals": "^1.0.2",
+    "encodeurl": "^1.0.2",
     "express": "^4.14.0",
     "html-minifier": "^3.5.5",
     "iconv-lite": "^0.4.18",
