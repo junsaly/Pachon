@@ -98,13 +98,17 @@ module.exports.genId = genId;
 
 
 function cacheImageURLs (data) {
+    function cacheImage(id, obj) {
+        cache.set('image', id, obj, 1800); // 30 minutes
+    }
+
     let d = clone(data);
 
     if (d instanceof HumanInfo) {
         for (var i=0; i<d.photos.length; i++) {
             let obj = d.photos[i];
             let id = genId(obj.url) + '.jpg';
-            cache.set('image', id, obj);
+            cacheImage(id, obj)
 
             d.photos[i] = '/images/' + id;
         }
@@ -116,7 +120,7 @@ function cacheImageURLs (data) {
         for (var i=0; i<d.posters.length; i++) {
             let obj = d.posters[i];
             let id = genId(obj.url) + '.jpg';
-            cache.set('image', id, obj);
+            cacheImage(id, obj)
 
             d.posters[i] = '/images/' + id;
         }
@@ -124,7 +128,7 @@ function cacheImageURLs (data) {
         for (var i=0; i<d.screenshots.length; i++) {
             let obj = d.screenshots[i];
             let id = genId(obj.url) + '.jpg';
-            cache.set('image', id, obj);
+            cacheImage(id, obj)
 
             d.screenshots[i] = '/images/' + id;
         }
@@ -132,7 +136,7 @@ function cacheImageURLs (data) {
         for (var i=0; i<d.covers.length; i++) {
             let obj = d.covers[i];
             let id = genId(obj.url) + '.jpg';
-            cache.set('image', id, obj);
+            cacheImage(id, obj)
 
             d.covers[i] = '/images/' + id;
         }
@@ -140,7 +144,7 @@ function cacheImageURLs (data) {
         for (var i=0; i<d.thumb.length; i++) {
             let obj = d.thumb[i];
             let id = genId(obj.url) + '.jpg';
-            cache.set('image', id, obj);
+            cacheImage(id, obj)
 
             d.thumb[i] = '/images/' + id;
         }
