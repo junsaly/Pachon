@@ -14,7 +14,7 @@ module.exports = {
             { crawler: 'avent', condition: /^(cwdv|cwp|cz|dsam|kg|laf|mcbd|shd|smbd|smd|smr)-\d+$/ },
             { crawler: 'avent', condition: /^(mkd-s|mkbd-s)\d+$/ },
             { crawler: 'avent', condition: /^cld\d{2}$/ },
-            { crawler: 'avent', condition: /^cw3d2bd|cwpbd-\d{2}$/ },
+            { crawler: 'avent', condition: /^cw3d2bd|cwpbd|lafbd-\d{2}$/ },
             { crawler: 'avent', condition: /^s2mbd-\d{3}$/ },
             { crawler: 'mgstage', condition: /^\d{3}\w+-\w?\d+$/},
             { crawler: 'mgstage', condition: /^siro-\d+$/},
