@@ -12,7 +12,7 @@ module.exports.name = function () {
 
 const TEMPLATE = {
     "search": "",
-    "id": "http://adult.contents.fc2.com/article_search.php?id={qtext}",
+    "id": "http://adult.contents.fc2.com/article/{qtext}/",
 }
 
 const DOMAIN = 'adult.contents.fc2.com';
@@ -36,39 +36,39 @@ function crawl (opt) {
     if (url == "") {
         throw new Error("Invalid Arguments");
     }
-    
+
     return leech.get(url)
     .then($ => {
         let info = new MovieInfo({ url: url, country: 'Japan', origlang: 'Japanese' });
 
-        info.origtitle = $('h2.title_bar').text().trim();
+        info.origtitle = $('.items_article_headerInfo > h3').text().trim();
 
-        let dReleaseDate = $('.main_info_block dt:contains("販売日")').next().text().trim();
+        let dReleaseDate = $('.items_article_Releasedate').text().split(":")[1].trim();
         info.releasedate = util.replaceAll(dReleaseDate, '/', '-');
         info.year = dReleaseDate.slice(0, 4);
 
         info.posters.push({
-            url: $('a.analyticsLinkClick_mainThum').attr('href')
+            url: "https:" + $('.items_article_MainitemThumb img').attr('src')
         });
 
         info.thumb.push({
-            url: $('a.analyticsLinkClick_mainThum').attr('href')
+            url: "https:" + $('.items_article_MainitemThumb img').attr('src')
         });
 
-        $('ul.images a').each((i, el) => {
+        $('a[data-image-slideshow="sample-images"]').each((i, el) => {
             let ele = $(el);
             info.screenshots.push({
                 url: ele.attr('href')
             })
         });
 
-        let dDirector = $('.main_info_block dt:contains("販売者")').next().find('a');
-        let makerURL = BASE_URL + dDirector.attr("href");
+        let dDirector = $('.items_article_headerInfo ul li:nth-child(3) a');
+        let makerURL = dDirector.attr("href");
 
-        // info.director = {
-        //     url: BASE_URL + dDirector.attr("href"),
-        //     text: dDirector.text()
-        // }
+        info.director = {
+            url: dDirector.attr("href"),
+            text: dDirector.text()
+        }
 
         info.label = {
             url: makerURL,
@@ -77,7 +77,7 @@ function crawl (opt) {
 
         info.maker = dDirector.text();
 
-        info.description = $('section.explain p.text').html().trim();
+        // info.description = $('section.explain p.text').html().trim();
 
         info.genres.push({
             url: '',
