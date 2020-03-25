@@ -68,6 +68,11 @@ function crawl (opt) {
     return new Promise((resolve, reject) => {
         return leech.get(url)
         .then($ => {
+
+            if ($('#main > h1').length == 0) {
+                return resolve(null)
+            }
+
             let info = new MovieInfo({ url: url, country: 'Japan', origlang: 'Japanese' });
 
             info.movid = formatTitle(url);
