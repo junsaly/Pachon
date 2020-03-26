@@ -85,7 +85,7 @@ function formatName(name, transname) {
         var p = transname.split('/');
         var hiragana = p[0].trim();
         var engname = p[1].trim();
-        
+
         return new HumanName({
             value: name,
             type: 'ja',
@@ -100,8 +100,8 @@ function formatName(name, transname) {
             var name = p1[0].trim();
 
             var p2 = p1[1].split('/');
-            var hiragana = p2[0].trim();
-            var engname = p2[1].trim();
+            var hiragana = (p2[0] || "").trim();
+            var engname = (p2[1] || "").trim();
             engname = engname.substring(0, engname.length - 1);
 
             return new HumanName({
@@ -180,16 +180,16 @@ function crawl (opt) {
                             var info = new HumanInfo();
 
                             var eleRoot = $(el).find('td')
-                            
+
                             var ele = $(eleRoot[0]).find('a')
                             var u = $(ele).attr('href');
 
-                            info.url = 
+                            info.url =
                                 BASE_URL + '/' + u.substring(0, u.indexOf('?'));
 
                             ele = $(eleRoot[0]).find('img')
                             var p = $(ele).attr('src');
-                            
+
                             info.photos.push({
                                 url: BASE_URL + p,
                                 headers: {
@@ -234,15 +234,15 @@ function crawl (opt) {
                     // get rating =============================================
                     if ($(ele).find('table.rate-table').length > 0) {
                         val = $($(ele).find('table.rate-table tr'))
-                        info.rating.looks = 
+                        info.rating.looks =
                             formatFloat($($(val[0]).find('td')[2]).text());
-                        info.rating.body = 
+                        info.rating.body =
                             formatFloat($($(val[1]).find('td')[2]).text());
-                        info.rating.cute = 
+                        info.rating.cute =
                             formatFloat($($(val[2]).find('td')[2]).text());
-                        info.rating.fappable = 
+                        info.rating.fappable =
                             formatFloat($($(val[3]).find('td')[2]).text());
-                        info.rating.total = 
+                        info.rating.total =
                             formatFloat($($(val[4]).find('td')[2]).text());
                     } else {
                         info.rating = null;

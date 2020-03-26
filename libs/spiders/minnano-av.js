@@ -46,22 +46,22 @@ function crawl (opt) {
                 //         return err;
                 //     });
                 // })
-                new Promise((res, rej) => {
+                [new Promise((res, rej) => {
                     console.log("javmodel have the problem!");
                     return res([]);
-                })
+                })]
             ).then(results => {
                 let info = clone(d);
 
                 let names = info.names;
                 //let birthday = info.birthday;
                 let matched = results.filter(
-                    res => 
+                    res =>
                         res != null && res instanceof HumanInfo &&
                         //res.birthday === birthday &&
                         names.some(v => v.og === res.name.og)
                 );
-                
+
                 if (matched.length > 0) {
                     let dd = matched[0];
                     if (dd.photos.length > 0) {
@@ -72,7 +72,7 @@ function crawl (opt) {
                     //     info.tags = dd.tags;
                     // }
                 }
-                
+
                 return info;
             }).catch(err => {
                 console.error(err);
