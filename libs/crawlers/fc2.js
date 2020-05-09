@@ -63,6 +63,11 @@ function crawl (opt) {
         });
 
         let dDirector = $('.items_article_headerInfo ul li:nth-child(3) a');
+
+        if (dDirector.length == 0) {
+            dDirector = $('.items_article_headerInfo ul li:nth-child(2) a');
+        }
+
         let makerURL = dDirector.attr("href");
 
         info.director = {
