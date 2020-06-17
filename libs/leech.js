@@ -47,7 +47,7 @@ function formatFilename (filename) {
 function enableProxy (proxyURL) {
 
     if (typeof proxyURL === 'string' && proxyURL != '') {
-        PROXY = proxyURL        
+        PROXY = proxyURL
     } else {
         PROXY = "http://127.0.0.1:9666";
     }
@@ -161,28 +161,28 @@ function request (args, callback) {
     if (callback) {
         fn = callback;
     }
-    
+
     let requestArgs = args["request"];
 
     try {
         httpRequest(requestArgs, (err, res, body) => {
-            
+
             if (err) {
                 return fn(err, null);
             }
-    
+
             if (res.statusCode !== 200) {
                 //return fn(new Error("HTTP Code " + res.statusCode), null);
                 return fn(new Error(`HTTP Code ${res.statusCode}. Url: ${requestArgs.url}`), null);
             }
-    
+
             let charset = args["process"].charset;
-    
+
             if (!charset) {
                 charset = findEncoding(res, iconv.decode(body, "utf8")) || "utf8";
             }
-    
-            fn(null, { res: res, body: iconv.decode(body, charset) });        
+
+            fn(null, { res: res, body: iconv.decode(body, charset) });
         })
     } catch (ex) {
         fn(ex, null);
@@ -201,7 +201,7 @@ function get (options, callback) {
     }
 
     else if (typeof options == 'object') {
-        options["url"] = options["url"] || '';    
+        options["url"] = options["url"] || '';
         options["method"] = GET;
         options["encoding"] = null;
         args = prepare(options);
@@ -217,7 +217,7 @@ function get (options, callback) {
     }
 
     request(args, (err, data) => {
-        
+
         if (err) {
             return fn(err, null);
         }
@@ -257,7 +257,7 @@ function post (options, callback) {
     }
 
     request(args, (err, data) => {
-        
+
         if (err) {
             return fn(err, null);
         }
@@ -278,7 +278,7 @@ module.exports.post = post;
 
 
 function retrieve (url, location, callback) {
-    
+
     if (!callback) {
         callback = err => {
             if (err) throw err;
@@ -293,17 +293,17 @@ function retrieve (url, location, callback) {
             , filename = formatFilename(tmp[tmp.length - 1]);
 
             var filepath = path.join(location, filename);
-        
+
             fs.exists(filepath, exist2 => {
-        
+
                 if (exist2) {
                     return callback(new Error('File existed: ' + filepath));
                 } else {
-                    
+
                     var requestOpt = prepare({
                         url: url
                     })["request"];
-                    
+
                     try {
                         httpRequest(requestOpt)
                             .pipe(fs.createWriteStream(filepath))
@@ -313,7 +313,7 @@ function retrieve (url, location, callback) {
                         callback(ex);
                     }
                 }
-            });     
+            });
         } else {
             return callback(new Error('Location is not exist: ' + location));
         }
@@ -344,6 +344,9 @@ function pipe (options, callback) {
                 if (options['content-type']) {
                     res.headers['content-type'] = options['content-type']
                 }
+            })
+            .on('error', function(err) {
+                fn(err);
             })
             .pipe(args["process"].target)
             .on('finish', () => fn(null))
