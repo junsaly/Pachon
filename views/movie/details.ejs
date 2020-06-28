@@ -93,7 +93,7 @@
                     <dd>
                         <% actors.forEach(actor => { %>
                         <div class="chip">
-                            <a href="<%= actor.url %>" target="_blank" rel="noopener"><%= actor.text %></a>
+                            <a href="/human/search?q=<%= actor.text %>" target="_blank" rel="noopener"><%= actor.text %></a>
                         </div>
                         <% }) %>
                     </dd>
