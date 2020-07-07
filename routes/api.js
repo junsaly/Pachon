@@ -27,8 +27,8 @@ router.get('/movie/search', (req, res) => {
             }
 
             res.jsonp(data_cached);
-        } 
-        
+        }
+
         else if (data_cached instanceof SearchResult) {
             data_cached = util.cacheURLs(data_cached);
             if (data_cached.results.length > 0) {
@@ -45,7 +45,7 @@ router.get('/movie/search', (req, res) => {
                 res.status(404).end();
             }
         }
-        
+
         else {
             res.status(404).end();
         }
@@ -68,7 +68,7 @@ router.get('/movie/:infoid', (req, res) => {
         })
         .then(data => {
             let data_cached = util.cacheImageURLs(data);
-    
+
             if (data_cached instanceof MovieInfo) {
                 if (data_cached.posters.length == 0) {
                     data_cached.posters.push(
@@ -91,7 +91,7 @@ router.get('/movie/:infoid', (req, res) => {
     }
 })
 
-router.get('human/search', (req, res) => {
+router.get('/human/search', (req, res) => {
     const type = 'human';
     var query = util.replaceAll(req.query['q'], '+', ' ');
 
@@ -124,7 +124,7 @@ router.get('human/search', (req, res) => {
             } else {
                 res.jsonp(data_cached);
             }
-            
+
         } else {
             res.status(404).end();
         }
@@ -135,7 +135,7 @@ router.get('human/search', (req, res) => {
     });
 })
 
-router.get('human/:infoid', (req, res) => {
+router.get('/human/:infoid', (req, res) => {
     const infoid = util.replaceAll(req.params['infoid'], '+', ' ');
 
     let footprint = cache.get('id', infoid);
@@ -147,7 +147,7 @@ router.get('human/:infoid', (req, res) => {
         })
         .then(data => {
             let data_cached = util.cacheImageURLs(data);
-    
+
             if (data_cached instanceof HumanInfo) {
                 if (data_cached.photos.length == 0) {
                     data_cached.photos.push(
