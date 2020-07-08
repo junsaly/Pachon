@@ -75,10 +75,17 @@ function crawl (opt) {
             text: dDirector.text()
         }
 
-        info.label = {
-            url: makerURL,
-            text: makerURL.split('/').slice(-2, -1)[0]
-        };
+        if (makerURL.split('/').slice(-2, -1)[0] === "search") {
+            info.label = {
+                url: makerURL,
+                text: `a=${makerURL.replace("https://adult.contents.fc2.com/search/?author_id=", "")}`
+            }
+        } else {
+            info.label = {
+                url: makerURL,
+                text: makerURL.split('/').slice(-2, -1)[0]
+            }
+        }
 
         info.maker = dDirector.text();
 
