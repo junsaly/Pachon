@@ -29,7 +29,7 @@ function formatDuration (sec_num) {
     if (hours   < 10) { hours   = "0" + hours; }
     if (minutes < 10) { minutes = "0" + minutes; }
     if (seconds < 10) { seconds = "0" + seconds; }
-    
+
     return hours + ':' + minutes + ':' + seconds;
 }
 
@@ -60,7 +60,7 @@ function crawlInternal (movid, url) {
         })
     ).then($ => {
         let d_details = JSON.parse($[0]('body').text());
-        
+
         let info = new MovieInfo({ url: url, country: 'Japan', origlang: 'Japanese' });
 
         info.title = '1Pondo ' + d_details["MovieID"];
@@ -107,10 +107,15 @@ function crawlInternal (movid, url) {
                 text: d_details['Series']
             }
         }
-        
+
         if ($[1] != null) {
-            let d_reviews = JSON.parse($[1]('body').text());
-            info.rating = parseFloat(d_reviews["AvgRating"]) * 2;
+            try {
+                let d_reviews = JSON.parse($[1]('body').text());
+                info.rating = parseFloat(d_reviews["AvgRating"]) * 2;
+            } catch (err) {
+                // pass;
+            }
+
         }
 
         return info;
@@ -143,7 +148,10 @@ function crawl (opt) {
                 let movid = tryGetMovId(url);
                 crawlInternal(movid, url)
                     .then(info => resolve(info))
-                    .catch(err => reject(err));
+                    .catch(err => {
+                        console.log(err)
+                        reject(err)
+                    });
             }
         })
         .catch(err => {
