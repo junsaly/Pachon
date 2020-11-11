@@ -74,7 +74,7 @@ function thenIfSearch ($, url, matchExact) {
 
         let movid = info.url.split('/');
         movid = movid[movid.length - 2].replace('cid=', '');
-        
+
         info.movid = movid;
         //info.title = util.tryGetMovId(movid, result.queryString)
         info.title = movid;
@@ -122,6 +122,15 @@ function thenIfSearch ($, url, matchExact) {
 }
 
 function thenIfId ($, url, sample) {
+    // age check
+    if ($('div.ageCheck__btn').length > 0) {
+        let target = $('div.ageCheck__btn a.ageCheck__link--r18').attr('href');
+        return leech.get(target)
+            .then($$ => {
+                return thenIfId($$, url, sample)
+            });
+    }
+
     let info = new MovieInfo({
         url: decodeURIComponent(url),
         country: 'Japan',
@@ -149,7 +158,7 @@ function thenIfId ($, url, sample) {
             });
         });
     }
-    
+
     info.title = util.tryGetMovId(movid, sample);
     info.origtitle = util.wrapText($('h1#title').text());
 
@@ -261,7 +270,7 @@ function crawl (opt) {
                 $('h1:contains("UNBLOCKDMM")').length > 0) {
                 return resolve(null);
             }
-            
+
             if ($('#list').length > 0) {
                 // Search result
                 return Promise.resolve(thenIfSearch($, url, matchExact))

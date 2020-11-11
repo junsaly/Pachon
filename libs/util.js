@@ -6,6 +6,8 @@ const uuidv5 = require('uuid/v5');
 const clone = require('clone');
 const cache = require('../config/cache.js');
 
+const fs = require('fs');
+
 const {
     SearchResult,
     HumanInfo,
@@ -281,8 +283,8 @@ function syncObjects (des, src, overwrite) {
         return des;
     }
 
-    if (typeof des !== typeof src || 
-        typeof des !== 'object' || 
+    if (typeof des !== typeof src ||
+        typeof des !== 'object' ||
         Array.isArray(des)) {
         throw new Error('Invalid Arguements Type');
     }
@@ -324,3 +326,9 @@ function catchURLError (url, err, resolve, reject) {
 }
 
 module.exports.catchURLError = catchURLError;
+
+function toFile (content) {
+    return fs.writeFileSync("result.txt", content, "utf8");
+}
+
+module.exports.toFile = toFile;
