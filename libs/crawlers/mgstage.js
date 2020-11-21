@@ -70,29 +70,29 @@ function crawl (opt) {
                 return resolve(null); // NOT FOUND
             }
 
-            var info = new MovieInfo({ 
-                url: url, 
-                country: 'Japan', 
+            var info = new MovieInfo({
+                url: url,
+                country: 'Japan',
                 origlang: 'Japanese',
                 movid: opt.qtext.toUpperCase()
             });
 
             info.title = info.movid;
             info.origtitle = $('.common_detail_cover h1').text().trim();
-            
+
             var detail_tr = $('.detail_data table tr');
             var get_detail_data = function (field) {
                 return detail_tr.find(`th:contains("${field}")`).next()
             }
-            
+
             // info.actors.push({
             //     text: get_detail_data(LangMap.actors).text().trim()
             // })
-            
+
             info.maker = get_detail_data(LangMap.maker).text().trim();
-            
+
             info.duration = formatDuration(get_detail_data(LangMap.duration).text().trim());
-            
+
             // info.title = get_detail_data(LangMap.title).text().trim()
 
             info.releasedate = formatReleaseDate(get_detail_data(LangMap.releasedate).text().trim());
@@ -103,12 +103,12 @@ function crawl (opt) {
                 url: "#",
                 text: 'Amateur',
             });
-            
+
             info.series = {
                 url: BASE_URL + get_detail_data(LangMap.series).find('a').attr('href'),
                 text: get_detail_data(LangMap.series).text().trim(),
             };
-            
+
             if (get_detail_data(LangMap.label).children().length > 0) {
                 info.label = {
                     url: BASE_URL + get_detail_data(LangMap.label).find('a').attr('href'),
@@ -119,7 +119,8 @@ function crawl (opt) {
             info. description = $('#introduction p.introduction').text().trim();
 
             var movid_parts = info.movid.toLowerCase().split('-');
-            var maker_id = get_detail_data(LangMap.maker).find('a').attr('href').trim().split('=').pop();
+            var maker_id = get_detail_data(LangMap.maker).find('a').attr('href').trim()
+                .split("image_word_ids[]=")[1].split("&")[0];
 
             info.covers.push({
                 url: `https://image.mgstage.com/images/${maker_id}/${movid_parts[0]}/${movid_parts[1]}/pb_e_${info.movid.toLowerCase()}.jpg`
