@@ -31,12 +31,12 @@ module.exports.domain = function () {
 const BASE_URL = 'http://' + DOMAIN;
 
 const LangMap = {
-    'releasedate': { 'ja': '発売日:', 'en': 'Release Date:' },
-    'duration': { 'ja': '収録時間:', 'en': 'Play time:' },
-    'maker': { 'ja': 'スタジオ:', 'en': 'Studio:' },
-    'title': { 'ja': '商品番号:', 'en': 'Item#:' },
-    'actors': { 'ja': '主演女優:', 'en': 'Starring:' },
-    'genres': { 'ja': 'カテゴリ一覧:', 'en': 'Category:' },
+    'releasedate': { 'ja': '発売日', 'en': 'Date' },
+    'duration': { 'ja': '収録時間', 'en': 'Play Time' },
+    'maker': { 'ja': 'スタジオ', 'en': 'Studio' },
+    'title': { 'ja': '商品番号', 'en': 'Item#' },
+    'actors': { 'ja': '主演女優', 'en': 'Starring' },
+    'genres': { 'ja': 'カテゴリ一覧', 'en': 'Category' },
 }
 
 function getFootprint (data) {
@@ -53,11 +53,11 @@ function formatMovId (val) {
 }
 
 function formatReleaseDate (val) {
-    val = val.replace('Release Date', 'ReleaseDate').split(' ')[1];
-    val = val.split('/');
+    //val = val.replace('Release Date', 'ReleaseDate').split(' ')[1];
+    val = val.split(" ")[0].split('/');
 
-    var day = parseInt(val[1]), 
-        month = parseInt(val[0]), 
+    var day = parseInt(val[1]),
+        month = parseInt(val[0]),
         year = parseInt(val[2]);
 
     if (day < 10) day = '0' + day;
@@ -90,12 +90,9 @@ function thenIfSearch ($, lang) {
     let result = new SearchResult({url: $.getCurrentURL(), footprint: getFootprint});
     result.queryString = formatSearchText(result.url);
 
-    $('table[id$="MyList"] table').each((i, el) => {
+    $("div.shop-product-wrap > div").each((i, el) => {
         let ele = $(el);
         let info = new MovieInfo();
-
-        let streamingItem = isStreamingItem(ele, lang);
-        let imgTypeCode = streamingItem ? "new" : "archive";
 
         ele = ele.find('td').eq(1)[0];
         info.url = ele.childNodes[1].attribs["href"];
@@ -110,9 +107,9 @@ function thenIfSearch ($, lang) {
         info.title = ele.childNodes
             .filter(v => v.type == 'text' && v.data.trim() !== '')[0].data
                 .replace(LangMap['title'][lang], '').trim();
-        
+
         info.posters.push({
-            url: `http://imgs.aventertainments.com/${imgTypeCode}/jacket_images/dvd1${info.title.toLowerCase()}.jpg`
+            url: ele.find("div.single-slider-product__image img").attr("src")
         });
 
         result.results.push(info);
@@ -133,44 +130,44 @@ function thenIfSearch ($, lang) {
 
 function thenIfId ($, lang) {
     let info = new MovieInfo({url: $.getCurrentURL(), country: 'Japan', origlang: 'Japanese'});
-    
+
     info.movid = formatMovId(info.url);
 
     if (lang == 'en') {
-        info.transtitle = util.wrapText($('div#mini-tabet > h2').text().trim());
+        info.transtitle = util.wrapText($('div.section-title > h3').text().trim());
     }
 
     if (lang == 'ja') {
-        info.origtitle = util.wrapText($('div#mini-tabet > h2').text().trim());
+        info.origtitle = util.wrapText($('div.section-title > h3').text().trim());
     }
-    
+
     info.releasedate = formatReleaseDate(
-        $(`div#titlebox li:contains("${LangMap['releasedate'][lang]}")`).text().trim()
+        $(`div.single-info > span.title:contains("${LangMap['releasedate'][lang]}")`).next().text().trim()
     );
     info.year = info.releasedate.substring(0, 4);
 
-    info.duration = formatDuration(
-        $(`div#titlebox li:contains("${LangMap['duration'][lang]}")`).text().trim()
-    );
-    
-    info.maker = $(`div#titlebox li:contains("${LangMap['maker'][lang]}") > a`).text().trim();
+    // info.duration = formatDuration(
+    //     $(`div#titlebox li:contains("${LangMap['duration'][lang]}")`).text().trim()
+    // );
 
-    info.title = $('div#mini-tabet div').text().replace(LangMap['title'][lang], '').trim();
-    
+    info.maker = $(`div.single-info > span.title:contains("${LangMap['maker'][lang]}")`).next().text().trim();
+
+    info.title = $(`div.single-info > span.title:contains("${LangMap['title'][lang]}")`).next().text().trim();
+
     let imgCode = info.title.toLowerCase();
     let imgTypeCode = info.year > 2013 ? "new" : "archive";
 
     info.title = processREDTitle(info.title);
 
     info.covers.push({
-        url: `http://imgs.aventertainments.com/${imgTypeCode}/bigcover/dvd1${imgCode}.jpg`
+        url: `http://imgs02.aventertainments.com/${imgTypeCode}/bigcover/dvd1${imgCode}.jpg`
     })
 
     info.thumb.push({
-        url: `http://imgs.aventertainments.com/${imgTypeCode}/jacket_images/dvd1${imgCode}.jpg`
+        url: `http://imgs02.aventertainments.com/${imgTypeCode}/jacket_images/dvd1${imgCode}.jpg`
     })
 
-    $(`div#titlebox li:contains("${LangMap['actors'][lang]}") > a`).each((i, el) => {
+    $(`div.single-info > span.title:contains("${LangMap['actors'][lang]}")`).next().find('a').each((i, el) => {
         let ele = $(el);
         let actor = {
             url: ele.attr('href'),
@@ -179,7 +176,7 @@ function thenIfId ($, lang) {
         info.actors.push(actor);
     })
 
-    $(`div#detailbox span:contains("${LangMap['genres'][lang]}")`).next().find('a').each((i, el) => {
+    $(`div.single-info > span.title:contains("${LangMap['genres'][lang]}")`).next().find('a').each((i, el) => {
         let ele = $(el);
         let genre = {
             url: ele.attr('href'),
@@ -189,22 +186,24 @@ function thenIfId ($, lang) {
     })
 
     info.screenshots.push({
-        url: `http://imgs.aventertainments.com/${imgTypeCode}/screen_shot/dvd1${imgCode}.jpg`
+        url: `http://imgs02.aventertainments.com/${imgTypeCode}/screen_shot/dvd1${imgCode}.jpg`
     });
 
     return info;
 }
 
 function crawl (opt) {
+    let type = "";
     let url = "";
     let lang = "en";
 
     if (typeof opt == 'string') {
         url = opt;
+        type = "id";
     }
 
     if (typeof opt == 'object') {
-        let type = opt.type || '';
+        type = opt.type || '';
         let qtext = opt.qtext || '';
 
         if (/^red-\d{3}$/.test(qtext)) {
@@ -226,25 +225,66 @@ function crawl (opt) {
     return new Promise((resolve, reject) => {
         leech.get(url)
         .then($ => {
-            if ($('table[id$="MyList"] table').length == 0 &&
-                $('img[src="/img/pagenotfound.gif"]').length > 0) {
-                resolve(null);
-            } else {
-                if ($('table[id$="MyList"]').length == 0) {
-                    // Movie content
-                    try {
-                        let info = thenIfId($, lang);
+
+            if (type === "search") {
+                let products = $("div.shop-product-wrap > div");
+
+                if (products.length == 0) {
+                    return resolve(null);
+                }
+
+                if (products.length == 1) {
+                    let target = $($(products[0]).find("a")[0]).attr("href");
+                    return leech.get(target).then($$ => {
+                        let info = thenIfId($$, lang);
                         resolve(info);
+                    }).catch(err => console.error(err));
+
+                } else {
+                    try {
+                        let data = thenIfSearch($, lang);
+                        resolve(data);
                     } catch (ex) {
                         reject(ex);
                     }
-                } else {
-                    // Search result
-                    Promise.resolve(thenIfSearch($, lang))
-                        .then(data => resolve(data))
-                        .catch(err => util.catchURLError(url, err, resolve, reject));
+                }
+
+            } else if (type === "id") {
+                try {
+                    let info = thenIfId($, lang);
+                    resolve(info);
+                } catch (ex) {
+                    reject(ex);
                 }
             }
+
+            // let products = $("div.shop-product-wrap > div");
+
+            // if (products.length == 0) {
+            //     resolve(null);
+
+            // } else {
+
+            //     if (products.length == 1) {
+            //         let target = products[0].find("a")[0].attr("href");
+            //         return resolve(thenIfId())
+            //     }
+
+            //     if ($('table[id$="MyList"]').length == 0) {
+            //         // Movie content
+            //         try {
+            //             let info = thenIfId($, lang);
+            //             resolve(info);
+            //         } catch (ex) {
+            //             reject(ex);
+            //         }
+            //     } else {
+            //         // Search result
+            //         Promise.resolve(thenIfSearch($, lang))
+            //             .then(data => resolve(data))
+            //             .catch(err => util.catchURLError(url, err, resolve, reject));
+            //     }
+            // }
         })
         .catch(err => util.catchURLError(url, err, resolve, reject));
     });
@@ -258,17 +298,17 @@ function processREDTitle(title) {
     return title;
 }
 
-function isStreamingItem($, lang) {
-    let img = {
-        "ja": '/img/gif_dlst.gif',
-        "en": '/img/en/gif_dlst.gif',
-    }
+// function isStreamingItem($, lang) {
+//     let img = {
+//         "ja": '/img/gif_dlst.gif',
+//         "en": '/img/en/gif_dlst.gif',
+//     }
 
-    if ($.find) {
-        return $.find(`img[src="${img[lang]}"]`).length > 0;
-    } else {
-        return $(`img[src="${img[lang]}"]`).length > 0;
-    }
-}
+//     if ($.find) {
+//         return $.find(`img[src="${img[lang]}"]`).length > 0;
+//     } else {
+//         return $(`img[src="${img[lang]}"]`).length > 0;
+//     }
+// }
 
 module.exports.crawl = crawl;
