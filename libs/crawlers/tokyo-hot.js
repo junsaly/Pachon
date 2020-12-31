@@ -11,8 +11,8 @@ module.exports.name = function () {
 }
 
 const TEMPLATE = {
-    "search": "https://my.tokyo-hot.com/product/?q={qtext}",
-    "id": "https://my.tokyo-hot.com/product/{qtext}/",
+    "search": "https://my.tokyo-hot.com/product/?q={qtext}&lang={lang}",
+    "id": "https://my.tokyo-hot.com/product/{qtext}/?lang={lang}",
 }
 
 const DOMAIN = 'my.tokyo-hot.com';
@@ -26,7 +26,7 @@ const LangMap = {
     'releasedate': { 'ja': '配信開始日', 'en': 'Release Date' },
     'duration': { 'ja': '収録時間', 'en': 'Duration' },
     'title': { 'ja': '作品番号', 'en': 'Product ID' },
-    'actors': { 'ja': '出演者', 'en': 'Actress' },
+    'actors': { 'ja': '出演者', 'en': 'Model' },
     'series': { 'ja': 'シリーズ', 'en': 'Theme' },
     'label': { 'ja': 'レーベル', 'en': 'Label' },
     'play': { 'ja': 'プレイ内容', 'en': 'Play' },
@@ -49,6 +49,7 @@ function formatMovID (val) {
 function crawl (opt) {
     let url = "";
     let lang = "en";
+
     if (typeof opt == 'string') {
         url = opt;
     }
@@ -60,17 +61,9 @@ function crawl (opt) {
             url = TEMPLATE[type].replace('{qtext}', qtext);
         }
 
-        if (opt.lang == 'ja') {
-            lang = 'ja';
-            // url = url.replace('{lang}', 'lang=jp');
-        }
+        lang = opt.lang || 'en'
+        url = url.replace('{lang}', lang);
 
-        if (opt.lang == 'en') {
-            // lang = 'en';
-            // url = url + '&lang=en';
-
-            return Promise.resolve(null);
-        }
     }
 
     if (url == "") {
@@ -154,6 +147,7 @@ function crawl (opt) {
                     info.year = info.releasedate.substring(0, 4);
                     info.duration = $(`.infowrapper dt:contains("${LangMap['duration'][lang]}")`)
                         .next().text();
+
                     $(`.infowrapper dt:contains("${LangMap['actors'][lang]}")`)
                         .next().find('a').each((i, el) => {
                             let ele = $(el);
@@ -163,6 +157,7 @@ function crawl (opt) {
                             }
                             info.actors.push(actor);
                         });
+
                     var ele = $(`.infowrapper dt:contains("${LangMap['series'][lang]}")`)
                         .next().find('a');
                     if (ele.length > 0) {
