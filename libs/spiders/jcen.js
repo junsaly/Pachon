@@ -17,7 +17,7 @@ module.exports.target = function () {
 
 const r18 = crawlers["r18"];
 const dmm = crawlers["dmm"];
-//const javlib = crawlers["javlibrary"];
+const javlib = crawlers["javlibrary"];
 
 function silent (promise) {
     return promise.then(r => {
@@ -59,34 +59,34 @@ function crawl (options) {
                 dmm.crawl(Object.assign({}, opt, {matchExact: true}))
             ),
             silent(
-                // javlib.crawl(Object.assign({}, opt, {lang: "ja", matchExact: true}))
-                Promise.reject("Crawler can't pass DDOS Checking for javlibrary.com")
+                javlib.crawl(Object.assign({}, opt, {lang: "ja", matchExact: true}))
+                //Promise.reject("Crawler can't pass DDOS Checking for javlibrary.com")
             ),
             // en record
             silent(
                 r18.crawl(Object.assign({}, opt, {matchExact: true}))
             ),
             silent(
-                // javlib.crawl(Object.assign({}, opt, {lang: "en", matchExact: true}))
-                Promise.reject("Crawler can't pass DDOS Checking for javlibrary.com")
+                javlib.crawl(Object.assign({}, opt, {lang: "en", matchExact: true}))
+                //Promise.reject("Crawler can't pass DDOS Checking for javlibrary.com")
             ),
         ]).then(records => {
             let ja = {
                 "dmm": records[0],
-                // "javlib": records[1],
+                "javlib": records[1],
             };
 
             let r_ja = null;
-            // if (ja["dmm"].success && ja["dmm"].data instanceof MovieInfo) {
-            //     r_ja = ja["dmm"].data;
+            if (ja["dmm"].success && ja["dmm"].data instanceof MovieInfo) {
+                r_ja = ja["dmm"].data;
 
-            //     if (ja["javlib"].success && ja["javlib"].data instanceof MovieInfo &&
-            //     util.compareStringSimilarity(ja["dmm"].data.origtitle, ja["javlib"].data.origtitle) > 0.7) {
-            //         r_ja = util.syncObjects(ja["dmm"].data, ja["javlib"].data);
-            //     }
-            // } else if (ja["javlib"].success && ja["javlib"].data instanceof MovieInfo) {
-            //     r_ja = ja["javlib"].data;
-            // }
+                if (ja["javlib"].success && ja["javlib"].data instanceof MovieInfo &&
+                util.compareStringSimilarity(ja["dmm"].data.origtitle, ja["javlib"].data.origtitle) > 0.7) {
+                    r_ja = util.syncObjects(ja["dmm"].data, ja["javlib"].data);
+                }
+            } else if (ja["javlib"].success && ja["javlib"].data instanceof MovieInfo) {
+                r_ja = ja["javlib"].data;
+            }
 
             if (ja["dmm"].success && ja["dmm"].data instanceof MovieInfo) {
                 r_ja = ja["dmm"].data;
@@ -96,20 +96,20 @@ function crawl (options) {
 
             let en = {
                 "r18": records[2],
-                // "javlib": records[3],
+                "javlib": records[3],
             };
 
             let r_en = null;
-            // if (en["r18"].success && en["r18"].data instanceof MovieInfo) {
-            //     r_en = en["r18"].data;
+            if (en["r18"].success && en["r18"].data instanceof MovieInfo) {
+                r_en = en["r18"].data;
 
-            //     if (en["javlib"].success && en["javlib"].data instanceof MovieInfo) {
-            //         r_en = util.syncObjects(en["r18"].data, en["javlib"].data);
-            //     }
-            // } else if (en["javlib"].success && en["javlib"].data instanceof MovieInfo) {
-            //     r_en = en["javlib"].data;
-            // }
-            
+                if (en["javlib"].success && en["javlib"].data instanceof MovieInfo) {
+                    r_en = util.syncObjects(en["r18"].data, en["javlib"].data);
+                }
+            } else if (en["javlib"].success && en["javlib"].data instanceof MovieInfo) {
+                r_en = en["javlib"].data;
+            }
+
             if (en["r18"].success && en["r18"].data instanceof MovieInfo) {
                 r_en = en["r18"].data;
             }

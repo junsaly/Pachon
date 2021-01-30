@@ -42,9 +42,9 @@ function getFootprint (data) {
 }
 
 function thenIfSearch ($, url, urlpath, lang, matchExact) {
-    let result = new SearchResult({ 
+    let result = new SearchResult({
         url: url,
-        queryString: 
+        queryString:
             util.replaceAll(url.split('keyword=')[1], '+', ' '),
         footprint: getFootprint
     });
@@ -62,7 +62,7 @@ function thenIfSearch ($, url, urlpath, lang, matchExact) {
                 url: 'http:' + val
             });
         }
-        
+
         if (lang == 'en') {
             info.transtitle = util.wrapText(ele.find('a div.title').text());
         }
@@ -90,10 +90,10 @@ function thenIfSearch ($, url, urlpath, lang, matchExact) {
 }
 
 function thenIfId ($, url, urlpath, lang) {
-    let info = new MovieInfo({ 
-        url: url, 
-        country: 'Japan', 
-        origlang: 'Japanese' 
+    let info = new MovieInfo({
+        url: url,
+        country: 'Japan',
+        origlang: 'Japanese'
     });
 
     let movid = $('div#video_id td.text').text();
@@ -109,7 +109,7 @@ function thenIfId ($, url, urlpath, lang) {
             url: 'http:' + util.replaceAll(val, 'pl.jpg', 'ps.jpg')
         })
     }
-    
+
     info.title = movid.toUpperCase();
 
     if (lang == 'en') {
@@ -117,7 +117,7 @@ function thenIfId ($, url, urlpath, lang) {
             .replace(movid, '')
             .trim();
     }
-    
+
     if (lang == 'ja') {
         info.origtitle = $('h3.post-title.text').text()
             .replace(movid, '')
@@ -197,9 +197,9 @@ function crawl (opt) {
     if (url == "") {
         throw new Error("Invalid Arguments");
     }
-    
+
     let url_parsed = parseURL(url);
-    let urlpath = BASE_URL + 
+    let urlpath = BASE_URL +
         url_parsed.pathname.substring(0, url_parsed.pathname.lastIndexOf('/')) + '/';
 
     let matchExact = (opt.matchExact || false);
@@ -231,7 +231,7 @@ function crawl (opt) {
                 }
             }
         })
-        .catch(err => util.catchURLError(url, err, resolve, reject));
+        //.catch(err => util.catchURLError(url, err, resolve, reject));
     });
 }
 
