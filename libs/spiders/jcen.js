@@ -18,6 +18,7 @@ module.exports.target = function () {
 const r18 = crawlers["r18"];
 const dmm = crawlers["dmm"];
 const javlib = crawlers["javlibrary"];
+const javdb = crawlers["javdb"];
 
 function silent (promise) {
     return promise.then(r => {
@@ -59,7 +60,7 @@ function crawl (options) {
                 dmm.crawl(Object.assign({}, opt, {matchExact: true}))
             ),
             silent(
-                javlib.crawl(Object.assign({}, opt, {lang: "ja", matchExact: true}))
+                javdb.crawl(Object.assign({}, opt, {lang: "ja", matchExact: true}))
                 //Promise.reject("Crawler can't pass DDOS Checking for javlibrary.com")
             ),
             // en record

@@ -15,7 +15,7 @@ describe('crawlers/... test suite', function() {
     let test = function (crawler, url) {
         describe('crawlers.' + crawler.name() + ' test cases', function() {
             it('should return data', function() {
-                
+
                 return crawler.crawl(url)
                 .then(data => {
                     expect(data).to.not.be.null;
@@ -30,7 +30,7 @@ describe('crawlers/... test suite', function() {
     test.only = function (crawler, url) {
         describe.only('crawlers.' + crawler.name() + ' test cases', function() {
             it('should return data', function() {
-                
+
                 return crawler.crawl(url)
                 .then(data => {
                     expect(data).to.not.be.null;
@@ -70,5 +70,6 @@ describe('crawlers/... test suite', function() {
     test(crawlers['wap'], 'つぼみ');
     test(crawlers['mgstage'], {"qtext": "200GANA-1637"});
     test(crawlers['mgstage'], {"qtext": "277DCV-104"});
-    test.only(crawlers['mgstage'], {"qtext": "SIRO-3615"});
+    test(crawlers['mgstage'], {"qtext": "SIRO-3615"});
+    test.only(crawlers['javdb'], {"qtext": "mide-579", "type": "search"});
 });

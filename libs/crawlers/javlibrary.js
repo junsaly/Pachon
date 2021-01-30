@@ -58,9 +58,9 @@ function thenIfSearch ($, url, urlpath, lang, matchExact) {
 
         let val = ele.find('a img').attr('src');
         if (val != '//') {
-            info.posters.push({
-                url: 'http:' + val
-            });
+            // info.posters.push({
+            //     url: 'http:' + val
+            // });
         }
 
         if (lang == 'en') {
@@ -101,13 +101,13 @@ function thenIfId ($, url, urlpath, lang) {
 
     let val = $('div#video_jacket img').attr('src');
     if (val.indexOf('img/noimagepl.gif') == - 1) {
-        info.covers.push({
-            url: 'http:' + val
-        });
+        // info.covers.push({
+        //     url: 'http:' + val
+        // });
 
-        info.thumb.push({
-            url: 'http:' + util.replaceAll(val, 'pl.jpg', 'ps.jpg')
-        })
+        // info.thumb.push({
+        //     url: 'http:' + util.replaceAll(val, 'pl.jpg', 'ps.jpg')
+        // })
     }
 
     info.title = movid.toUpperCase();
