@@ -111,9 +111,11 @@ function thenIfId ($, url, info) {
         url: $("img.video-cover").attr("src")
     });
 
-    info.thumb.push({
-        url: $("img.video-cover").attr("src").replace("covers", "thumbs")
-    });
+    if (info.thumb.length == 0) {
+        info.thumb.push({
+            url: $("img.video-cover").attr("src").replace("covers", "thumbs")
+        });
+    }
 
     $(".tile-images.preview-images a.tile-item").each((_, el) => {
         info.screenshots.push({
@@ -182,9 +184,9 @@ function crawl (opt) {
                     info.year = info.releasedate.substring(0, 4);
                     info.url = BASE_URL + ele.find("a.box").attr("href") + "?locale=en";
 
-                    info.thumb.push([{
+                    info.thumb.push({
                         url: ele.find(".item-image.fix-scale-cover img").attr("data-src")
-                    }]);
+                    });
 
                     searchResult.results.push(info);
                 });
