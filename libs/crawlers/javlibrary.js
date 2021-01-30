@@ -231,7 +231,7 @@ function crawl (opt) {
                 }
             }
         })
-        //.catch(err => util.catchURLError(url, err, resolve, reject));
+        .catch(err => util.catchURLError(url, err, resolve, reject));
     });
 }
 

@@ -2,6 +2,7 @@
 
 const { MovieInfo, SearchResult } = require('../../models/types.js');
 const leech = require('../leech-promise.js');
+const util = require('../util.js');
 
 const NAME = 'javdb';
 module.exports.name = function () {
@@ -204,7 +205,8 @@ function crawl (opt) {
             }
 
             return resolve(thenIfId($, url, null));
-        });
+        })
+        .catch(err => util.catchURLError(url, err, resolve, reject));;
     });
 }
 
